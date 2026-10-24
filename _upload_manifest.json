@@ -35,5 +35,13 @@
   "examples/web-vite-consumer/index.html": "2cbf6600da652917b4e70018d7281b8c4de296a8",
   "examples/web-vite-consumer/package.json": "c69387a885e3c26197416440f7216e011426c937",
   "examples/web-vite-consumer/src/main.ts": "24f58eaed5b4a85eefa289a1753c7ef9ac03829e",
-  "examples/web-vite-consumer/src/styles.css": "834a25cbd045c0689d0b26158f95be290298da59"
+  "examples/web-vite-consumer/src/styles.css": "834a25cbd045c0689d0b26158f95be290298da59",
+  "examples/web-vite-consumer/tsconfig.json": "a466ef4a23f4985bf7dbdc1491bf48f5debdd073",
+  "index.html": "d420267ae0647bd07767ffcdc82e7fb010c0c2dd",
+  "legacy/index.html": "6cba14097f995675d5438a27875fa62e78c108b1",
+  "legacy/spherical-eyes.html": "4a9805f37e3473131a13e584a5a997f2f4897d55",
+  "package.json": "00980ef0d6d1c57b630a1f8b1f9c9077925ad4e4",
+  "packages/avatar-core/LICENSE": "be3f7b28e564e7dd05eaf59d64adba1a4065ac0e",
+  "packages/avatar-core/README.md": "f17f5fcd55ef584f25dd03a1b3b10b3e2eb8080c",
+  "packages/avatar-core/package.json": "9974de46113d136d93df54a50240dbff852049fd"
 }
