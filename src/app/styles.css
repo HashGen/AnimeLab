@@ -5493,3 +5493,25 @@ p {
     font-size: 10px !important;
   }
 }
+
+
+/* Keep the preview and its timeline tracks together at the top on mobile. */
+@media (max-width: 980px) {
+  .studio-mobile-app-layout .mobile-preview-dock {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 80 !important;
+    flex-shrink: 0 !important;
+  }
+  .studio-mobile-app-layout > .studio-timeline {
+    position: sticky !important;
+    top: clamp(220px, 31dvh, 290px) !important;
+    z-index: 79 !important;
+    flex-shrink: 0 !important;
+    box-shadow: 0 8px 20px rgb(18 26 44 / 10%) !important;
+  }
+  /* Timeline already owns play/pause/stop and sequence details; hide the duplicate dock. */
+  .mobile-editor-dock .state-playback-footer {
+    display: none !important;
+  }
+}
