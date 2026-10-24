@@ -554,6 +554,7 @@ export function AvatarCanvas({
   const leftEyeRef = useRef<SVGPathElement>(null)
   const rightEyeRef = useRef<SVGPathElement>(null)
   const mouthPath = useMotionValue('M -6 35 Q 0 37 6 35 Q 0 35 -6 35 Z')
+  const mouthTransform = useMotionValue('rotate(0 0 35)')
   const mouthAngle = (expression.leftAngle + expression.rightAngle) / 2
   const mouthOpenRef = useRef(mouthOpen)
   mouthOpenRef.current = mouthOpen
@@ -573,6 +574,7 @@ export function AvatarCanvas({
           mouthPath.set(
             `M ${centerX - 7} ${centerY} Q ${centerX} ${centerY + 2 + open * 13} ${centerX + 7} ${centerY} Q ${centerX} ${centerY - open * 2} ${centerX - 7} ${centerY} Z`
           )
+          mouthTransform.set(`rotate(${mouthAngle} ${centerX} ${centerY})`)
         } catch {
           // Keep the last valid mouth path if the browser cannot measure an SVG path.
         }
@@ -581,7 +583,7 @@ export function AvatarCanvas({
     }
     frame = requestAnimationFrame(updateMouthAnchor)
     return () => cancelAnimationFrame(frame)
-  }, [mouthEnabled, mouthPath])
+  }, [mouthEnabled, mouthAngle, mouthPath, mouthTransform])
   const {
     wirePaths,
     backPaths,
@@ -876,7 +878,7 @@ export function AvatarCanvas({
               <motion.path
                 className="avatar-audio-mouth"
                 d={mouthPath}
-                transform={`rotate(${mouthAngle})`}
+                transform={mouthTransform}
                 aria-hidden="true"
               />
             )}
