@@ -1,4 +1,4 @@
-import { Camera, Info, Move3D, RotateCcw, Scan } from 'lucide-react'
+import { Move3D, RotateCcw, Scan } from 'lucide'
 import { motion } from 'motion/react'
 import { type CSSProperties } from 'react'
 
