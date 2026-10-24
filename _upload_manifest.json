@@ -91,5 +91,13 @@
   "scripts/generate-standalone-engine.mjs": "158a06ab513921396d36e777d52cd935d18ad663",
   "scripts/smoke-packages.mjs": "9d0a5fb4aacf02a41d4aeb45d6b31af49dac1d03",
   "src/app/App.tsx": "091de2b33f3a1df59324950b046a77a23f7db547",
-  "src/app/components/common.tsx": "8c9c221d963ba77d3e38a94f11542eeedd50d877"
+  "src/app/components/common.tsx": "8c9c221d963ba77d3e38a94f11542eeedd50d877",
+  "src/app/components/controls.tsx": "3e8a28ed35e9359d2a4c7039a07b87fe792182ed",
+  "src/app/studio-utils.ts": "0a9c24a2d2711b00e960f96dd42ebd3d9b444e6b",
+  "src/components/ui/accordion.tsx": "2b4967dbbf98e0f34057a31f0e20ac1bacd1876b",
+  "src/components/ui/alert-dialog.tsx": "444f2391380b0a7d54c8d22a3ddb812f82b6ec81",
+  "src/components/ui/badge.tsx": "f1425f5ebf4a1e947b54396166976dbc78800468",
+  "src/components/ui/button.tsx": "893ff3db3ca211cbe8ea113474eff67198465375",
+  "src/components/ui/card.tsx": "0c92d4099008ade7d1a422a4c1ff9536df0369f3",
+  "src/components/ui/context-menu.tsx": "4436f5518a8b8a7166fb2744bdcfe28547be06b7"
 }
