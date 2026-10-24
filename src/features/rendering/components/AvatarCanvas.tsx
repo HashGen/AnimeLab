@@ -5,7 +5,6 @@ import { useEffect, useRef, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { useStudioLanguage } from '@/i18n'
 
-import { PlaybackIdentity } from '@/app/components/common'
 import {
   bounded,
   poseWithAvatarEyes,
@@ -782,16 +781,6 @@ export function AvatarCanvas({
   useEscapeToCancel(cancelDrag)
   return (
     <div className={`avatar-wrap${renderStyle.type === 'pixel' ? ' is-pixel-rendered' : ''}`}>
-      {playback && (
-        <motion.div
-          className="stage-playback-status"
-          initial={{ opacity: 0, scale: 0.96, y: -4 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ type: 'spring', duration: 0.3, bounce: 0 }}
-        >
-          <PlaybackIdentity name={playback.name} status={playback.status} />
-        </motion.div>
-      )}
       {renderStyle.type === 'pixel' && (
         <LivePixelAvatarCanvas
           scene={scene}
