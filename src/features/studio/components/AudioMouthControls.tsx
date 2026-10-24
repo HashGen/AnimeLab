@@ -57,7 +57,7 @@ export function AudioMouthProvider({ children }: { children: ReactNode }) {
         }
         return samples ? Math.sqrt(sum / samples) : 0
       })
-      setAudioPeaks(peaks.map(peak => Math.max(0.04, Math.min(1, peak * 3.8))))
+      setAudioPeaks(peaks.map(peak => Math.min(1, peak * 3.8)))
       setAudioDuration(decoded.duration)
       await context.close()
     } catch {
