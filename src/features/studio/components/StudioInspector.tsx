@@ -19,6 +19,7 @@ import {
   Trash2,
   TriangleAlert,
   Upload,
+  Volume2,
 } from 'lucide-react'
 import { AnimatePresence, animate, motion, useMotionValue, useTransform } from 'motion/react'
 import { type CSSProperties, useEffect, useLayoutEffect, useRef, useState } from 'react'
@@ -86,6 +87,7 @@ import {
 import { RuntimePreviewDialog } from '@/features/studio/components/RuntimePreviewDialog'
 import { StudioIdentity } from '@/features/studio/components/StudioIdentity'
 import type { StudioController } from '@/features/studio/useStudioController'
+import { AudioMouthControls } from '@/features/studio/components/AudioMouthControls'
 
 const reactQuickStartInstall = 'npm install @bible-strong/avatar-react react react-dom'
 const webQuickStartInstall = 'npm install @bible-strong/avatar-web'
@@ -405,6 +407,7 @@ function PoseControls({ controller }: { controller: StudioController }) {
 }
 
 export function StudioInspector({ controller }: { controller: StudioController }) {
+  const [audioTabOpen, setAudioTabOpen] = useState(false)
   const [runtimePreviewOpen, setRuntimePreviewOpen] = useState(false)
   const [guideOpen, setGuideOpen] = useState(false)
   const [guideCopyFeedback, setGuideCopyFeedback] = useState<{
@@ -647,8 +650,18 @@ export function StudioInspector({ controller }: { controller: StudioController }
   return (
     <Drawer>
       <main
-        className={`inspector ${editing ? 'expression-workspace-active' : sequenceEditing ? 'sequence-workspace-active' : bodyEditing ? 'body-workspace' : 'studio-workspace'}${activeSequence && !editorPageOpen && mode !== 'photo' ? ' state-player-active' : ''}${mode === 'photo' ? ' photo-inspector-active' : ''}`}
+        className={`inspector${audioTabOpen ? ' audio-tab-active' : ''} ${editing ? 'expression-workspace-active' : sequenceEditing ? 'sequence-workspace-active' : bodyEditing ? 'body-workspace' : 'studio-workspace'}${activeSequence && !editorPageOpen && mode !== 'photo' ? ' state-player-active' : ''}${mode === 'photo' ? ' photo-inspector-active' : ''}`}
       >
+        {audioTabOpen && (
+          <section className="audio-tab-content" aria-label={t('Audio Mouth Animation')}>
+            <div className="audio-tab-heading">
+              <span className="audio-tab-kicker">{t('Studio Tools')}</span>
+              <h1>{t('Audio Mouth Animation')}</h1>
+              <p>{t('Upload audio and preview volume-driven mouth movement.')}</p>
+            </div>
+            <AudioMouthControls t={t} />
+          </section>
+        )}
         <StudioIdentity
           className="inspector-identity"
           language={language}
@@ -2123,7 +2136,7 @@ export function StudioInspector({ controller }: { controller: StudioController }
               type="button"
               aria-pressed={mode === 'avatars'}
               aria-label={t('Choisir un avatar')}
-              onClick={() => setMode('avatars')}
+              onClick={() => { setAudioTabOpen(false); setMode('avatars') }}
             >
               <ExpressionPreview
                 expression={expressions[0] ?? defaultExpression}
@@ -2135,6 +2148,16 @@ export function StudioInspector({ controller }: { controller: StudioController }
                 id={`active-avatar-tab-${activeAvatar.id}`}
               />
               <span>{activeAvatar.name}</span>
+            </Button>
+            <Button
+              className="mobile-mode-tab mobile-audio-tab"
+              variant="ghost"
+              type="button"
+              aria-pressed={audioTabOpen}
+              onClick={() => setAudioTabOpen(true)}
+            >
+              <Volume2 />
+              <span>{t('Audio')}</span>
             </Button>
             {(
               [
@@ -2150,7 +2173,7 @@ export function StudioInspector({ controller }: { controller: StudioController }
                 type="button"
                 key={value}
                 aria-pressed={mode === value}
-                onClick={() => setMode(value)}
+                onClick={() => { setAudioTabOpen(false); setMode(value) }}
               >
                 <Icon />
                 <span>{label}</span>
