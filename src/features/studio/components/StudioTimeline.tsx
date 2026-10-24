@@ -53,7 +53,7 @@ export function StudioTimeline({ controller }: { controller: StudioController })
           <Button variant="ghost" size="icon-sm" type="button" aria-label={t('Zoom out timeline')} onClick={() => setZoom(value => Math.max(0.75, value - 0.25))}><ZoomOut size={15} /></Button>
           <Button variant="ghost" size="icon-sm" type="button" aria-label={t('Zoom in timeline')} onClick={() => setZoom(value => Math.min(2, value + 0.25))}><ZoomIn size={15} /></Button>
           <Button variant="secondary" size="icon-sm" type="button" aria-label={statePlaying ? t('Pause') : t('Play')} onClick={toggleStatePlayback}>{statePlaying ? <Pause size={15} /> : <Play size={15} />}</Button>
-          <Button variant="ghost" size="icon-sm" type="button" aria-label={t('Stop')} onClick={stopState}><Square size={14} /></Button>
+          <Button variant="ghost" size="icon-sm" type="button" aria-label={t('Stop')} onClick={() => stopState()}><Square size={14} /></Button>
         </div>
       </header>
       <div className="studio-timeline-scroll">
@@ -69,7 +69,7 @@ export function StudioTimeline({ controller }: { controller: StudioController })
                 key={frame.id}
                 type="button"
                 style={{ left: `${(frame.time / totalDuration) * 100}%` }}
-                aria-label={`${frame.expression.name || t('Keyframe')} · ${formatTime(frame.time)}`}
+                aria-label={`${t('Keyframe')} ${frame.expressionIndex + 1} · ${formatTime(frame.time)}`}
                 onClick={() => transitionToExpression(frame.expression, frame.expressionIndex)}
               >
                 <ExpressionPreview
