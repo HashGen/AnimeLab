@@ -147,5 +147,13 @@
   "src/features/export/snapshotPalette.ts": "6681b78dba07b0b685af39f3b79edab54451ed44",
   "src/features/export/standaloneEngine.entry.ts": "adea6e805c4a28fd4fadcc3c5caf45d9b3d5dac6",
   "src/features/export/standaloneEngine.generated.ts": "38e0a7b34e68662c1ff4412550926ce2af2ccc0e",
-  "src/features/export/storedZip.ts": "fd75d5c3f65a14fc6b9dc8e8a268800a344d0a59"
+  "src/features/export/storedZip.ts": "fd75d5c3f65a14fc6b9dc8e8a268800a344d0a59",
+  "src/features/rendering/__tests__/canvas-preview-test.ts": "0963a05c7a66215a8b325fb07f606c2159a9265a",
+  "src/features/rendering/__tests__/pixel-renderer-test.ts": "f377e74843cf2cd22dc10774bf20df675d65b686",
+  "src/features/rendering/__tests__/rendered-rotation-gizmo-test.ts": "0f8eb61260d90dfbb78c83b75cc13d48bbf47cc7",
+  "src/features/rendering/__tests__/rendered-scene-test.ts": "f4dcdb7057c49fd1840dbb842dcb0418ef72e305",
+  "src/features/rendering/canvasPreview.ts": "9cd2c3a578099b75d1cfb93fc73c51d38dfb77c4",
+  "src/features/rendering/components/PixelAvatarCanvas.tsx": "b0c53f8582663a4938144e33056b805cdf1c64bc",
+  "src/features/rendering/pixelRenderer.ts": "c20ccdbed81beee7df5fb791363633fd692e08c8",
+  "src/features/rendering/renderedRotationGizmo.ts": "5179f189a9cb9869f70781e0a1955d32dac2aafe"
 }
