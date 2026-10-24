@@ -59,5 +59,13 @@
   "packages/avatar-core/vite.config.ts": "aa73982ec4c1126de2fa288c1a36cb8d7997a1a2",
   "packages/avatar-react/LICENSE": "be3f7b28e564e7dd05eaf59d64adba1a4065ac0e",
   "packages/avatar-react/README.md": "52008a5468cb5262ef8e13d78055549a304f3e5b",
-  "packages/avatar-react/package.json": "411dadaf4f7260abe6483bd370cc285662637df7"
+  "packages/avatar-react/package.json": "411dadaf4f7260abe6483bd370cc285662637df7",
+  "packages/avatar-react/src/Avatar.tsx": "e3a21ab71bc9d529c7bb8cc5295d6cc2a31c79e0",
+  "packages/avatar-react/src/__tests__/avatar-test.tsx": "6f596e5cece5b081b5c4dbfe87bf648d27e9da3a",
+  "packages/avatar-react/src/createAvatar.tsx": "b57568318c7da4e70c653b1fc3062340083b767e",
+  "packages/avatar-react/src/index.ts": "93224c50d9062e0b5b4909d601f6cfee8947b633",
+  "packages/avatar-react/src/styles.css": "f57709c68204285852b1b0c9afd46911bd4cfc6d",
+  "packages/avatar-react/src/styles.d.ts": "5894ae0b6e986c265c4ccc0439113a64af6ad2e8",
+  "packages/avatar-react/tsconfig.build.json": "738a64e726a29c1fb17e312d92005055854b0c02",
+  "packages/avatar-react/tsconfig.json": "586a83ea8a44fc60cf646b3ae56bded8140afaf8"
 }
