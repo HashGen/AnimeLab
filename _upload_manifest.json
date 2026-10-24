@@ -123,5 +123,13 @@
   "src/features/avatar/__tests__/generate-strobi-fixture-test.ts": "7d296391a55dfb9467281b9a44ca8baa65550d5a",
   "src/features/avatar/__tests__/geometry-editor-test.ts": "b7417cb69d8074fa768ea38b5a248282af1016ae",
   "src/features/avatar/__tests__/import-avatar-definition-test.ts": "e5ac1ee163a4bb41139919b06019261bedeb2463",
-  "src/features/avatar/__tests__/manipulation-session-test.ts": "eadc5a2b389692053d93096fd4994812cfd2e2d8"
+  "src/features/avatar/__tests__/manipulation-session-test.ts": "eadc5a2b389692053d93096fd4994812cfd2e2d8",
+  "src/features/avatar/__tests__/presets-test.ts": "341f3500c2c6ea2cc1e99088f34d14940a4bbfc8",
+  "src/features/avatar/ambientMotion.ts": "11f5adb9ac431fc29be5c7c6af00d63cbf77b2bb",
+  "src/features/avatar/avatarDefinition.ts": "a125e6c54a8ced25fe3cae4b7246f780e281c34e",
+  "src/features/avatar/avatars.ts": "9c731d1725ddb511228449ca13645835d167cc80",
+  "src/features/avatar/body.ts": "11f5adb9ac431fc29be5c7c6af00d63cbf77b2bb",
+  "src/features/avatar/components/ExpressionWorkspace.tsx": "61ce31eeee07a0e8a196c7a2c3ae374e7a99afab",
+  "src/features/avatar/expressionEditing.ts": "c3dad767e62650b518cde05ac9ed62d362d0df87",
+  "src/features/avatar/geometry.ts": "11f5adb9ac431fc29be5c7c6af00d63cbf77b2bb"
 }
