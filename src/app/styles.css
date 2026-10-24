@@ -6138,3 +6138,72 @@ p {
     overflow: visible !important;
   }
 }
+
+
+/* Final compact dimensions for the two fixed preview tracks on small screens. */
+@media (max-width: 980px) {
+  .studio-root .studio.studio-mobile-app-layout > .studio-timeline {
+    height: 174px !important;
+    min-height: 174px !important;
+    max-height: 174px !important;
+    padding: 7px 9px !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .studio-timeline-header {
+    height: 28px !important;
+    min-height: 28px !important;
+    margin-bottom: 4px !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .studio-timeline-body {
+    height: 126px !important;
+    grid-template-columns: 30px minmax(0, 1fr) !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .studio-timeline-fixed-labels {
+    grid-template-rows: 16px 34px 34px !important;
+    gap: 4px !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .timeline-label-spacer,
+  .studio-root .studio.studio-mobile-app-layout .studio-timeline-ruler {
+    height: 16px !important;
+    min-height: 16px !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .studio-timeline-scroll {
+    height: 126px !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .studio-timeline-ruler {
+    margin-bottom: 4px !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .studio-timeline-track-row,
+  .studio-root .studio.studio-mobile-app-layout .studio-timeline-track {
+    height: 34px !important;
+    min-height: 34px !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .studio-timeline-track-row {
+    margin-bottom: 4px !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .studio-timeline-track-label {
+    height: 34px !important;
+    min-height: 34px !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .studio-timeline-keyframe {
+    top: 2px !important;
+    width: 29px !important;
+    height: 29px !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .studio-timeline-keyframe svg,
+  .studio-root .studio.studio-mobile-app-layout .studio-timeline-keyframe canvas {
+    width: 23px !important;
+    height: 23px !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .studio-timeline-track.audio-track,
+  .studio-root .studio.studio-mobile-app-layout .studio-timeline-track-row.audio-track-row {
+    height: 34px !important;
+    min-height: 34px !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .timeline-waveform {
+    height: 24px !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock {
+    margin-top: calc(clamp(220px, 31dvh, 290px) + 174px) !important;
+    padding-bottom: calc(76px + env(safe-area-inset-bottom)) !important;
+  }
+}
