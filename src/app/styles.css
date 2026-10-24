@@ -5802,3 +5802,57 @@ p {
     padding-bottom: 0 !important;
   }
 }
+
+
+/* Remove leftover black separator and excess bottom whitespace on every mobile tab. */
+@media (max-width: 980px) {
+  .studio-root .studio.studio-mobile-app-layout {
+    padding-bottom: calc(68px + env(safe-area-inset-bottom)) !important;
+    margin-bottom: 0 !important;
+    border-bottom: 0 !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout::before,
+  .studio-root .studio.studio-mobile-app-layout::after,
+  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock::before,
+  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock::after {
+    box-shadow: none !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock {
+    min-height: 0 !important;
+    height: auto !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+    border-bottom: 0 !important;
+    box-shadow: none !important;
+    background-image: none !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock .inspector,
+  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock .inspector-content,
+  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock .mode-page-transition,
+  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock .workspace-page,
+  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock .avatar-page {
+    min-height: 0 !important;
+    height: auto !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+    border-bottom: 0 !important;
+    box-shadow: none !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock .workspace-footer {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock .inspector-content > :last-child,
+  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock .mode-page-transition > :last-child {
+    margin-bottom: 0 !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .mobile-inspector-panel,
+  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock {
+    border-top: 0 !important;
+    border-bottom: 0 !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .mobile-bottom-nav,
+  .studio-root .studio.studio-mobile-app-layout .studio-mobile-tabs {
+    margin-top: 0 !important;
+  }
+}
