@@ -409,6 +409,7 @@ function PoseControls({ controller }: { controller: StudioController }) {
 
 export function StudioInspector({ controller }: { controller: StudioController }) {
   const [audioTabOpen, setAudioTabOpen] = useState(false)
+  const [avatarTabOpen, setAvatarTabOpen] = useState(false)
   const [runtimePreviewOpen, setRuntimePreviewOpen] = useState(false)
   const [guideOpen, setGuideOpen] = useState(false)
   const [guideCopyFeedback, setGuideCopyFeedback] = useState<{
@@ -1061,7 +1062,7 @@ export function StudioInspector({ controller }: { controller: StudioController }
                 {!bodyEditing && <PoseControls controller={controller} />}
               </div>
             )}
-            {!editorPageOpen && mode === 'avatars' && <AvatarPage controller={controller} />}
+            {!editorPageOpen && mode === 'avatars' && avatarTabOpen && <AvatarPage controller={controller} />}
 
             {!sequenceEditing && !editing && bodyEditing && (
               <footer className="workspace-footer">
@@ -2135,7 +2136,7 @@ export function StudioInspector({ controller }: { controller: StudioController }
               type="button"
               aria-pressed={mode === 'avatars'}
               aria-label={t('Choisir un avatar')}
-              onClick={() => { setAudioTabOpen(false); setMode('avatars') }}
+              onClick={() => { setAudioTabOpen(false); setAvatarTabOpen(true); setMode('avatars') }}
             >
               <ExpressionPreview
                 expression={expressions[0] ?? defaultExpression}
@@ -2153,7 +2154,7 @@ export function StudioInspector({ controller }: { controller: StudioController }
               variant="ghost"
               type="button"
               aria-pressed={audioTabOpen}
-              onClick={() => setAudioTabOpen(true)}
+              onClick={() => { setAvatarTabOpen(false); setAudioTabOpen(true) }}
             >
               <Volume2 />
               <span>{t('Audio')}</span>
@@ -2172,7 +2173,7 @@ export function StudioInspector({ controller }: { controller: StudioController }
                 type="button"
                 key={value}
                 aria-pressed={mode === value}
-                onClick={() => { setAudioTabOpen(false); setMode(value) }}
+                onClick={() => { setAudioTabOpen(false); setAvatarTabOpen(false); setMode(value) }}
               >
                 <Icon />
                 <span>{label}</span>
