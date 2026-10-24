@@ -61,7 +61,6 @@ export function StudioTimeline({ controller }: { controller: StudioController })
           {Array.from({ length: 6 }, (_, index) => <span key={index}>{formatTime((totalDuration * index) / 5)}</span>)}
         </div>
         <div className="studio-timeline-track-row">
-          <div className="studio-timeline-track-label"><span className="timeline-track-dot avatar-dot" />{t('Avatar')}</div>
           <div className="studio-timeline-track" style={{ minWidth: trackWidth }}>
             {keyframes.map(frame => (
               <button
@@ -86,7 +85,6 @@ export function StudioTimeline({ controller }: { controller: StudioController })
           </div>
         </div>
         <div className="studio-timeline-track-row audio-track-row">
-          <div className="studio-timeline-track-label"><span className="timeline-track-dot audio-dot" />{t('Audio')}</div>
           <div className="studio-timeline-track audio-track">
             <div className="timeline-waveform" aria-hidden="true">
               {Array.from({ length: 72 }, (_, index) => <span key={index} style={{ height: `${18 + ((index * 37 + 13) % 66)}%` }} />)}
@@ -95,9 +93,6 @@ export function StudioTimeline({ controller }: { controller: StudioController })
           </div>
         </div>
       </div>
-      <footer className="studio-timeline-footer">
-        <span>{keyframes.length} {t('keyframes')}</span><span>{t('Select a keyframe to preview it')}</span>
-      </footer>
     </section>
   )
 }
