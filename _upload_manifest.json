@@ -107,5 +107,13 @@
   "src/components/ui/menu.tsx": "bdc78e2eb9bf82926912ac44f27f9400b46257a5",
   "src/components/ui/resizable.tsx": "a6f9c69896b431c69b5600a1bd3b996e753a6512",
   "src/components/ui/select.tsx": "d8b369abf9243985522d9a3d0365fd13618485c4",
-  "src/components/ui/separator.tsx": "fbf4a4e291dd3d672bbfdf7f38d998efa264d6a1"
+  "src/components/ui/separator.tsx": "fbf4a4e291dd3d672bbfdf7f38d998efa264d6a1",
+  "src/components/ui/switch.tsx": "71de9c93c08d27edeb257188daa64508c0474d01",
+  "src/components/ui/tabs.tsx": "ba73ccabd56babc607361aca761229f3938418e2",
+  "src/components/ui/tooltip.tsx": "a362fec817e3ed81b42b87fc83f9744cd6b2f71a",
+  "src/features/animation/__tests__/playback-test.ts": "d22115929691d093fead61b50f4034784c3c6ba1",
+  "src/features/animation/__tests__/sequences-test.ts": "684d5be4e57d1c4d31730002a998b467388f5319",
+  "src/features/animation/components/SequenceWorkspace.tsx": "6bf0f84dead99779c5b6c2c6b04e0997b8b2101e",
+  "src/features/animation/playback.ts": "652dc79df4b7b34d474df46ca027bb919490c306",
+  "src/features/animation/sequences.ts": "daf3a3745c999f91fe8687352934f4062425278c"
 }
