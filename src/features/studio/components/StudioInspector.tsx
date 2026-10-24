@@ -785,15 +785,13 @@ export function StudioInspector({ controller }: { controller: StudioController }
                     {t(
                       mode === 'manual'
                         ? 'Pose'
-                        : mode === 'avatars'
-                          ? 'Avatars'
-                          : mode === 'expressions'
-                            ? 'Expressions'
-                            : mode === 'states'
-                              ? 'Animations'
-                              : mode === 'photo'
-                                ? 'Mode photo'
-                                : 'Exporter'
+                        : mode === 'expressions'
+                          ? 'Expressions'
+                          : mode === 'states'
+                            ? 'Animations'
+                            : mode === 'photo'
+                              ? 'Mode photo'
+                              : 'Exporter'
                     )}
                   </h1>
                 </div>
