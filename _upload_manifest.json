@@ -11,5 +11,13 @@
   ".gitignore": "f0e0c43dddc99293d4d8d7302b8d71876d66a2fc",
   ".nvmrc": "1d9b7831ba9d90866e21ce7154fbb84cc448ef60",
   ".prettierignore": "625450de7ec78b1664f3512129d4f89db3ee4fd0",
-  ".prettierrc": "fca7ef83584491f9b7a8bd808e090af3dc62bb59"
+  ".prettierrc": "fca7ef83584491f9b7a8bd808e090af3dc62bb59",
+  "AGENTS.md": "fd041c583ac0c378d88eec1c641d25636366ef17",
+  "CONTEXT.md": "6581ef5564066e9e123e7fa7b72ab48732ac8b0b",
+  "LICENSE": "be3f7b28e564e7dd05eaf59d64adba1a4065ac0e",
+  "README.md": "0af1f85b61c5cd646f232983c5db44c2f56bd1d7",
+  "TIMELOG.md": "7bc02f22e7fb8c90a6a52dfb80b47d03defa7992",
+  "components.json": "827348a0fe6aac70d7f07c5c44d48601de4a70cb",
+  "docs/PUBLISHING.md": "087a778bec3d59ff091be081e3ece65664f6a262",
+  "docs/adr/0022-model-avatar-studio-as-a-versioned-document.md": "a8df01e23dac164e8ad9b4dcaeeb7790a3045572"
 }
