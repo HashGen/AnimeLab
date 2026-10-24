@@ -549,8 +549,13 @@ export function AvatarCanvas({
   mouthEnabled?: boolean
 }) {
   const { t } = useStudioLanguage()
-  const mouthX = (expression.positionXLeft + expression.positionXRight) / 2
-  const mouthY = 30 + ((expression.positionYLeft + expression.positionYRight) / 2 + 7) * 0.5
+  // Anchor the mouth to the live eye pair, not to a fixed point on the head.
+  // Eye positions use the expression's local coordinates; map their midpoint into
+  // the rendered face space, then place the mouth a little below that midpoint.
+  const eyeCenterX = (expression.positionXLeft + expression.positionXRight) / 2
+  const eyeCenterY = (expression.positionYLeft + expression.positionYRight) / 2
+  const mouthX = eyeCenterX
+  const mouthY = 30 + (eyeCenterY + 7) * 0.5 + 14
   const mouthAngle = (expression.leftAngle + expression.rightAngle) / 2
   const {
     wirePaths,
