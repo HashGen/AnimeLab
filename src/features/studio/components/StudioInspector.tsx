@@ -652,8 +652,7 @@ export function StudioInspector({ controller }: { controller: StudioController }
       <main
         className={`inspector${audioTabOpen ? ' audio-tab-active' : ''} ${editing ? 'expression-workspace-active' : sequenceEditing ? 'sequence-workspace-active' : bodyEditing ? 'body-workspace' : 'studio-workspace'}${activeSequence && !editorPageOpen && mode !== 'photo' ? ' state-player-active' : ''}${mode === 'photo' ? ' photo-inspector-active' : ''}`}
       >
-        {audioTabOpen && (
-          <section className="audio-tab-content" aria-label={t('Audio Mouth Animation')}>
+        <section className={`audio-tab-content${audioTabOpen ? ' is-active' : ''}`} aria-label={t('Audio Mouth Animation')}>
             <div className="audio-tab-heading">
               <span className="audio-tab-kicker">{t('Studio Tools')}</span>
               <h1>{t('Audio Mouth Animation')}</h1>
@@ -661,7 +660,6 @@ export function StudioInspector({ controller }: { controller: StudioController }
             </div>
             <AudioMouthControls t={t} />
           </section>
-        )}
         <StudioIdentity
           className="inspector-identity"
           language={language}
