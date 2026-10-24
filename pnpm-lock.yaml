@@ -17,12 +17,6 @@ importers:
       '@bible-strong/avatar-react':
         specifier: workspace:*
         version: link:packages/avatar-react
-      '@vercel/analytics':
-        specifier: ^2.0.1
-        version: 2.0.1(react@19.2.3)
-      '@vercel/speed-insights':
-        specifier: ^2.0.0
-        version: 2.0.0(react@19.2.3)
       ajv:
         specifier: ^8.20.0
         version: 8.20.0
