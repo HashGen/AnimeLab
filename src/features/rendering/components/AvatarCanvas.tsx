@@ -1,5 +1,5 @@
 import { RotateCcw } from 'lucide-react'
-import { motion } from 'motion/react'
+import { motion, useMotionValue } from 'motion/react'
 import { useEffect, useRef, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
@@ -549,14 +549,39 @@ export function AvatarCanvas({
   mouthEnabled?: boolean
 }) {
   const { t } = useStudioLanguage()
-  // Anchor the mouth to the live eye pair, not to a fixed point on the head.
-  // Eye positions use the expression's local coordinates; map their midpoint into
-  // the rendered face space, then place the mouth a little below that midpoint.
-  const eyeCenterX = (expression.positionXLeft + expression.positionXRight) / 2
-  const eyeCenterY = (expression.positionYLeft + expression.positionYRight) / 2
-  const mouthX = eyeCenterX
-  const mouthY = 30 + (eyeCenterY + 7) * 0.5 + 14
+  // Measure the rendered eye paths themselves every frame. Expression coordinates
+  // are not the same as projected SVG coordinates when the face is rotated.
+  const leftEyeRef = useRef<SVGPathElement>(null)
+  const rightEyeRef = useRef<SVGPathElement>(null)
+  const mouthPath = useMotionValue('M -6 35 Q 0 37 6 35 Q 0 35 -6 35 Z')
   const mouthAngle = (expression.leftAngle + expression.rightAngle) / 2
+  const mouthOpenRef = useRef(mouthOpen)
+  mouthOpenRef.current = mouthOpen
+  useEffect(() => {
+    let frame = 0
+    const updateMouthAnchor = () => {
+      const leftEye = leftEyeRef.current
+      const rightEye = rightEyeRef.current
+      if (leftEye && rightEye && mouthEnabled) {
+        try {
+          const left = leftEye.getBBox()
+          const right = rightEye.getBBox()
+          const centerX = (left.x + left.width / 2 + right.x + right.width / 2) / 2
+          const eyeBottom = (left.y + left.height + right.y + right.height) / 2
+          const centerY = eyeBottom + 28
+          const open = mouthOpenRef.current
+          mouthPath.set(
+            `M ${centerX - 7} ${centerY} Q ${centerX} ${centerY + 2 + open * 13} ${centerX + 7} ${centerY} Q ${centerX} ${centerY - open * 2} ${centerX - 7} ${centerY} Z`
+          )
+        } catch {
+          // Keep the last valid mouth path if the browser cannot measure an SVG path.
+        }
+      }
+      frame = requestAnimationFrame(updateMouthAnchor)
+    }
+    frame = requestAnimationFrame(updateMouthAnchor)
+    return () => cancelAnimationFrame(frame)
+  }, [mouthEnabled, mouthPath])
   const {
     wirePaths,
     backPaths,
@@ -835,12 +860,14 @@ export function AvatarCanvas({
               ))}
             <motion.path
               className={`avatar-eye ${selectedSide === -1 || highlight === 'left' || highlight === 'both' ? 'cyan-outline' : ''}`}
+              ref={leftEyeRef}
               d={leftPath}
               opacity={leftOpacity}
               onPointerDown={event => selectEye(-1, event)}
             />
             <motion.path
               className={`avatar-eye ${selectedSide === 1 || highlight === 'right' || highlight === 'both' ? 'cyan-outline' : ''}`}
+              ref={rightEyeRef}
               d={rightPath}
               opacity={rightOpacity}
               onPointerDown={event => selectEye(1, event)}
@@ -848,8 +875,8 @@ export function AvatarCanvas({
             {mouthEnabled && (
               <motion.path
                 className="avatar-audio-mouth"
-                d={`M ${mouthX - 12} ${mouthY} Q ${mouthX} ${mouthY + 2 + mouthOpen * 14} ${mouthX + 12} ${mouthY} Q ${mouthX} ${mouthY - mouthOpen * 2} ${mouthX - 12} ${mouthY} Z`}
-                transform={`rotate(${mouthAngle} ${mouthX} ${mouthY})`}
+                d={mouthPath}
+                transform={`rotate(${mouthAngle})`}
                 aria-hidden="true"
               />
             )}
