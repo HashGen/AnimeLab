@@ -23,6 +23,7 @@ import {
 } from 'lucide-react'
 import { AnimatePresence, animate, motion, useMotionValue, useTransform } from 'motion/react'
 import { type CSSProperties, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 
 import {
   Accordion,
@@ -2126,8 +2127,8 @@ export function StudioInspector({ controller }: { controller: StudioController }
             </motion.div>
           </motion.footer>
         )}
-        {mode !== 'photo' && (
-          <nav className="mobile-mode-tabs" aria-label={t('Mode d’édition')}>
+        {mode !== 'photo' && createPortal(
+          <nav className="mobile-mode-tabs mobile-mode-tabs-portal" aria-label={t('Mode d’édition')}>
             <Button
               className="mobile-mode-tab mobile-avatar-tab"
               variant="ghost"
@@ -2177,7 +2178,8 @@ export function StudioInspector({ controller }: { controller: StudioController }
                 <span>{label}</span>
               </Button>
             ))}
-          </nav>
+          </nav>,
+          document.body
         )}
       </main>
     </Drawer>
