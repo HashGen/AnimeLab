@@ -5373,3 +5373,123 @@ p {
     padding-bottom: 16px !important;
   }
 }
+
+
+/* Desktop preview + timeline stack */
+@media (min-width: 981px) {
+  .studio-desktop-layout {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1.15fr) minmax(360px, .85fr) !important;
+    align-items: stretch !important;
+    gap: 16px !important;
+    min-height: 100dvh !important;
+    height: 100dvh !important;
+    padding: 16px !important;
+    box-sizing: border-box !important;
+  }
+  .desktop-stage-stack {
+    display: flex !important;
+    flex-direction: column !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    gap: 12px !important;
+  }
+  .desktop-stage-stack > .stage-column {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+  }
+  .desktop-stage-stack .studio-timeline {
+    display: block !important;
+    flex: 0 0 auto !important;
+    min-width: 0 !important;
+    padding: 14px !important;
+    border: 1px solid #dce2ed !important;
+    border-radius: 14px !important;
+    background: #fff !important;
+    overflow: hidden !important;
+  }
+  .desktop-stage-stack .studio-timeline-scroll {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+  }
+  .desktop-stage-stack .studio-timeline-header,
+  .desktop-stage-stack .studio-timeline-actions,
+  .desktop-stage-stack .studio-timeline-title,
+  .desktop-stage-stack .studio-timeline-track-row,
+  .desktop-stage-stack .studio-timeline-track-label,
+  .desktop-stage-stack .studio-timeline-footer,
+  .desktop-stage-stack .studio-timeline-ruler {
+    display: flex !important;
+    align-items: center !important;
+  }
+  .desktop-stage-stack .studio-timeline-header {
+    justify-content: space-between !important;
+    gap: 12px !important;
+    margin-bottom: 12px !important;
+  }
+  .desktop-stage-stack .studio-timeline-title { gap: 10px !important; }
+  .desktop-stage-stack .studio-timeline-title strong,
+  .desktop-stage-stack .studio-timeline-title small { display: block !important; }
+  .desktop-stage-stack .studio-timeline-actions { gap: 4px !important; }
+  .desktop-stage-stack .studio-timeline-ruler {
+    justify-content: space-between !important;
+    padding-left: 84px !important;
+    font-size: 10px !important;
+    color: #858d9c !important;
+  }
+  .desktop-stage-stack .studio-timeline-track-row {
+    gap: 10px !important;
+    margin-top: 8px !important;
+  }
+  .desktop-stage-stack .studio-timeline-track-label {
+    flex: 0 0 74px !important;
+    gap: 6px !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+  }
+  .desktop-stage-stack .studio-timeline-track {
+    position: relative !important;
+    flex: 1 0 0 !important;
+    min-height: 54px !important;
+    border-radius: 9px !important;
+    background: #f2f5fb !important;
+  }
+  .desktop-stage-stack .studio-timeline-keyframe {
+    position: absolute !important;
+    top: 7px !important;
+    display: grid !important;
+    place-items: center !important;
+    width: 40px !important;
+    height: 40px !important;
+    padding: 3px !important;
+    border: 1px solid #d9dfec !important;
+    border-radius: 8px !important;
+    background: white !important;
+    transform: translateX(-50%) !important;
+  }
+  .desktop-stage-stack .studio-timeline-keyframe.is-active {
+    border: 2px solid #5878e8 !important;
+    background: #eaf0ff !important;
+  }
+  .desktop-stage-stack .timeline-waveform {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 3px !important;
+    width: 100% !important;
+    height: 34px !important;
+  }
+  .desktop-stage-stack .timeline-waveform span {
+    flex: 1 1 0 !important;
+    min-width: 2px !important;
+    border-radius: 2px !important;
+    background: #22a58c !important;
+  }
+  .desktop-stage-stack .timeline-audio-caption { display: none !important; }
+  .desktop-stage-stack .studio-timeline-footer {
+    justify-content: space-between !important;
+    margin-top: 10px !important;
+    color: #858d9c !important;
+    font-size: 10px !important;
+  }
+}
