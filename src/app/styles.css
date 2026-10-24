@@ -4223,3 +4223,300 @@ p {
     max-width: 100% !important;
   }
 }
+
+
+/* New mobile-first studio shell. This replaces the legacy resizable two-pane layout. */
+.studio-app-shell {
+  --app-bg: #0b1020;
+  --app-panel: #151c2d;
+  --app-card: #ffffff;
+  --app-accent: #5878e8;
+  --app-border: #e1e6f0;
+  height: 100dvh;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--app-bg);
+}
+.studio-mobile-app-layout {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  width: 100% !important;
+  height: 100dvh !important;
+  min-height: 0 !important;
+  gap: 0 !important;
+  overflow: hidden !important;
+}
+.mobile-preview-dock {
+  position: relative !important;
+  z-index: 30 !important;
+  display: block !important;
+  flex: 0 0 36dvh !important;
+  width: 100% !important;
+  height: 36dvh !important;
+  min-width: 0 !important;
+  min-height: 225px !important;
+  max-height: 42dvh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  border: 0 !important;
+  border-bottom: 1px solid #293248 !important;
+  background: radial-gradient(ellipse at 50% 62%, #1d2b4b 0%, #101725 58%, #090d15 100%) !important;
+}
+.mobile-editor-dock {
+  position: relative !important;
+  z-index: 10 !important;
+  display: block !important;
+  flex: 1 1 0 !important;
+  width: 100% !important;
+  height: auto !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  background: #f4f6fb !important;
+}
+.mobile-preview-dock .stage-column {
+  position: relative !important;
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+}
+.mobile-preview-dock .stage-identity {
+  position: absolute !important;
+  z-index: 8 !important;
+  top: 0 !important;
+  right: 0 !important;
+  left: 0 !important;
+  min-height: 52px !important;
+  padding: 9px 14px !important;
+  background: linear-gradient(180deg, rgb(8 12 20 / 96%), rgb(8 12 20 / 0%)) !important;
+}
+.mobile-preview-dock .stage-column > .avatar-wrap {
+  position: absolute !important;
+  inset: 50px 8px 48px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: auto !important;
+  height: auto !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+.mobile-preview-dock .stage-column canvas,
+.mobile-preview-dock .stage-column svg {
+  max-width: 100% !important;
+  max-height: 100% !important;
+}
+.mobile-preview-dock .stage-credit {
+  display: none !important;
+}
+.mobile-preview-dock .photo-capture-bar {
+  position: absolute !important;
+  z-index: 7 !important;
+  right: 10px !important;
+  bottom: 8px !important;
+  left: auto !important;
+  margin: 0 !important;
+}
+.mobile-preview-dock .photo-capture-button {
+  min-height: 34px !important;
+  padding: 0 11px !important;
+  border: 1px solid rgb(255 255 255 / 14%) !important;
+  border-radius: 11px !important;
+  background: #202a3d !important;
+  color: #fff !important;
+  box-shadow: none !important;
+}
+.mobile-preview-dock .photo-capture-label {
+  display: inline !important;
+}
+.mobile-preview-dock .audio-mouth-controls {
+  position: absolute !important;
+  z-index: 9 !important;
+  right: 10px !important;
+  bottom: 8px !important;
+  left: 10px !important;
+  width: auto !important;
+  max-width: none !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 5px !important;
+  padding: 7px 9px !important;
+  border: 1px solid #343e54 !important;
+  border-radius: 12px !important;
+  background: rgb(17 24 39 / 96%) !important;
+  color: #f7f9ff !important;
+  box-shadow: 0 6px 20px rgb(0 0 0 / 20%) !important;
+  transform: none !important;
+}
+.mobile-preview-dock .audio-mouth-heading {
+  font-size: 11px !important;
+}
+.mobile-preview-dock .audio-mouth-controls p {
+  display: none !important;
+}
+.mobile-preview-dock .audio-mouth-upload {
+  min-height: 31px !important;
+  border-color: #39445b !important;
+  border-radius: 8px !important;
+  background: #252f43 !important;
+  color: #f7f9ff !important;
+}
+.mobile-preview-dock .audio-mouth-player {
+  height: 28px !important;
+}
+.mobile-editor-dock .inspector {
+  position: relative !important;
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  padding: 0 0 calc(76px + env(safe-area-inset-bottom)) !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: #f4f6fb !important;
+  box-shadow: none !important;
+  overscroll-behavior: contain !important;
+}
+.mobile-editor-dock .inspector-identity {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 20 !important;
+  min-height: 0 !important;
+  padding: 8px 14px !important;
+  border-bottom: 1px solid #e1e6f0 !important;
+  background: rgb(244 246 251 / 96%) !important;
+  backdrop-filter: blur(18px) !important;
+}
+.mobile-editor-dock .mobile-mode-tabs {
+  position: fixed !important;
+  z-index: 100 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  display: flex !important;
+  align-items: stretch !important;
+  justify-content: flex-start !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: calc(68px + env(safe-area-inset-bottom)) !important;
+  gap: 7px !important;
+  margin: 0 !important;
+  padding: 7px 10px max(7px, env(safe-area-inset-bottom)) !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  border-top: 1px solid #e0e5ef !important;
+  background: rgb(255 255 255 / 97%) !important;
+  box-shadow: 0 -8px 24px rgb(24 35 60 / 9%) !important;
+  backdrop-filter: blur(20px) !important;
+  scrollbar-width: none !important;
+  scroll-snap-type: x proximity !important;
+}
+.mobile-editor-dock .mobile-mode-tabs::-webkit-scrollbar {
+  display: none !important;
+}
+.mobile-editor-dock .mobile-mode-tab {
+  position: relative !important;
+  display: flex !important;
+  flex: 0 0 72px !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 72px !important;
+  min-width: 72px !important;
+  height: 52px !important;
+  gap: 4px !important;
+  margin: 0 !important;
+  padding: 5px 4px !important;
+  border: 1px solid transparent !important;
+  border-radius: 13px !important;
+  background: transparent !important;
+  color: #7b8497 !important;
+  font-size: 10px !important;
+  font-weight: 650 !important;
+  scroll-snap-align: center !important;
+}
+.mobile-editor-dock .mobile-mode-tab > svg {
+  width: 19px !important;
+  height: 19px !important;
+}
+.mobile-editor-dock .mobile-mode-tab[aria-pressed='true'] {
+  border-color: #d9e1ff !important;
+  background: #edf1ff !important;
+  color: #3858bb !important;
+  box-shadow: none !important;
+}
+.mobile-editor-dock .mobile-avatar-tab > svg,
+.mobile-editor-dock .mobile-avatar-tab canvas {
+  width: 22px !important;
+  height: 22px !important;
+}
+.mobile-editor-dock .state-playback-footer {
+  z-index: 40 !important;
+  max-width: 100% !important;
+}
+.mobile-editor-dock .workspace-page,
+.mobile-editor-dock .avatar-grid,
+.mobile-editor-dock .inspector-content {
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+.mobile-editor-dock .inspector button,
+.mobile-editor-dock .inspector input,
+.mobile-editor-dock .inspector select,
+.mobile-editor-dock .inspector textarea {
+  max-width: 100% !important;
+}
+@media (max-width: 420px) {
+  .mobile-preview-dock {
+    flex-basis: 34dvh !important;
+    height: 34dvh !important;
+    min-height: 215px !important;
+  }
+  .mobile-preview-dock .stage-column > .avatar-wrap {
+    inset: 48px 4px 44px !important;
+  }
+  .mobile-editor-dock .mobile-mode-tab {
+    flex-basis: 65px !important;
+    width: 65px !important;
+    min-width: 65px !important;
+  }
+}
+@media (min-width: 981px) {
+  .studio-desktop-layout {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1.15fr) minmax(420px, 0.85fr) !important;
+    gap: 0 !important;
+    width: 100% !important;
+    height: 100dvh !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+  }
+  .studio-desktop-layout > .stage-column {
+    position: sticky !important;
+    top: 0 !important;
+    height: 100% !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+  }
+  .studio-desktop-layout > .inspector {
+    width: 100% !important;
+    height: 100% !important;
+    min-width: 0 !important;
+    overflow: auto !important;
+  }
+}
