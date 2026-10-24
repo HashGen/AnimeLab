@@ -4710,3 +4710,24 @@ p {
     max-height: calc(100% - 52px) !important;
   }
 }
+
+
+/* Keep playback status out of the avatar's face; hide branding controls on mobile. */
+@media (max-width: 980px) {
+  .mobile-preview-dock .stage-identity {
+    display: none !important;
+  }
+  .mobile-preview-dock .stage-playback-status {
+    position: absolute !important;
+    z-index: 12 !important;
+    top: 10px !important;
+    right: 10px !important;
+    left: auto !important;
+    max-width: min(48%, 180px) !important;
+    margin: 0 !important;
+    transform: none !important;
+  }
+  .mobile-preview-dock .stage-playback-status > * {
+    max-width: 100% !important;
+  }
+}
