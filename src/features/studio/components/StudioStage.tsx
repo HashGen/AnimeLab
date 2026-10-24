@@ -1,6 +1,6 @@
-import { Camera, Info, Move3D, RotateCcw, Scan, Upload, Volume2 } from 'lucide-react'
+import { Camera, Info, Move3D, RotateCcw, Scan } from 'lucide-react'
 import { motion } from 'motion/react'
-import { type CSSProperties, useEffect, useRef, useState } from 'react'
+import { type CSSProperties, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
@@ -10,124 +10,10 @@ import { AvatarCanvas } from '@/features/rendering/components/AvatarCanvas'
 import { PhotoStageFrame } from '@/features/studio/components/PhotoStageFrame'
 import { StudioIdentity } from '@/features/studio/components/StudioIdentity'
 import type { StudioController } from '@/features/studio/useStudioController'
-
-function AudioMouthControls({
-  onMouthOpen,
-  onMouthEnabled,
-  t,
-}: {
-  onMouthOpen: (value: number) => void
-  onMouthEnabled: (value: boolean) => void
-  t: (value: string) => string
-}) {
-  const [audioUrl, setAudioUrl] = useState<string | null>(null)
-  const [fileName, setFileName] = useState('')
-  const audioRef = useRef<HTMLAudioElement>(null)
-  const inputRef = useRef<HTMLInputElement>(null)
-  const contextRef = useRef<AudioContext | null>(null)
-  const frameRef = useRef<number | null>(null)
-
-  useEffect(() => () => {
-    if (frameRef.current !== null) cancelAnimationFrame(frameRef.current)
-    void contextRef.current?.close()
-  }, [])
-
-  useEffect(() => {
-    if (!audioUrl) return
-    return () => URL.revokeObjectURL(audioUrl)
-  }, [audioUrl])
-
-  const chooseAudio = (file?: File) => {
-    if (!file) return
-    if (audioUrl) URL.revokeObjectURL(audioUrl)
-    setFileName(file.name)
-    setAudioUrl(URL.createObjectURL(file))
-    onMouthOpen(0)
-    onMouthEnabled(true)
-  }
-
-  const analyzeAudio = async () => {
-    const audio = audioRef.current
-    if (!audio || !audioUrl) return
-    try {
-      const AudioContextClass = window.AudioContext
-      if (!AudioContextClass) return
-      let context = contextRef.current
-      if (!context) {
-        context = new AudioContextClass()
-        contextRef.current = context
-        const source = context.createMediaElementSource(audio)
-        const analyser = context.createAnalyser()
-        analyser.fftSize = 512
-        source.connect(analyser)
-        analyser.connect(context.destination)
-        ;(audio as HTMLAudioElement & { __mouthAnalyser?: AnalyserNode }).__mouthAnalyser = analyser
-      }
-      await context.resume()
-      const analyser = (audio as HTMLAudioElement & { __mouthAnalyser?: AnalyserNode }).__mouthAnalyser
-      if (!analyser) return
-      const samples = new Uint8Array(analyser.fftSize)
-      const tick = () => {
-        if (!audio.paused && !audio.ended) {
-          analyser.getByteTimeDomainData(samples)
-          let energy = 0
-          for (const sample of samples) {
-            const normalized = (sample - 128) / 128
-            energy += normalized * normalized
-          }
-          const rms = Math.sqrt(energy / samples.length)
-          const open = Math.max(0, Math.min(1, (rms - 0.025) * 5.5))
-          onMouthOpen(open)
-          frameRef.current = requestAnimationFrame(tick)
-        } else {
-          onMouthOpen(0)
-          frameRef.current = null
-        }
-      }
-      if (frameRef.current !== null) cancelAnimationFrame(frameRef.current)
-      tick()
-    } catch {
-      onMouthOpen(0)
-    }
-  }
-
-  return (
-    <div className="audio-mouth-controls">
-      <div className="audio-mouth-heading">
-        <Volume2 size={16} />
-        <span>{t('Animation de la bouche par audio')}</span>
-      </div>
-      <input
-        ref={inputRef}
-        type="file"
-        accept="audio/*"
-        className="audio-mouth-file-input"
-        aria-label={t('Choisir un fichier audio')}
-        onChange={event => chooseAudio(event.currentTarget.files?.[0])}
-      />
-      <button type="button" className="audio-mouth-upload" onClick={() => inputRef.current?.click()}>
-        <Upload size={15} /> {fileName || t('Choisir un audio')}
-      </button>
-      {audioUrl && (
-        <audio
-          ref={audioRef}
-          className="audio-mouth-player"
-          controls
-          src={audioUrl}
-          onPlay={() => void analyzeAudio()}
-          onPause={() => onMouthOpen(0)}
-          onEnded={() => onMouthOpen(0)}
-        />
-      )}
-      <p>{t('La bouche suit le volume audio et reste fermée pendant le silence.')}</p>
-    </div>
-  )
-}
+import { useAudioMouth } from '@/features/studio/components/AudioMouthControls'
 
 export function StudioStage({ controller }: { controller: StudioController }) {
   const [photoHelpOpen, setPhotoHelpOpen] = useState(false)
-  const [mouthOpen, setMouthOpen] = useState(0)
-  const [mouthEnabled, setMouthEnabled] = useState(false)
   const {
     activeAvatar,
     activeAvatarEyes,
@@ -173,6 +59,7 @@ export function StudioStage({ controller }: { controller: StudioController }) {
     updateHighlight,
     updateImmediate,
   } = controller
+  const { mouthOpen, mouthEnabled } = useAudioMouth()
   const photoMode = mode === 'photo'
   const activatePhotoTool = (tool: typeof photoTool) => {
     setPhotoTool(tool)
@@ -254,7 +141,6 @@ export function StudioStage({ controller }: { controller: StudioController }) {
       ) : (
         avatarCanvas
       )}
-      {!photoMode && <AudioMouthControls onMouthOpen={setMouthOpen} onMouthEnabled={setMouthEnabled} t={t} />}
       {photoFlash > 0 && (
         <motion.div
           className="photo-flash"
