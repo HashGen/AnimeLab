@@ -68,9 +68,6 @@ export function RotationGizmo({
   onReset: () => void
 }) {
   const { t } = useStudioLanguage()
-  const mouthX = (expression.positionXLeft + expression.positionXRight) / 2
-  const mouthY = 30 + ((expression.positionYLeft + expression.positionYRight) / 2 + 7) * 0.5
-  const mouthAngle = (expression.leftAngle + expression.rightAngle) / 2
   const drag = useRef<
     | {
         type: 'axis'
@@ -84,9 +81,6 @@ export function RotationGizmo({
   >(null)
   const latestExpression = useRef(expression)
   const pose = poseFromExpression(expression)
-  const mouthX = (expression.positionXLeft + expression.positionXRight) / 2
-  const mouthY = 30 + ((expression.positionYLeft + expression.positionYRight) / 2 + 7) * 0.5
-  const mouthAngle = (expression.leftAngle + expression.rightAngle) / 2
   const rings = {
     x: rotationRing(pose, 'x'),
     y: rotationRing(pose, 'y'),
@@ -556,6 +550,9 @@ export function AvatarCanvas({
   mouthEnabled?: boolean
 }) {
   const { t } = useStudioLanguage()
+  const mouthX = (expression.positionXLeft + expression.positionXRight) / 2
+  const mouthY = 30 + ((expression.positionYLeft + expression.positionYRight) / 2 + 7) * 0.5
+  const mouthAngle = (expression.leftAngle + expression.rightAngle) / 2
   const {
     wirePaths,
     backPaths,
