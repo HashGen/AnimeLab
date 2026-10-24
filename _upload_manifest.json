@@ -163,5 +163,13 @@
   "src/features/studio/components/AvatarDrawer.tsx": "db66c62a187b4d62c5d0d9702c1dfabe18f4999b",
   "src/features/studio/components/BodyConstructionAccordion.tsx": "7c3442178f223dfaa0bb8b59fe22a1c7daf723db",
   "src/features/studio/components/HighlightedRuntimeCode.tsx": "c6a934ceb0c10dd9aefd53ba900cfb28b5565f52",
-  "src/features/studio/components/PhotoStageFrame.tsx": "2130fdd88548c3aab34d1357e09e71fed06d38df"
+  "src/features/studio/components/PhotoStageFrame.tsx": "2130fdd88548c3aab34d1357e09e71fed06d38df",
+  "src/features/studio/components/RuntimeGuideDialog.tsx": "5d38e458ba66b69aca8099fb45a1ac15ba754bed",
+  "src/features/studio/components/RuntimePreviewDialog.tsx": "da0bb949bc3eda70ab3e2bbc58cb86adbef12bc3",
+  "src/features/studio/components/StudioDialogs.tsx": "0c32ba9307cd8ae78bb2879baf84729c79bf3907",
+  "src/features/studio/components/StudioIdentity.tsx": "75866023bab3ca36ef8182ad4e60a1ea8ec93dfa",
+  "src/features/studio/components/StudioInspector.tsx": "89e8e1dc13260fd5da6fc995b385824413e77c34",
+  "src/features/studio/components/StudioView.tsx": "0c48d2ac32757fa211e8b1df8c9e7908bb83dc10",
+  "src/features/studio/components/__tests__/runtime-guide-dialog-test.ts": "0e4b7e4427fb1fefec5ef09e1d9404767fa46202",
+  "src/features/studio/defaultStudioDocument.json": "141295f4cd83218b2b6d157a7a449cb215903f7f"
 }
