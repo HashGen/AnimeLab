@@ -5737,3 +5737,68 @@ p {
     padding-top: 0 !important;
   }
 }
+
+
+/* Compact mobile tabs: keep only each tab's controls, with no title blocks or filler space. */
+@media (max-width: 980px) {
+  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock {
+    display: block !important;
+    position: relative !important;
+    flex: 0 0 auto !important;
+    align-self: stretch !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    margin-top: calc(clamp(220px, 31dvh, 290px) + 202px) !important;
+    margin-bottom: 0 !important;
+    padding: 0 0 calc(76px + env(safe-area-inset-bottom)) !important;
+    overflow: visible !important;
+    box-sizing: border-box !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock .mode-page-header,
+  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock .studio-inspector-heading,
+  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock .avatar-page-heading,
+  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock .eyebrow {
+    display: none !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock .mode-page-transition,
+  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock .inspector,
+  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock .inspector-content,
+  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock .workspace-page,
+  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock .avatar-page {
+    display: block !important;
+    flex: 0 0 auto !important;
+    align-self: stretch !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    overflow: visible !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock .avatar-shelf {
+    margin: 0 !important;
+    padding: 0 12px 12px !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock .avatar-shelf-heading {
+    display: none !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock .avatar-grid {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock .inspector-content > :first-child,
+  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock .workspace-page > :first-child {
+    margin-top: 0 !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock .workspace-footer {
+    position: static !important;
+    margin: 12px 0 0 !important;
+    padding-bottom: 0 !important;
+  }
+}
