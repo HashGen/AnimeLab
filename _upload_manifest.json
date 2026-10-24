@@ -51,5 +51,13 @@
   "packages/avatar-core/src/body.ts": "99db4c74c27fb9ba7d838438e7a95bce1f0b5ad7",
   "packages/avatar-core/src/geometry.ts": "a96aa5edd4429bc55900207f120ac40c4783fecf",
   "packages/avatar-core/src/index.ts": "4886d86fdc21b3de14fcdd21f88b523f5184f171",
-  "packages/avatar-core/src/runtime.ts": "65522c1def7183e0ab69d2376a976510de41c74c"
+  "packages/avatar-core/src/runtime.ts": "65522c1def7183e0ab69d2376a976510de41c74c",
+  "packages/avatar-core/src/scene.ts": "f1746c1dce9550afc6658ba2916cb2b776a08b6e",
+  "packages/avatar-core/src/surfaces.ts": "98295fdbe2fd1ea6a7424b657359e8dc4e73bb23",
+  "packages/avatar-core/tsconfig.build.json": "738a64e726a29c1fb17e312d92005055854b0c02",
+  "packages/avatar-core/tsconfig.json": "10fca9bb48bf8bab769e3daeebadde1f32171ae9",
+  "packages/avatar-core/vite.config.ts": "aa73982ec4c1126de2fa288c1a36cb8d7997a1a2",
+  "packages/avatar-react/LICENSE": "be3f7b28e564e7dd05eaf59d64adba1a4065ac0e",
+  "packages/avatar-react/README.md": "52008a5468cb5262ef8e13d78055549a304f3e5b",
+  "packages/avatar-react/package.json": "411dadaf4f7260abe6483bd370cc285662637df7"
 }
