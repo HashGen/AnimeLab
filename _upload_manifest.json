@@ -75,5 +75,13 @@
   "packages/avatar-web/src/__tests__/avatar-web-test.ts": "745fbde41c242ce210ee6d7b24272fa2544b75c4",
   "packages/avatar-web/src/index.ts": "d14ceedb0b7359c583e86b77253e2bc1b6ca043f",
   "packages/avatar-web/tsconfig.build.json": "738a64e726a29c1fb17e312d92005055854b0c02",
-  "packages/avatar-web/tsconfig.json": "7f8a4f762ffd54d1995388cdc4158c5654121010"
+  "packages/avatar-web/tsconfig.json": "7f8a4f762ffd54d1995388cdc4158c5654121010",
+  "packages/avatar-web/vite.config.ts": "186cb13d80ec240d98073df070cd5da4b6eb6e06",
+  "pnpm-lock.yaml": "d8eac6edeb7e8477ad60c02d09dea34cd5092c53",
+  "pnpm-workspace.yaml": "e535fd377db54c1da1f24a1c1d8d4da56e2dcf2c",
+  "public/apple-touch-icon.png": "6034b39b0f2cdd0bbb3ed03171fe8b5c67129dee",
+  "public/favicon.svg": "5484f92f6128bc2f7faaba2e7425d51c31b2e577",
+  "public/icon-192.png": "07e0dace58979bba33b741935542b71632b8cbd9",
+  "public/icon-512.png": "10fa206902ff65d001d27a3b5d103b603018a2c6",
+  "public/og-image-ensemble-branded.png": "6d7543ab78b99949fab29768fe66a3faeca3d2b9"
 }
