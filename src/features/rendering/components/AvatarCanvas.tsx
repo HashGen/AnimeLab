@@ -81,6 +81,9 @@ export function RotationGizmo({
   >(null)
   const latestExpression = useRef(expression)
   const pose = poseFromExpression(expression)
+  const mouthX = (expression.positionXLeft + expression.positionXRight) / 2
+  const mouthY = 30 + ((expression.positionYLeft + expression.positionYRight) / 2 + 7) * 0.5
+  const mouthAngle = (expression.leftAngle + expression.rightAngle) / 2
   const rings = {
     x: rotationRing(pose, 'x'),
     y: rotationRing(pose, 'y'),
@@ -851,7 +854,8 @@ export function AvatarCanvas({
             {mouthEnabled && (
               <motion.path
                 className="avatar-audio-mouth"
-                d={`M -12 30 Q 0 ${30 + 2 + mouthOpen * 14} 12 30 Q 0 ${30 - mouthOpen * 2} -12 30 Z`}
+                d={`M ${mouthX - 12} ${mouthY} Q ${mouthX} ${mouthY + 2 + mouthOpen * 14} ${mouthX + 12} ${mouthY} Q ${mouthX} ${mouthY - mouthOpen * 2} ${mouthX - 12} ${mouthY} Z`}
+                transform={`rotate(${mouthAngle} ${mouthX} ${mouthY})`}
                 aria-hidden="true"
               />
             )}
