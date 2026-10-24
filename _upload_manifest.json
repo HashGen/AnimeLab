@@ -43,5 +43,13 @@
   "package.json": "00980ef0d6d1c57b630a1f8b1f9c9077925ad4e4",
   "packages/avatar-core/LICENSE": "be3f7b28e564e7dd05eaf59d64adba1a4065ac0e",
   "packages/avatar-core/README.md": "f17f5fcd55ef584f25dd03a1b3b10b3e2eb8080c",
-  "packages/avatar-core/package.json": "9974de46113d136d93df54a50240dbff852049fd"
+  "packages/avatar-core/package.json": "9974de46113d136d93df54a50240dbff852049fd",
+  "packages/avatar-core/src/__tests__/core-test.ts": "6e8caa40160fb5ab3709a40ddfed3683f487c10c",
+  "packages/avatar-core/src/ambientMotion.ts": "2df3a015825b22e175e217d937f488219ae7c108",
+  "packages/avatar-core/src/avatarDefinition.schema.json": "b14d50b227eb7aa38f43a2d7dfea5699890b1e93",
+  "packages/avatar-core/src/avatarDefinition.ts": "8713c0ed2381a040181a5b92725b8afc992593ae",
+  "packages/avatar-core/src/body.ts": "99db4c74c27fb9ba7d838438e7a95bce1f0b5ad7",
+  "packages/avatar-core/src/geometry.ts": "a96aa5edd4429bc55900207f120ac40c4783fecf",
+  "packages/avatar-core/src/index.ts": "4886d86fdc21b3de14fcdd21f88b523f5184f171",
+  "packages/avatar-core/src/runtime.ts": "65522c1def7183e0ab69d2376a976510de41c74c"
 }
