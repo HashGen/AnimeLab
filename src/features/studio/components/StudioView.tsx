@@ -5,6 +5,7 @@ import { StudioDialogs } from '@/features/studio/components/StudioDialogs'
 import { StudioInspector } from '@/features/studio/components/StudioInspector'
 import { StudioStage } from '@/features/studio/components/StudioStage'
 import type { StudioController } from '@/features/studio/useStudioController'
+import { AudioMouthProvider } from '@/features/studio/components/AudioMouthControls'
 
 const STACKED_LAYOUT_QUERY = '(max-width: 980px)'
 
@@ -22,6 +23,7 @@ export function StudioView(controller: StudioController) {
 
   return (
     <div className="studio-root studio-app-shell" lang={controller.language}>
+      <AudioMouthProvider>
       {stackedLayout ? (
         <div className="studio studio-mobile-resizable studio-mobile-app-layout">
           <section className="mobile-stage-panel mobile-preview-dock" aria-label={controller.t('Aperçu')}>
@@ -38,6 +40,7 @@ export function StudioView(controller: StudioController) {
         </div>
       )}
       <StudioDialogs controller={controller} />
+      </AudioMouthProvider>
     </div>
   )
 }
