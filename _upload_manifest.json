@@ -131,5 +131,13 @@
   "src/features/avatar/body.ts": "11f5adb9ac431fc29be5c7c6af00d63cbf77b2bb",
   "src/features/avatar/components/ExpressionWorkspace.tsx": "61ce31eeee07a0e8a196c7a2c3ae374e7a99afab",
   "src/features/avatar/expressionEditing.ts": "c3dad767e62650b518cde05ac9ed62d362d0df87",
-  "src/features/avatar/geometry.ts": "11f5adb9ac431fc29be5c7c6af00d63cbf77b2bb"
+  "src/features/avatar/geometry.ts": "11f5adb9ac431fc29be5c7c6af00d63cbf77b2bb",
+  "src/features/avatar/importAvatarDefinition.ts": "341d86943293854a260ad06190e60003f7c5b38a",
+  "src/features/avatar/manipulationSession.ts": "978af20b44ba37a384d9b0dac9440e0df6360e26",
+  "src/features/avatar/presets.ts": "b254081d429153a93dcb0f1ffbbd66a5e3076fdb",
+  "src/features/avatar/surfaces.ts": "11f5adb9ac431fc29be5c7c6af00d63cbf77b2bb",
+  "src/features/export/__tests__/exporter-test.ts": "3d2b64b4315ee61a4d8f00be42d8160dc57fec18",
+  "src/features/export/__tests__/snapshot-composition-test.ts": "bc4506423fe07f4a5c574248d35ac8a83a109104",
+  "src/features/export/__tests__/snapshot-exporter-test.ts": "975bc3ee3ac9041affd631902a33d26e597275b5",
+  "src/features/export/__tests__/snapshot-palette-test.ts": "8ae388fc7f96c816c254c52213315f18e802f118"
 }
