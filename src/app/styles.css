@@ -4814,3 +4814,9 @@ p {
     color: #172033 !important;
   }
 }
+
+
+/* Hide inherited developer-package integration tools; keep image and project backup exports. */
+.export-panel .export-accordion-avatar {
+  display: none !important;
+}
