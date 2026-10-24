@@ -1,4 +1,5 @@
 name: Deploy GitHub Pages
+# Always publish the Vite-built dist output; never deploy the raw TypeScript source tree.
 
 on:
   push:
