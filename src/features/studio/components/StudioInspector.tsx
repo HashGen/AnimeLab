@@ -2134,7 +2134,7 @@ export function StudioInspector({ controller }: { controller: StudioController }
               className="mobile-mode-tab mobile-avatar-tab"
               variant="ghost"
               type="button"
-              aria-pressed={mode === 'avatars'}
+              aria-pressed={mode === 'avatars' && avatarTabOpen}
               aria-label={t('Choisir un avatar')}
               onClick={() => { setAudioTabOpen(false); setAvatarTabOpen(true); setMode('avatars') }}
             >
