@@ -171,5 +171,13 @@
   "src/features/studio/components/StudioInspector.tsx": "89e8e1dc13260fd5da6fc995b385824413e77c34",
   "src/features/studio/components/StudioView.tsx": "0c48d2ac32757fa211e8b1df8c9e7908bb83dc10",
   "src/features/studio/components/__tests__/runtime-guide-dialog-test.ts": "0e4b7e4427fb1fefec5ef09e1d9404767fa46202",
-  "src/features/studio/defaultStudioDocument.json": "141295f4cd83218b2b6d157a7a449cb215903f7f"
+  "src/features/studio/defaultStudioDocument.json": "141295f4cd83218b2b6d157a7a449cb215903f7f",
+  "src/features/studio/studioDocument.ts": "84b374deffdf339864113b9bbdecf780281853d6",
+  "src/features/studio/useStudioController.ts": "58b66330494ee26bf95eac7bde7ceecb0262483c",
+  "src/i18n/__tests__/i18n-test.ts": "b96e7591a1ffd2ab04c8e16ba4b2981108c4d941",
+  "src/lib/utils.ts": "d1d7f949580043d48f08bbddee9738fce3477ed5",
+  "src/main.tsx": "4342e58792d9e9e3ceec742a8e2971b7b2c626cd",
+  "tsconfig.json": "799b398a96ab90fcb035b91dd930ace8e9971501",
+  "vite.config.ts": "6b0dc1750738716dd6a29bc8c5429368e425971d",
+  "vitest.config.ts": "7c74e8c62b35a5f519305cae462ec5f7b5a1172d"
 }
