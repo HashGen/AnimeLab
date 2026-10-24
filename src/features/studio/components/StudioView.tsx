@@ -37,7 +37,10 @@ export function StudioView(controller: StudioController) {
         </div>
       ) : (
         <div className="studio studio-desktop-layout">
-          <StudioStage controller={controller} />
+          <div className="desktop-stage-stack">
+            <StudioStage controller={controller} />
+            <StudioTimeline controller={controller} />
+          </div>
           <StudioInspector controller={controller} />
         </div>
       )}
