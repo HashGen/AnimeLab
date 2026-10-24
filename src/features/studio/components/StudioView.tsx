@@ -21,32 +21,18 @@ export function StudioView(controller: StudioController) {
   }, [])
 
   return (
-    <div className="studio-root" lang={controller.language}>
+    <div className="studio-root studio-app-shell" lang={controller.language}>
       {stackedLayout ? (
-        <ResizablePanelGroup
-          className="studio studio-mobile-resizable"
-          orientation="vertical"
-          resizeTargetMinimumSize={{ coarse: 40, fine: 12 }}
-        >
-          <ResizablePanel
-            id="preview"
-            className="mobile-stage-panel"
-            defaultSize="42%"
-            minSize={180}
-          >
+        <div className="studio studio-mobile-resizable studio-mobile-app-layout">
+          <section className="mobile-stage-panel mobile-preview-dock" aria-label={controller.t('Aperçu')}>
             <StudioStage controller={controller} />
-          </ResizablePanel>
-          <ResizableHandle
-            className="studio-resize-handle"
-            withHandle
-            aria-label={controller.t('Redimensionner l’aperçu et l’éditeur')}
-          />
-          <ResizablePanel id="editor" className="mobile-inspector-panel" minSize={260}>
+          </section>
+          <section className="mobile-inspector-panel mobile-editor-dock" aria-label={controller.t('Éditeur')}>
             <StudioInspector controller={controller} />
-          </ResizablePanel>
-        </ResizablePanelGroup>
+          </section>
+        </div>
       ) : (
-        <div className="studio">
+        <div className="studio studio-desktop-layout">
           <StudioStage controller={controller} />
           <StudioInspector controller={controller} />
         </div>
