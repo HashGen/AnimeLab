@@ -19,5 +19,13 @@
   "TIMELOG.md": "7bc02f22e7fb8c90a6a52dfb80b47d03defa7992",
   "components.json": "827348a0fe6aac70d7f07c5c44d48601de4a70cb",
   "docs/PUBLISHING.md": "087a778bec3d59ff091be081e3ece65664f6a262",
-  "docs/adr/0022-model-avatar-studio-as-a-versioned-document.md": "a8df01e23dac164e8ad9b4dcaeeb7790a3045572"
+  "docs/adr/0022-model-avatar-studio-as-a-versioned-document.md": "a8df01e23dac164e8ad9b4dcaeeb7790a3045572",
+  "docs/adr/0023-name-avatar-sequences-animations.md": "0566ffca16c099f9b71a78eb864d462d65e2e046",
+  "docs/specs/20260814-vite-dev-server-performance.md": "d67b93429e8be7095e24223cbe1b4e30593ffb35",
+  "docs/specs/archive/20260814-avatar-runtime-npm-package-and-semantic-api.md": "376835a110236370d787d12c7618ae0c942fe733",
+  "docs/specs/archive/20260814-avatar-runtime-semantic-curation.md": "06bdbcd01c61f26317a5aad0ff08804917f6d451",
+  "examples/react-vite-consumer/index.html": "3872ce8e04b54a61349a3b08a3ddcd581fbf0541",
+  "examples/react-vite-consumer/package.json": "5dbad1719d748ed8202c01b3e2c628468c88ebfa",
+  "examples/react-vite-consumer/src/main.tsx": "47d6797bd4cb866cd310f6b4d161a9b1d68c4284",
+  "examples/react-vite-consumer/src/strobi.avatar.json": "cb86f629fcd5b15ec4c7e4d80732faba218702b7"
 }
