@@ -115,5 +115,13 @@
   "src/features/animation/__tests__/sequences-test.ts": "684d5be4e57d1c4d31730002a998b467388f5319",
   "src/features/animation/components/SequenceWorkspace.tsx": "6bf0f84dead99779c5b6c2c6b04e0997b8b2101e",
   "src/features/animation/playback.ts": "652dc79df4b7b34d474df46ca027bb919490c306",
-  "src/features/animation/sequences.ts": "daf3a3745c999f91fe8687352934f4062425278c"
+  "src/features/animation/sequences.ts": "daf3a3745c999f91fe8687352934f4062425278c",
+  "src/features/avatar/__tests__/ambient-motion-test.ts": "28a89a93066bab8d046c7ab7e805ee9ac14b55c7",
+  "src/features/avatar/__tests__/avatar-definition-test.ts": "4e176160bb39dcdeb218fe2e7ffc62d1da8ec379",
+  "src/features/avatar/__tests__/avatars-test.ts": "a2331fd1b0dc4a8242944e7f7732aa20f37f4a8d",
+  "src/features/avatar/__tests__/expression-editing-test.ts": "46f49f077b810a9d06aaf75c86ed730d509b0fcd",
+  "src/features/avatar/__tests__/generate-strobi-fixture-test.ts": "7d296391a55dfb9467281b9a44ca8baa65550d5a",
+  "src/features/avatar/__tests__/geometry-editor-test.ts": "b7417cb69d8074fa768ea38b5a248282af1016ae",
+  "src/features/avatar/__tests__/import-avatar-definition-test.ts": "e5ac1ee163a4bb41139919b06019261bedeb2463",
+  "src/features/avatar/__tests__/manipulation-session-test.ts": "eadc5a2b389692053d93096fd4994812cfd2e2d8"
 }
