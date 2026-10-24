@@ -5665,13 +5665,6 @@ p {
     padding: 0 0 calc(82px + env(safe-area-inset-bottom)) !important;
     overflow: visible !important;
   }
-  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock .avatar-page {
-    display: none !important;
-  }
-  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock .avatar-shelf,
-  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock .avatar-grid {
-    display: none !important;
-  }
   .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock .inspector,
   .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock .inspector-content,
   .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock .workspace-page {
@@ -5688,5 +5681,26 @@ p {
   .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock .studio-inspector-heading,
   .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock .avatar-page-heading {
     display: none !important;
+  }
+}
+
+
+/* Do not leave an empty avatar-library page under the fixed timeline.
+   The avatar shelf itself remains available when the Avatar tab is opened. */
+@media (max-width: 980px) {
+  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock .mode-page-empty {
+    display: none !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock .mode-page-transition {
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock .inspector {
+    gap: 0 !important;
   }
 }
