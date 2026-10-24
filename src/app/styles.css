@@ -5180,3 +5180,196 @@ p {
     margin: 12px !important;
   }
 }
+
+
+/* Compact timeline-first mobile animation workspace */
+.studio-timeline {
+  display: none;
+}
+@media (max-width: 980px) {
+  .studio-mobile-app-layout .mobile-preview-dock {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 60 !important;
+    flex: 0 0 auto !important;
+    height: clamp(220px, 31dvh, 290px) !important;
+    min-height: 220px !important;
+    max-height: 290px !important;
+    box-shadow: 0 8px 22px rgb(8 13 24 / 14%) !important;
+  }
+  .studio-mobile-app-layout .studio-timeline {
+    position: relative !important;
+    z-index: 20 !important;
+    display: block !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 12px 12px 10px !important;
+    overflow: hidden !important;
+    border-bottom: 1px solid #dce2ed !important;
+    background: #fff !important;
+    box-sizing: border-box !important;
+  }
+  .studio-timeline-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 8px !important;
+    min-width: 0 !important;
+    margin-bottom: 10px !important;
+  }
+  .studio-timeline-title {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    min-width: 0 !important;
+  }
+  .studio-timeline-mark {
+    display: grid !important;
+    place-items: center !important;
+    width: 30px !important;
+    height: 30px !important;
+    flex: 0 0 30px !important;
+    border-radius: 9px !important;
+    background: #edf1ff !important;
+    color: #4565cb !important;
+    font-size: 12px !important;
+  }
+  .studio-timeline-title strong,
+  .studio-timeline-title small {
+    display: block !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+  .studio-timeline-title strong { font-size: 13px !important; color: #202638 !important; }
+  .studio-timeline-title small { margin-top: 2px !important; font-size: 10px !important; color: #7c8494 !important; }
+  .studio-timeline-actions {
+    display: flex !important;
+    align-items: center !important;
+    flex: 0 0 auto !important;
+    gap: 2px !important;
+  }
+  .studio-timeline-actions button {
+    width: 28px !important;
+    min-width: 28px !important;
+    height: 30px !important;
+    padding: 0 !important;
+  }
+  .studio-timeline-time { display: none !important; }
+  .studio-timeline-scroll {
+    width: 100% !important;
+    min-width: 0 !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scrollbar-width: none !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  .studio-timeline-scroll::-webkit-scrollbar { display: none !important; }
+  .studio-timeline-ruler {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    height: 17px !important;
+    padding: 0 4px 0 76px !important;
+    color: #8a92a2 !important;
+    font-size: 9px !important;
+    box-sizing: border-box !important;
+  }
+  .studio-timeline-track-row {
+    display: flex !important;
+    align-items: stretch !important;
+    gap: 8px !important;
+    min-height: 48px !important;
+    margin-top: 5px !important;
+  }
+  .studio-timeline-track-label {
+    display: flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    flex: 0 0 66px !important;
+    width: 66px !important;
+    color: #596274 !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+  }
+  .timeline-track-dot {
+    width: 6px !important;
+    height: 6px !important;
+    flex: 0 0 6px !important;
+    border-radius: 50% !important;
+  }
+  .avatar-dot { background: #5b7be7 !important; }
+  .audio-dot { background: #20a58b !important; }
+  .studio-timeline-track {
+    position: relative !important;
+    flex: 1 0 0 !important;
+    min-height: 48px !important;
+    border-radius: 8px !important;
+    background: #f2f5fb !important;
+    box-sizing: border-box !important;
+  }
+  .studio-timeline-keyframe {
+    position: absolute !important;
+    top: 5px !important;
+    display: grid !important;
+    place-items: center !important;
+    width: 37px !important;
+    height: 37px !important;
+    padding: 3px !important;
+    border: 1px solid #d9dfec !important;
+    border-radius: 8px !important;
+    background: white !important;
+    transform: translateX(-50%) !important;
+  }
+  .studio-timeline-keyframe.is-active {
+    border: 2px solid #5878e8 !important;
+    background: #eaf0ff !important;
+  }
+  .studio-timeline-keyframe svg,
+  .studio-timeline-keyframe canvas {
+    display: block !important;
+    width: 28px !important;
+    height: 28px !important;
+  }
+  .audio-track {
+    display: flex !important;
+    align-items: center !important;
+    overflow: hidden !important;
+    padding: 7px 9px !important;
+    background: #eaf8f4 !important;
+  }
+  .timeline-waveform {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 2px !important;
+    width: 100% !important;
+    height: 28px !important;
+    opacity: .55 !important;
+  }
+  .timeline-waveform span {
+    display: block !important;
+    flex: 1 1 0 !important;
+    min-width: 2px !important;
+    max-width: 4px !important;
+    border-radius: 2px !important;
+    background: #22a58c !important;
+  }
+  .timeline-audio-caption { display: none !important; }
+  .studio-timeline-footer {
+    display: flex !important;
+    justify-content: space-between !important;
+    gap: 8px !important;
+    margin-top: 7px !important;
+    color: #8a92a2 !important;
+    font-size: 9px !important;
+  }
+  .mobile-editor-dock {
+    min-height: 42dvh !important;
+    padding-bottom: calc(96px + env(safe-area-inset-bottom)) !important;
+  }
+  .mobile-editor-dock .inspector {
+    padding-bottom: 16px !important;
+  }
+}
