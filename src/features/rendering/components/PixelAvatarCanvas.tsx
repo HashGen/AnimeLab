@@ -41,6 +41,8 @@ export function LivePixelAvatarCanvas({
   colors: RenderedColors
   style: PixelRenderStyle
   className: string
+  mouthOpen?: number
+  mouthEnabled?: boolean
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
