@@ -1,11 +1,16 @@
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from 'react'
-import { Upload, Volume2 } from 'lucide-react'
+import { AudioLines, Upload, Volume2 } from 'lucide-react'
 
 type AudioMouthState = {
   mouthOpen: number
   mouthEnabled: boolean
   setMouthOpen: (value: number) => void
   setMouthEnabled: (value: boolean) => void
+  audioUrl: string | null
+  fileName: string
+  audioPeaks: number[]
+  audioDuration: number
+  requestAudioFile: () => void
 }
 
 const AudioMouthContext = createContext<AudioMouthState | null>(null)
@@ -13,8 +18,71 @@ const AudioMouthContext = createContext<AudioMouthState | null>(null)
 export function AudioMouthProvider({ children }: { children: ReactNode }) {
   const [mouthOpen, setMouthOpen] = useState(0)
   const [mouthEnabled, setMouthEnabled] = useState(false)
+  const [audioUrl, setAudioUrl] = useState<string | null>(null)
+  const [fileName, setFileName] = useState('')
+  const [audioPeaks, setAudioPeaks] = useState<number[]>([])
+  const [audioDuration, setAudioDuration] = useState(0)
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    if (!audioUrl) return
+    return () => URL.revokeObjectURL(audioUrl)
+  }, [audioUrl])
+
+  const loadAudio = async (file?: File) => {
+    if (!file || !file.type.startsWith('audio/')) return
+    setAudioUrl(URL.createObjectURL(file))
+    setFileName(file.name)
+    setAudioPeaks([])
+    setAudioDuration(0)
+    setMouthOpen(0)
+    setMouthEnabled(true)
+    try {
+      const context = new AudioContext()
+      const decoded = await context.decodeAudioData(await file.arrayBuffer())
+      const channels = Array.from({ length: decoded.numberOfChannels }, (_, index) => decoded.getChannelData(index))
+      const count = 96
+      const samplesPerPeak = Math.max(1, Math.floor(decoded.length / count))
+      const peaks = Array.from({ length: count }, (_, peakIndex) => {
+        const start = peakIndex * samplesPerPeak
+        const end = Math.min(decoded.length, start + samplesPerPeak)
+        let sum = 0
+        let samples = 0
+        for (let index = start; index < end; index += Math.max(1, Math.floor((end - start) / 80))) {
+          let sample = 0
+          for (const channel of channels) sample += channel[index] ?? 0
+          sample /= Math.max(1, channels.length)
+          sum += sample * sample
+          samples++
+        }
+        return samples ? Math.sqrt(sum / samples) : 0
+      })
+      setAudioPeaks(peaks.map(peak => Math.max(0.04, Math.min(1, peak * 3.8))))
+      setAudioDuration(decoded.duration)
+      await context.close()
+    } catch {
+      setAudioPeaks([])
+      setAudioDuration(0)
+    }
+  }
+
   return (
-    <AudioMouthContext.Provider value={{ mouthOpen, mouthEnabled, setMouthOpen, setMouthEnabled }}>
+    <AudioMouthContext.Provider value={{
+      mouthOpen, mouthEnabled, setMouthOpen, setMouthEnabled,
+      audioUrl, fileName, audioPeaks, audioDuration,
+      requestAudioFile: () => inputRef.current?.click(),
+    }}>
+      <input
+        ref={inputRef}
+        type="file"
+        accept="audio/*"
+        className="audio-mouth-file-input"
+        aria-label="Choose audio file for timeline"
+        onChange={event => {
+          void loadAudio(event.currentTarget.files?.[0])
+          event.currentTarget.value = ''
+        }}
+      />
       {children}
     </AudioMouthContext.Provider>
   )
@@ -27,11 +95,14 @@ export function useAudioMouth() {
 }
 
 export function AudioMouthControls({ t }: { t: (value: string) => string }) {
-  const { setMouthOpen: onMouthOpen, setMouthEnabled: onMouthEnabled } = useAudioMouth()
-  const [audioUrl, setAudioUrl] = useState<string | null>(null)
-  const [fileName, setFileName] = useState('')
+  const {
+    setMouthOpen: onMouthOpen,
+    setMouthEnabled: onMouthEnabled,
+    audioUrl,
+    fileName,
+    requestAudioFile,
+  } = useAudioMouth()
   const audioRef = useRef<HTMLAudioElement>(null)
-  const inputRef = useRef<HTMLInputElement>(null)
   const contextRef = useRef<AudioContext | null>(null)
   const frameRef = useRef<number | null>(null)
 
@@ -39,20 +110,6 @@ export function AudioMouthControls({ t }: { t: (value: string) => string }) {
     if (frameRef.current !== null) cancelAnimationFrame(frameRef.current)
     void contextRef.current?.close()
   }, [])
-
-  useEffect(() => {
-    if (!audioUrl) return
-    return () => URL.revokeObjectURL(audioUrl)
-  }, [audioUrl])
-
-  const chooseAudio = (file?: File) => {
-    if (!file) return
-    if (audioUrl) URL.revokeObjectURL(audioUrl)
-    setFileName(file.name)
-    setAudioUrl(URL.createObjectURL(file))
-    onMouthOpen(0)
-    onMouthEnabled(true)
-  }
 
   const analyzeAudio = async () => {
     const audio = audioRef.current
@@ -84,8 +141,7 @@ export function AudioMouthControls({ t }: { t: (value: string) => string }) {
             energy += normalized * normalized
           }
           const rms = Math.sqrt(energy / samples.length)
-          const open = Math.max(0, Math.min(1, (rms - 0.025) * 5.5))
-          onMouthOpen(open)
+          onMouthOpen(Math.max(0, Math.min(1, (rms - 0.025) * 5.5)))
           frameRef.current = requestAnimationFrame(tick)
         } else {
           onMouthOpen(0)
@@ -103,31 +159,28 @@ export function AudioMouthControls({ t }: { t: (value: string) => string }) {
     <div className="audio-mouth-controls">
       <div className="audio-mouth-heading">
         <Volume2 size={16} />
-        <span>{t('Animation de la bouche par audio')}</span>
+        <span>{t('Audio-driven mouth animation')}</span>
       </div>
-      <input
-        ref={inputRef}
-        type="file"
-        accept="audio/*"
-        className="audio-mouth-file-input"
-        aria-label={t('Choisir un fichier audio')}
-        onChange={event => chooseAudio(event.currentTarget.files?.[0])}
-      />
-      <button type="button" className="audio-mouth-upload" onClick={() => inputRef.current?.click()}>
-        <Upload size={15} /> {fileName || t('Choisir un audio')}
+      <button type="button" className="audio-mouth-upload" onClick={requestAudioFile}>
+        <Upload size={15} /> {fileName || t('Choose audio')}
       </button>
-      {audioUrl && (
+      {audioUrl ? (
         <audio
           ref={audioRef}
           className="audio-mouth-player"
           controls
           src={audioUrl}
-          onPlay={() => void analyzeAudio()}
+          onPlay={() => {
+            onMouthEnabled(true)
+            void analyzeAudio()
+          }}
           onPause={() => onMouthOpen(0)}
           onEnded={() => onMouthOpen(0)}
         />
+      ) : (
+        <div className="audio-mouth-empty"><AudioLines size={20} /><span>{t('Select an audio file to create a real waveform and animate the mouth.')}</span></div>
       )}
-      <p>{t('La bouche suit le volume audio et reste fermée pendant le silence.')}</p>
+      <p>{t('The mouth follows the actual audio volume and closes during silence.')}</p>
     </div>
   )
 }
