@@ -1,1 +1,7 @@
-{}
+{
+  "src/features/studio/components/StudioStage.tsx": "fe6a32e519dd4dd0fef7add40dcc7d198edaffa2",
+  "src/features/rendering/components/AvatarCanvas.tsx": "7a05ce925c5cb0625710ed2209140beab9b29c1d",
+  "src/app/styles.css": "91299ed4c79df95b5154e6e81628b26bae8e79f0",
+  "src/i18n/index.ts": "93499f0e4cf63b14d36ee7116d2087d02457b5b9",
+  "src/i18n/zh.ts": "d9e8633d7ec8f5a38634086ec3079edbe02ed791"
+}
