@@ -27,5 +27,13 @@
   "examples/react-vite-consumer/index.html": "3872ce8e04b54a61349a3b08a3ddcd581fbf0541",
   "examples/react-vite-consumer/package.json": "5dbad1719d748ed8202c01b3e2c628468c88ebfa",
   "examples/react-vite-consumer/src/main.tsx": "47d6797bd4cb866cd310f6b4d161a9b1d68c4284",
-  "examples/react-vite-consumer/src/strobi.avatar.json": "cb86f629fcd5b15ec4c7e4d80732faba218702b7"
+  "examples/react-vite-consumer/src/strobi.avatar.json": "cb86f629fcd5b15ec4c7e4d80732faba218702b7",
+  "examples/react-vite-consumer/src/styles.css": "3bd9c60d27b11e1e01f5495c7d14b080e77433b5",
+  "examples/react-vite-consumer/src/vite-env.d.ts": "11f02fe2a0061d6e6e1f271b21da95423b448b32",
+  "examples/react-vite-consumer/tsconfig.json": "56ce52ef9f532a11d74b7d08d464ef99a87c0b54",
+  "examples/react-vite-consumer/vite.config.ts": "80316f3dd70cef86de423678c744e202fbe5ad0f",
+  "examples/web-vite-consumer/index.html": "2cbf6600da652917b4e70018d7281b8c4de296a8",
+  "examples/web-vite-consumer/package.json": "c69387a885e3c26197416440f7216e011426c937",
+  "examples/web-vite-consumer/src/main.ts": "24f58eaed5b4a85eefa289a1753c7ef9ac03829e",
+  "examples/web-vite-consumer/src/styles.css": "834a25cbd045c0689d0b26158f95be290298da59"
 }
