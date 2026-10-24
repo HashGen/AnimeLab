@@ -68,6 +68,9 @@ export function RotationGizmo({
   onReset: () => void
 }) {
   const { t } = useStudioLanguage()
+  const mouthX = (expression.positionXLeft + expression.positionXRight) / 2
+  const mouthY = 30 + ((expression.positionYLeft + expression.positionYRight) / 2 + 7) * 0.5
+  const mouthAngle = (expression.leftAngle + expression.rightAngle) / 2
   const drag = useRef<
     | {
         type: 'axis'
