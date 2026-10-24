@@ -2126,7 +2126,7 @@ export function StudioInspector({ controller }: { controller: StudioController }
             </motion.div>
           </motion.footer>
         )}
-        {!editorPageOpen && mode !== 'photo' && (
+        {mode !== 'photo' && (
           <nav className="mobile-mode-tabs" aria-label={t('Mode d’édition')}>
             <Button
               className="mobile-mode-tab mobile-avatar-tab"
