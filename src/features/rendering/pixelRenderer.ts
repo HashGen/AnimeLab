@@ -12,6 +12,8 @@ export type PixelAvatarFrame = {
   offsetY: number
   bodyColor: string
   eyeColor: string
+  mouthOpen?: number
+  mouthEnabled?: boolean
 }
 
 const fillPath = (context: CanvasRenderingContext2D, path: string, color: string, opacity = 1) => {
@@ -82,6 +84,20 @@ export const paintPixelAvatar = (
   context.clip(new Path2D(frame.headPath))
   fillPath(context, frame.leftPath, frame.eyeColor, frame.leftOpacity)
   fillPath(context, frame.rightPath, frame.eyeColor, frame.rightOpacity)
+  if (frame.mouthEnabled) {
+    const openness = Math.max(0, Math.min(1, frame.mouthOpen ?? 0))
+    context.fillStyle = frame.eyeColor
+    context.beginPath()
+    context.moveTo(-13, 43)
+    context.quadraticCurveTo(0, 43 + openness * 17, 13, 43)
+    context.quadraticCurveTo(0, 43 - openness * 2, -13, 43)
+    context.closePath()
+    context.fill()
+    if (openness > 0.35) {
+      context.fillStyle = frame.bodyColor
+      context.fillRect(-5, 45, 10, 2)
+    }
+  }
   context.restore()
 
   frame.frontPaths.forEach(path => fillPath(context, path, frame.bodyColor))
