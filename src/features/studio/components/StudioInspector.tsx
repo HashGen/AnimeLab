@@ -770,14 +770,14 @@ export function StudioInspector({ controller }: { controller: StudioController }
 
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
-            className="mode-page-transition"
+            className={`mode-page-transition${mode === 'avatars' && !avatarTabOpen && !editorPageOpen ? ' mode-page-empty' : ''}`}
             key={mode}
             initial={reduceMotion ? false : { opacity: 0, x: 18 }}
             animate={{ opacity: 1, x: 0 }}
             exit={reduceMotion ? { opacity: 1, x: 0 } : { opacity: 0, x: -18 }}
             transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
           >
-            {!editorPageOpen && (
+            {!editorPageOpen && (mode !== 'avatars' || avatarTabOpen) && (
               <header className="mode-page-header">
                 <div>
                   <p className="eyebrow">{activeAvatar.name}</p>
