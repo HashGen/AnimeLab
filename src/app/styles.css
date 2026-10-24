@@ -5856,3 +5856,69 @@ p {
     margin-top: 0 !important;
   }
 }
+
+
+/* Definitive mobile cleanup: no artificial inspector height, blank tail, or dark separator. */
+@media (max-width: 980px) {
+  .studio-root,
+  .studio-root.studio-app-shell,
+  .studio-root .studio.studio-mobile-app-layout {
+    background: #f4f6fb !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+    min-height: 0 !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock,
+  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock .inspector {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin-top: calc(clamp(220px, 31dvh, 290px) + 202px) !important;
+    margin-bottom: 0 !important;
+    background: #f4f6fb !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock .inspector {
+    margin-top: 0 !important;
+    padding: 0 !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock .inspector-content,
+  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock .mode-page-transition,
+  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock .workspace-page,
+  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock .avatar-page {
+    min-height: 0 !important;
+    height: auto !important;
+    max-height: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock .avatar-shelf,
+  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock .workspace-page > :last-child,
+  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock .inspector-content > :last-child {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock .workspace-footer {
+    display: none !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock::before,
+  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock::after,
+  .studio-root .studio.studio-mobile-app-layout::before,
+  .studio-root .studio.studio-mobile-app-layout::after {
+    content: none !important;
+    display: none !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .mobile-mode-tabs-portal {
+    border-top: 0 !important;
+    box-shadow: 0 -2px 8px rgb(18 26 44 / 4%) !important;
+  }
+}
