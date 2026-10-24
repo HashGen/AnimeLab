@@ -1,16 +1,7 @@
 {
-  "name": "bible-strong-avatar-lab",
+  "name": "avatar-lab",
   "version": "0.1.0",
-  "description": "A browser-based studio for designing procedural 2D avatars, expressions and reusable animations.",
-  "author": "Stéphane Montlouis-Calixte",
-  "homepage": "https://avatars.bible-strong.app",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/smontlouis/bible-strong-avatar-lab.git"
-  },
-  "bugs": {
-    "url": "https://github.com/smontlouis/bible-strong-avatar-lab/issues"
-  },
+  "description": "Audio-driven mouth animation for existing 2D avatars.",
   "license": "AGPL-3.0-only",
   "private": true,
   "type": "module",
