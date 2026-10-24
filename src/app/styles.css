@@ -4820,3 +4820,16 @@ p {
 .export-panel .export-accordion-avatar {
   display: none !important;
 }
+
+
+/* Keep the full editor navigation visible on mobile and suppress preview playback badges. */
+@media (max-width: 980px) {
+  .mobile-editor-dock .mobile-mode-tabs {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  .mobile-preview-dock .stage-playback-status {
+    display: none !important;
+  }
+}
