@@ -183,57 +183,7 @@ export function StudioStage({ controller }: { controller: StudioController }) {
             </Button>
           </div>
         )}
-        <div className="photo-capture-bar">
-          <Button
-            className="photo-capture-button"
-            type="button"
-            aria-label={t(photoMode ? 'Prendre une photo' : 'Ouvrir le mode photo')}
-            onClick={() => (photoMode ? takePicture() : openPhotoMode())}
-          >
-            <Camera />
-            <span className="photo-capture-label">
-              {t(photoMode ? 'Prendre une photo' : 'Mode photo')}
-            </span>
-          </Button>
-          <Tooltip
-            open={photoHelpOpen}
-            onOpenChange={open => {
-              if (!open) setPhotoHelpOpen(false)
-            }}
-          >
-            <TooltipTrigger
-              closeOnClick={false}
-              render={
-                <Button
-                  className="photo-help-button"
-                  variant="secondary"
-                  size="icon-sm"
-                  type="button"
-                  aria-label={t('Informations sur le mode photo')}
-                  aria-expanded={photoHelpOpen}
-                  onClick={() => setPhotoHelpOpen(open => !open)}
-                />
-              }
-            >
-              <Info />
-            </TooltipTrigger>
-            <TooltipContent side="top" className="photo-help-tooltip">
-              {t(
-                photoMode
-                  ? 'Utilise Pose pour orienter l’avatar et Cadrage pour le déplacer ou le zoomer.'
-                  : 'Ouvre le mode photo pour choisir une expression, cadrer puis exporter l’avatar.'
-              )}
-            </TooltipContent>
-          </Tooltip>
-        </div>
-      </TooltipProvider>
-      <p className="stage-credit">
-        Made with ❤️ by{' '}
-        <a href="https://x.com/_smontlouis" target="_blank" rel="noreferrer">
-          @_smontlouis
-        </a>
-        .
-      </p>
+  p>
     </motion.section>
   )
 }
