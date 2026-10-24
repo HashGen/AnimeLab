@@ -795,6 +795,8 @@ export function AvatarCanvas({
           colors={colors}
           style={renderStyle}
           className="avatar-pixel-canvas"
+          mouthOpen={mouthOpen}
+          mouthEnabled={mouthEnabled}
         />
       )}
       <svg
