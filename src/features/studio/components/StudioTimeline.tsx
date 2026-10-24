@@ -69,7 +69,7 @@ export function StudioTimeline({ controller }: { controller: StudioController })
                 key={frame.id}
                 type="button"
                 style={{ left: `${(frame.time / totalDuration) * 100}%` }}
-                aria-label={`${t('Keyframe')} ${frame.expressionIndex + 1} · ${formatTime(frame.time)}`}
+                aria-label={`${t('Keyframe')} ${(frame.expressionIndex ?? 0) + 1} · ${formatTime(frame.time)}`}
                 onClick={() => transitionToExpression(frame.expression, frame.expressionIndex)}
               >
                 <ExpressionPreview
