@@ -29,5 +29,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Format changed source files
+        run: pnpm exec prettier --write src/app/styles.css src/features/studio/components/AudioMouthControls.tsx src/features/studio/components/StudioInspector.tsx src/features/studio/components/StudioStage.tsx src/features/studio/components/StudioView.tsx src/i18n/index.ts src/i18n/zh.ts
+
       - name: Validate project
         run: pnpm check
