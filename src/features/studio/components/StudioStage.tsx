@@ -1,6 +1,6 @@
 import { Camera, Info, Move3D, RotateCcw, Scan } from 'lucide-react'
 import { motion } from 'motion/react'
-import { type CSSProperties, useState } from 'react'
+import { type CSSProperties } from 'react'
 
 import { Button } from '@/components/ui/button'
 
