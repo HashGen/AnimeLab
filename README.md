@@ -6,10 +6,9 @@
 
 1. Choose one of the existing avatars.
 2. Open **Audio** and select an audio file.
-3. Adjust the mouth sensitivity if needed.
-4. Preview the audio-driven mouth movement on the same character.
-5. Use the existing expression and animation controls when you want to refine the character or its movement.
-6. Export or save your work using the options available in the app.
+3. Preview the audio-driven mouth movement on the same character.
+4. Use the existing expression and animation controls when you want to refine the character or its movement.
+5. Export an image or back up your project using the available export options.
 
 ## Design priorities
 
