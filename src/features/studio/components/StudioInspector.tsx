@@ -651,7 +651,7 @@ export function StudioInspector({ controller }: { controller: StudioController }
   return (
     <Drawer>
       <main
-        className={`inspector${audioTabOpen ? ' audio-tab-active' : ''} ${editing ? 'expression-workspace-active' : sequenceEditing ? 'sequence-workspace-active' : bodyEditing ? 'body-workspace' : 'studio-workspace'}${activeSequence && !editorPageOpen && mode !== 'photo' ? ' state-player-active' : ''}${mode === 'photo' ? ' photo-inspector-active' : ''}`}
+        className={`inspector${audioTabOpen ? ' audio-tab-active' : ''} ${editing ? 'expression-workspace-active' : sequenceEditing ? 'sequence-workspace-active' : bodyEditing ? 'body-workspace' : 'studio-workspace'}${activeSequence && !editorPageOpen && mode === 'states' ? ' state-player-active' : ''}${mode === 'photo' ? ' photo-inspector-active' : ''}`}
       >
         <section className={`audio-tab-content${audioTabOpen ? ' is-active' : ''}`} aria-label={t('Audio Mouth Animation')}>
             <div className="audio-tab-heading">
