@@ -139,5 +139,13 @@
   "src/features/export/__tests__/exporter-test.ts": "3d2b64b4315ee61a4d8f00be42d8160dc57fec18",
   "src/features/export/__tests__/snapshot-composition-test.ts": "bc4506423fe07f4a5c574248d35ac8a83a109104",
   "src/features/export/__tests__/snapshot-exporter-test.ts": "975bc3ee3ac9041affd631902a33d26e597275b5",
-  "src/features/export/__tests__/snapshot-palette-test.ts": "8ae388fc7f96c816c254c52213315f18e802f118"
+  "src/features/export/__tests__/snapshot-palette-test.ts": "8ae388fc7f96c816c254c52213315f18e802f118",
+  "src/features/export/exporter.ts": "ed958f35d504862c09f0c5a880cda92030ded533",
+  "src/features/export/proceduralBrowserRuntime.ts": "6b5c4e93d3bfc5c5036f0c26017269e160a50526",
+  "src/features/export/snapshotComposition.ts": "6b3ea4ea7f69e5520b42466a46e2264c411eac08",
+  "src/features/export/snapshotExporter.ts": "16f5e732753350aad9ddf8302798db3d833b362f",
+  "src/features/export/snapshotPalette.ts": "6681b78dba07b0b685af39f3b79edab54451ed44",
+  "src/features/export/standaloneEngine.entry.ts": "adea6e805c4a28fd4fadcc3c5caf45d9b3d5dac6",
+  "src/features/export/standaloneEngine.generated.ts": "38e0a7b34e68662c1ff4412550926ce2af2ccc0e",
+  "src/features/export/storedZip.ts": "fd75d5c3f65a14fc6b9dc8e8a268800a344d0a59"
 }
