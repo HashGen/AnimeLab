@@ -3,7 +3,6 @@ import { motion } from 'motion/react'
 import { type CSSProperties, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 
 import { defaultExpression } from '@/features/avatar/presets'
 import { AvatarCanvas } from '@/features/rendering/components/AvatarCanvas'
@@ -13,7 +12,6 @@ import type { StudioController } from '@/features/studio/useStudioController'
 import { useAudioMouth } from '@/features/studio/components/AudioMouthControls'
 
 export function StudioStage({ controller }: { controller: StudioController }) {
-  const [photoHelpOpen, setPhotoHelpOpen] = useState(false)
   const {
     activeAvatar,
     activeAvatarEyes,
@@ -27,7 +25,6 @@ export function StudioStage({ controller }: { controller: StudioController }) {
     highlight,
     linked,
     mode,
-    openPhotoMode,
     persistEditedEyeExpression,
     photoFlash,
     photoTool,
@@ -54,7 +51,6 @@ export function StudioStage({ controller }: { controller: StudioController }) {
     snapshotComposition,
     surface,
     t,
-    takePicture,
     transitionToExpression,
     updateHighlight,
     updateImmediate,
@@ -151,8 +147,7 @@ export function StudioStage({ controller }: { controller: StudioController }) {
           transition={{ duration: 0.38, times: [0, 0.16, 1], ease: 'easeOut' }}
         />
       )}
-      <TooltipProvider>
-        {photoMode && (
+      {photoMode && (
           <div className="photo-tool-bar" role="toolbar" aria-label={t('Outils du mode photo')}>
             <Button
               variant="secondary"
