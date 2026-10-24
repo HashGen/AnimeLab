@@ -4,6 +4,7 @@ import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/componen
 import { StudioDialogs } from '@/features/studio/components/StudioDialogs'
 import { StudioInspector } from '@/features/studio/components/StudioInspector'
 import { StudioStage } from '@/features/studio/components/StudioStage'
+import { StudioTimeline } from '@/features/studio/components/StudioTimeline'
 import type { StudioController } from '@/features/studio/useStudioController'
 import { AudioMouthProvider } from '@/features/studio/components/AudioMouthControls'
 
@@ -29,6 +30,7 @@ export function StudioView(controller: StudioController) {
           <section className="mobile-stage-panel mobile-preview-dock" aria-label={controller.t('Aperçu')}>
             <StudioStage controller={controller} />
           </section>
+          <StudioTimeline controller={controller} />
           <section className="mobile-inspector-panel mobile-editor-dock" aria-label={controller.t('Éditeur')}>
             <StudioInspector controller={controller} />
           </section>
