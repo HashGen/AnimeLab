@@ -155,5 +155,13 @@
   "src/features/rendering/canvasPreview.ts": "9cd2c3a578099b75d1cfb93fc73c51d38dfb77c4",
   "src/features/rendering/components/PixelAvatarCanvas.tsx": "b0c53f8582663a4938144e33056b805cdf1c64bc",
   "src/features/rendering/pixelRenderer.ts": "c20ccdbed81beee7df5fb791363633fd692e08c8",
-  "src/features/rendering/renderedRotationGizmo.ts": "5179f189a9cb9869f70781e0a1955d32dac2aafe"
+  "src/features/rendering/renderedRotationGizmo.ts": "5179f189a9cb9869f70781e0a1955d32dac2aafe",
+  "src/features/rendering/renderedScene.ts": "39faa5c0316d480902f0f8e8c9229840af73451e",
+  "src/features/studio/__tests__/runtime-code-test.tsx": "c5ba790702f77bcbad26251f284d54433a34108b",
+  "src/features/studio/__tests__/runtime-preview-dialog-test.tsx": "780bcaf0ce18719d630074dae0ed54b63083194d",
+  "src/features/studio/__tests__/studio-document-test.ts": "9dcbf9487395651a1a5e215faaa29ba32d8291e5",
+  "src/features/studio/components/AvatarDrawer.tsx": "db66c62a187b4d62c5d0d9702c1dfabe18f4999b",
+  "src/features/studio/components/BodyConstructionAccordion.tsx": "7c3442178f223dfaa0bb8b59fe22a1c7daf723db",
+  "src/features/studio/components/HighlightedRuntimeCode.tsx": "c6a934ceb0c10dd9aefd53ba900cfb28b5565f52",
+  "src/features/studio/components/PhotoStageFrame.tsx": "2130fdd88548c3aab34d1357e09e71fed06d38df"
 }
