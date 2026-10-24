@@ -4520,3 +4520,114 @@ p {
     overflow: auto !important;
   }
 }
+
+
+/* Dedicated Audio tab and fully separated editor workspace */
+.mobile-editor-dock .inspector.audio-tab-active > *:not(.audio-tab-content):not(.mobile-mode-tabs) {
+  display: none !important;
+}
+.mobile-editor-dock .inspector.audio-tab-active {
+  padding: 0 0 calc(76px + env(safe-area-inset-bottom)) !important;
+  overflow-y: auto !important;
+  background: #f4f6fb !important;
+}
+.audio-tab-content {
+  display: grid;
+  align-content: start;
+  gap: 18px;
+  width: 100%;
+  min-width: 0;
+  padding: 24px 18px 30px;
+}
+.audio-tab-heading {
+  display: grid;
+  gap: 7px;
+}
+.audio-tab-kicker {
+  color: #5573d2;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.audio-tab-heading h1 {
+  margin: 0;
+  color: #172033;
+  font-size: clamp(24px, 6vw, 32px);
+  font-weight: 800;
+  letter-spacing: -.04em;
+  line-height: 1.12;
+}
+.audio-tab-heading p {
+  max-width: 38rem;
+  margin: 0;
+  color: #6b7488;
+  font-size: 14px;
+  line-height: 1.55;
+}
+.audio-tab-content .audio-mouth-controls {
+  position: relative !important;
+  inset: auto !important;
+  display: grid !important;
+  gap: 12px !important;
+  width: 100% !important;
+  max-width: none !important;
+  padding: 18px !important;
+  border: 1px solid #e0e5ef !important;
+  border-radius: 20px !important;
+  background: #fff !important;
+  color: #172033 !important;
+  box-shadow: 0 8px 28px rgb(24 35 60 / 6%) !important;
+  transform: none !important;
+}
+.audio-tab-content .audio-mouth-heading {
+  gap: 9px;
+  font-size: 15px;
+  font-weight: 750;
+}
+.audio-tab-content .audio-mouth-upload {
+  min-height: 48px !important;
+  justify-content: center !important;
+  border: 1px solid #dce2ed !important;
+  border-radius: 13px !important;
+  background: #f8faff !important;
+  color: #27334d !important;
+  font-size: 14px;
+  font-weight: 650;
+}
+.audio-tab-content .audio-mouth-player {
+  height: 42px !important;
+}
+.audio-tab-content .audio-mouth-controls p {
+  display: block !important;
+  color: #717b90 !important;
+  font-size: 13px;
+  line-height: 1.55;
+}
+.mobile-audio-tab[aria-pressed='true'] {
+  border-color: #d9e1ff !important;
+  background: #edf1ff !important;
+  color: #3858bb !important;
+}
+.mobile-preview-dock .audio-mouth-controls {
+  display: none !important;
+}
+/* Give every editor panel the new compact, app-like card treatment. */
+.mobile-editor-dock .inspector .control-section,
+.mobile-editor-dock .inspector .inspector-card,
+.mobile-editor-dock .inspector [data-slot='card'] {
+  border-radius: 16px;
+}
+.mobile-editor-dock .inspector .inspector-card {
+  box-shadow: 0 3px 14px rgb(24 35 60 / 4%);
+}
+.mobile-editor-dock .inspector .control-section {
+  gap: 12px;
+}
+.mobile-editor-dock .inspector h1,
+.mobile-editor-dock .inspector h2 {
+  letter-spacing: -.035em;
+}
+.mobile-editor-dock .inspector .mobile-mode-tabs {
+  touch-action: pan-x;
+}
