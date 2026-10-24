@@ -148,7 +148,7 @@ export function StudioStage({ controller }: { controller: StudioController }) {
         />
       )}
       {photoMode && (
-          <div className="photo-tool-bar" role="toolbar" aria-label={t('Outils du mode photo')}>
+        <div className="photo-tool-bar" role="toolbar" aria-label={t('Outils du mode photo')}>
             <Button
               variant="secondary"
               type="button"
@@ -178,7 +178,6 @@ export function StudioStage({ controller }: { controller: StudioController }) {
             </Button>
           </div>
         )}
-  p>
     </motion.section>
   )
 }
