@@ -3,5 +3,13 @@
   "src/features/rendering/components/AvatarCanvas.tsx": "7a05ce925c5cb0625710ed2209140beab9b29c1d",
   "src/app/styles.css": "91299ed4c79df95b5154e6e81628b26bae8e79f0",
   "src/i18n/index.ts": "93499f0e4cf63b14d36ee7116d2087d02457b5b9",
-  "src/i18n/zh.ts": "d9e8633d7ec8f5a38634086ec3079edbe02ed791"
+  "src/i18n/zh.ts": "d9e8633d7ec8f5a38634086ec3079edbe02ed791",
+  ".changeset/README.md": "f07625b92ae0aa3d3c966f1472e0b3d148b46754",
+  ".changeset/config.json": "d9b3c419d630f7bc2649e1dc27df1b386cdf281e",
+  ".github/workflows/ci.yml": "c40f5fd38e78aca8be33f020de025f55a3a6f4e3",
+  ".github/workflows/release.yml": "6c7bf0e54744a5f52e2e1722dc410de3ac32f43a",
+  ".gitignore": "f0e0c43dddc99293d4d8d7302b8d71876d66a2fc",
+  ".nvmrc": "1d9b7831ba9d90866e21ce7154fbb84cc448ef60",
+  ".prettierignore": "625450de7ec78b1664f3512129d4f89db3ee4fd0",
+  ".prettierrc": "fca7ef83584491f9b7a8bd808e090af3dc62bb59"
 }
