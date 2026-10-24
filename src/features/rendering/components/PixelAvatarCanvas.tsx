@@ -12,6 +12,8 @@ export function StaticPixelAvatarCanvas({
   frame: PixelAvatarFrame
   style: PixelRenderStyle
   className: string
+  mouthOpen?: number
+  mouthEnabled?: boolean
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
@@ -32,6 +34,8 @@ export function LivePixelAvatarCanvas({
   colors,
   style,
   className,
+  mouthOpen = 0,
+  mouthEnabled = false,
 }: {
   scene: RenderedScene
   colors: RenderedColors
@@ -71,6 +75,8 @@ export function LivePixelAvatarCanvas({
           offsetY: scene.offsetY.get(),
           bodyColor: colors.body.get(),
           eyeColor: colors.eyes.get(),
+          mouthOpen,
+          mouthEnabled,
         },
         style
       )
@@ -97,7 +103,7 @@ export function LivePixelAvatarCanvas({
       unsubscribers.forEach(unsubscribe => unsubscribe())
       if (frameRequest !== null) cancelAnimationFrame(frameRequest)
     }
-  }, [colors, scene, style])
+  }, [colors, scene, style, mouthOpen, mouthEnabled])
 
   return <canvas ref={canvasRef} className={className} aria-hidden="true" />
 }
