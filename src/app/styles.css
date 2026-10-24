@@ -5949,3 +5949,192 @@ p {
     padding-bottom: calc(8px + env(safe-area-inset-bottom)) !important;
   }
 }
+
+
+/* Timeline v2: compact tracks, fixed track selectors, and horizontally linked time lanes. */
+@media (max-width: 980px) {
+  .studio-root .studio.studio-mobile-app-layout > .studio-timeline {
+    display: block !important;
+    position: relative !important;
+    height: 204px !important;
+    min-height: 204px !important;
+    max-height: 204px !important;
+    padding: 8px 10px !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .studio-timeline-header {
+    height: 30px !important;
+    min-height: 30px !important;
+    margin: 0 0 6px !important;
+    padding: 0 !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .studio-timeline-title {
+    gap: 6px !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .studio-timeline-mark {
+    width: 28px !important;
+    height: 28px !important;
+    flex-basis: 28px !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .studio-timeline-title strong {
+    font-size: 12px !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .studio-timeline-actions {
+    gap: 1px !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .studio-timeline-actions button {
+    width: 27px !important;
+    min-width: 27px !important;
+    height: 28px !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .studio-timeline-body {
+    display: grid !important;
+    grid-template-columns: 30px minmax(0, 1fr) !important;
+    align-items: stretch !important;
+    gap: 6px !important;
+    width: 100% !important;
+    height: 150px !important;
+    min-height: 0 !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .studio-timeline-fixed-labels {
+    display: grid !important;
+    grid-template-rows: 17px 38px 38px !important;
+    align-content: start !important;
+    gap: 5px !important;
+    width: 30px !important;
+    min-width: 30px !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .timeline-label-spacer {
+    height: 17px !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .studio-timeline-track-label {
+    display: grid !important;
+    place-items: center !important;
+    width: 30px !important;
+    height: 38px !important;
+    min-height: 38px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+    border-radius: 8px !important;
+    background: transparent !important;
+    color: #65718a !important;
+    box-shadow: none !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .studio-timeline-track-label:active {
+    background: #edf1ff !important;
+    color: #4565cb !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .studio-timeline-scroll {
+    display: block !important;
+    width: 100% !important;
+    height: 150px !important;
+    min-width: 0 !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    overscroll-behavior-x: contain !important;
+    touch-action: pan-x pan-y !important;
+    scrollbar-width: none !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .studio-timeline-scroll::-webkit-scrollbar {
+    display: none !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .studio-timeline-ruler {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    height: 17px !important;
+    min-height: 17px !important;
+    padding: 0 3px !important;
+    margin: 0 0 5px !important;
+    color: #8a92a2 !important;
+    font-size: 9px !important;
+    box-sizing: border-box !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .studio-timeline-track-row {
+    display: block !important;
+    width: max-content !important;
+    min-height: 38px !important;
+    height: 38px !important;
+    margin: 0 0 5px !important;
+    padding: 0 !important;
+    overflow: visible !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .studio-timeline-track {
+    display: block !important;
+    position: relative !important;
+    height: 38px !important;
+    min-height: 38px !important;
+    margin: 0 !important;
+    border-radius: 8px !important;
+    box-sizing: border-box !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .studio-timeline-keyframe {
+    top: 3px !important;
+    width: 32px !important;
+    height: 32px !important;
+    padding: 2px !important;
+    border-radius: 7px !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .studio-timeline-keyframe svg,
+  .studio-root .studio.studio-mobile-app-layout .studio-timeline-keyframe canvas {
+    width: 25px !important;
+    height: 25px !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .studio-timeline-track-row.audio-track-row {
+    height: 38px !important;
+    min-height: 38px !important;
+    margin-top: 0 !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .studio-timeline-track.audio-track {
+    display: flex !important;
+    align-items: center !important;
+    height: 38px !important;
+    min-height: 38px !important;
+    padding: 4px 8px !important;
+    overflow: hidden !important;
+    background: #eaf8f4 !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .timeline-waveform {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 2px !important;
+    width: 100% !important;
+    height: 26px !important;
+    opacity: 1 !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .timeline-waveform span {
+    display: block !important;
+    flex: 1 1 0 !important;
+    min-width: 2px !important;
+    max-width: 5px !important;
+    border-radius: 2px !important;
+    background: #37b29a !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .timeline-audio-empty {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    width: 100% !important;
+    height: 100% !important;
+    padding: 0 8px !important;
+    border: 0 !important;
+    background: transparent !important;
+    color: #668f87 !important;
+    font-size: 10px !important;
+    white-space: nowrap !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock {
+    min-height: 0 !important;
+    height: auto !important;
+    margin-top: calc(clamp(220px, 31dvh, 290px) + 204px) !important;
+    margin-bottom: 0 !important;
+    padding: 0 0 calc(78px + env(safe-area-inset-bottom)) !important;
+    overflow: visible !important;
+  }
+}
