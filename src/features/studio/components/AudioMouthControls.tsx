@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from 'react'
 import { AudioLines, Upload, Volume2 } from 'lucide-react'
+import { InspectorCard } from '@/app/components/common'
 import { NumericField } from '@/app/components/controls'
 
 type AudioMouthState = {
@@ -116,15 +117,33 @@ export function MouthPoseControls({ t }: { t: (value: string) => string }) {
     mouthWidth, mouthHeight, mouthOffset, mouthHorizontal, mouthRotation,
     setMouthWidth, setMouthHeight, setMouthOffset, setMouthHorizontal, setMouthRotation,
   } = useAudioMouth()
+  const size = Math.max(mouthWidth, mouthHeight)
+  const resizeProportionally = (nextSize: number) => {
+    const factor = nextSize / Math.max(size, 1)
+    setMouthWidth(Math.max(8, Math.min(110, mouthWidth * factor)))
+    setMouthHeight(Math.max(8, Math.min(110, mouthHeight * factor)))
+  }
   return (
     <div className="mouth-pose-controls">
-      <div className="eye-columns">
-        <NumericField label={t('Width')} value={mouthWidth} min={8} max={110} unit="u" onChange={setMouthWidth} />
-        <NumericField label={t('Height')} value={mouthHeight} min={8} max={110} unit="u" onChange={setMouthHeight} />
-        <NumericField label={t('Horizontal')} value={mouthHorizontal} min={-70} max={70} unit="u" onChange={setMouthHorizontal} />
-        <NumericField label={t('Vertical')} value={mouthOffset} min={8} max={70} unit="u" onChange={setMouthOffset} />
-        <NumericField label={t('Local rotation')} value={mouthRotation} min={-180} max={180} unit="°" onChange={setMouthRotation} />
-      </div>
+      <InspectorCard className="compact">
+        <h3>{t('Shape')}</h3>
+        <div className="eye-columns">
+          <NumericField label={t('Width')} value={mouthWidth} min={8} max={110} unit="u" onChange={setMouthWidth} />
+          <NumericField label={t('Height')} value={mouthHeight} min={8} max={110} unit="u" onChange={setMouthHeight} />
+          <NumericField label={t('Proportional size')} value={size} min={8} max={110} unit="u" onChange={resizeProportionally} />
+        </div>
+      </InspectorCard>
+      <InspectorCard>
+        <h3>{t('Position and spacing')}</h3>
+        <div className="eye-columns">
+          <NumericField label={t('Horizontal')} value={mouthHorizontal} min={-70} max={70} unit="u" onChange={setMouthHorizontal} />
+          <NumericField label={t('Vertical')} value={mouthOffset} min={8} max={70} unit="u" onChange={setMouthOffset} />
+        </div>
+      </InspectorCard>
+      <InspectorCard>
+        <h3>{t('Local rotation')}</h3>
+        <NumericField label={t('Rotation')} value={mouthRotation} min={-180} max={180} unit="°" onChange={setMouthRotation} />
+      </InspectorCard>
     </div>
   )
 }
