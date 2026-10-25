@@ -6205,7 +6205,7 @@ p {
     height: 24px !important;
   }
   .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock {
-    margin-top: calc(clamp(220px, 31dvh, 290px) + 174px) !important;
+    margin-top: clamp(220px, 31dvh, 290px) !important;
     padding-bottom: calc(76px + env(safe-area-inset-bottom)) !important;
   }
 }
