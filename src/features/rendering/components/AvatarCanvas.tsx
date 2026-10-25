@@ -519,6 +519,7 @@ export function AvatarCanvas({
   onManipulationStart,
   mouthOpen = 0,
   mouthEnabled = false,
+  mouthWidth = 16,
 }: {
   expression: Expression
   avatarEyes: AvatarEyeDefaults
@@ -547,6 +548,7 @@ export function AvatarCanvas({
   onManipulationStart: () => Expression
   mouthOpen?: number
   mouthEnabled?: boolean
+  mouthWidth?: number
 }) {
   const { t } = useStudioLanguage()
   // Measure the rendered eye paths themselves every frame. Expression coordinates
@@ -558,6 +560,8 @@ export function AvatarCanvas({
   const mouthAngle = (expression.leftAngle + expression.rightAngle) / 2
   const mouthOpenRef = useRef(mouthOpen)
   mouthOpenRef.current = mouthOpen
+  const mouthWidthRef = useRef(mouthWidth)
+  mouthWidthRef.current = mouthWidth
   useEffect(() => {
     let frame = 0
     const updateMouthAnchor = () => {
@@ -571,8 +575,11 @@ export function AvatarCanvas({
           const eyeBottom = (left.y + left.height + right.y + right.height) / 2
           const centerY = eyeBottom + 28
           const open = mouthOpenRef.current
+          const halfWidth = mouthWidthRef.current / 2
+          const halfHeight = 1.2 + open * 10
+          // A rounded oval lip shape: width is user-adjustable, height follows audio.
           mouthPath.set(
-            `M ${centerX - 7} ${centerY} Q ${centerX} ${centerY + 2 + open * 13} ${centerX + 7} ${centerY} Q ${centerX} ${centerY - open * 2} ${centerX - 7} ${centerY} Z`
+            `M ${centerX - halfWidth} ${centerY} C ${centerX - halfWidth} ${centerY - halfHeight}, ${centerX + halfWidth} ${centerY - halfHeight}, ${centerX + halfWidth} ${centerY} C ${centerX + halfWidth} ${centerY + halfHeight}, ${centerX - halfWidth} ${centerY + halfHeight}, ${centerX - halfWidth} ${centerY} Z`
           )
           mouthTransform.set(`rotate(${mouthAngle} ${centerX} ${centerY})`)
         } catch {
@@ -583,7 +590,7 @@ export function AvatarCanvas({
     }
     frame = requestAnimationFrame(updateMouthAnchor)
     return () => cancelAnimationFrame(frame)
-  }, [mouthEnabled, mouthAngle, mouthPath, mouthTransform])
+  }, [mouthEnabled, mouthAngle, mouthPath, mouthTransform, mouthWidth])
   const {
     wirePaths,
     backPaths,
