@@ -4,6 +4,8 @@ import { AudioLines, Upload, Volume2 } from 'lucide-react'
 type AudioMouthState = {
   mouthOpen: number
   mouthEnabled: boolean
+  mouthWidth: number
+  setMouthWidth: (value: number) => void
   setMouthOpen: (value: number) => void
   setMouthEnabled: (value: boolean) => void
   audioUrl: string | null
@@ -18,6 +20,7 @@ const AudioMouthContext = createContext<AudioMouthState | null>(null)
 export function AudioMouthProvider({ children }: { children: ReactNode }) {
   const [mouthOpen, setMouthOpen] = useState(0)
   const [mouthEnabled, setMouthEnabled] = useState(false)
+  const [mouthWidth, setMouthWidth] = useState(16)
   const [audioUrl, setAudioUrl] = useState<string | null>(null)
   const [fileName, setFileName] = useState('')
   const [audioPeaks, setAudioPeaks] = useState<number[]>([])
@@ -68,7 +71,7 @@ export function AudioMouthProvider({ children }: { children: ReactNode }) {
 
   return (
     <AudioMouthContext.Provider value={{
-      mouthOpen, mouthEnabled, setMouthOpen, setMouthEnabled,
+      mouthOpen, mouthEnabled, mouthWidth, setMouthWidth, setMouthOpen, setMouthEnabled,
       audioUrl, fileName, audioPeaks, audioDuration,
       requestAudioFile: () => inputRef.current?.click(),
     }}>
@@ -98,6 +101,8 @@ export function AudioMouthControls({ t }: { t: (value: string) => string }) {
   const {
     setMouthOpen: onMouthOpen,
     setMouthEnabled: onMouthEnabled,
+    mouthWidth,
+    setMouthWidth,
     audioUrl,
     fileName,
     requestAudioFile,
@@ -164,6 +169,19 @@ export function AudioMouthControls({ t }: { t: (value: string) => string }) {
       <button type="button" className="audio-mouth-upload" onClick={requestAudioFile}>
         <Upload size={15} /> {fileName || t('Choose audio')}
       </button>
+      <label className="audio-mouth-width-control">
+        <span>{t('Lip width')}</span>
+        <input
+          type="range"
+          min="6"
+          max="28"
+          step="1"
+          value={mouthWidth}
+          onChange={event => setMouthWidth(Number(event.currentTarget.value))}
+          aria-label={t('Lip width')}
+        />
+        <output>{mouthWidth}</output>
+      </label>
       {audioUrl ? (
         <audio
           ref={audioRef}
