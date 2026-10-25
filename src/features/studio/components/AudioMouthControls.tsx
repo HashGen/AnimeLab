@@ -101,6 +101,8 @@ export function AudioMouthProvider({ children }: { children: ReactNode }) {
     <AudioMouthContext.Provider value={{
       mouthOpen, mouthEnabled, mouthWidth, mouthHeight, mouthOffset, mouthHorizontal, mouthRotation, setMouthWidth, setMouthHeight, setMouthOffset, setMouthHorizontal, setMouthRotation, setMouthOpen, setMouthEnabled,
       audioUrl, fileName, audioPeaks, audioDuration, audioCurrentTime, audioPlaying, audioElementRef,
+      setAudioCurrentTime,
+      setAudioPlaying,
       toggleAudioPlayback: () => {
         const audio = audioElementRef.current
         if (!audio || !audioUrl) return
