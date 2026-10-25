@@ -19,7 +19,6 @@ import {
   Trash2,
   TriangleAlert,
   Upload,
-  Volume2,
 } from 'lucide-react'
 import { AnimatePresence, animate, motion, useMotionValue, useTransform } from 'motion/react'
 import { type CSSProperties, useEffect, useLayoutEffect, useRef, useState } from 'react'
@@ -2156,7 +2155,7 @@ export function StudioInspector({ controller }: { controller: StudioController }
                 type="button"
                 key={value}
                 aria-pressed={mode === value}
-                onClick={() => { setAudioTabOpen(false); setAvatarTabOpen(false); setMode(value) }}
+                onClick={() => { setAvatarTabOpen(false); setMode(value) }}
               >
                 <Icon />
                 <span>{label}</span>
