@@ -103,16 +103,35 @@ export function useAudioMouth() {
   return value
 }
 
+export function MouthPoseControls({ t }: { t: (value: string) => string }) {
+  const { mouthWidth, mouthHeight, mouthOffset, setMouthWidth, setMouthHeight, setMouthOffset } = useAudioMouth()
+  return (
+    <div className="audio-mouth-controls mouth-pose-controls">
+      <div className="audio-mouth-heading"><Volume2 size={16} /><span>{t('Mouth Shape')}</span></div>
+      <p>{t('Adjust the mouth like an eye: select it on the preview and drag its handles, or fine-tune here.')}</p>
+      <label className="audio-mouth-width-control">
+        <span>{t('Lip width')}</span>
+        <input type="range" min="8" max="110" step="1" value={mouthWidth} onChange={event => setMouthWidth(Number(event.currentTarget.value))} aria-label={t('Lip width')} />
+        <output>{mouthWidth}</output>
+      </label>
+      <label className="audio-mouth-width-control">
+        <span>{t('Lip height')}</span>
+        <input type="range" min="6" max="110" step="1" value={mouthHeight} onChange={event => setMouthHeight(Number(event.currentTarget.value))} aria-label={t('Lip height')} />
+        <output>{mouthHeight}</output>
+      </label>
+      <label className="audio-mouth-width-control">
+        <span>{t('Vertical position')}</span>
+        <input type="range" min="8" max="70" step="1" value={mouthOffset} onChange={event => setMouthOffset(Number(event.currentTarget.value))} aria-label={t('Vertical position')} />
+        <output>{mouthOffset}</output>
+      </label>
+    </div>
+  )
+}
+
 export function AudioMouthControls({ t }: { t: (value: string) => string }) {
   const {
     setMouthOpen: onMouthOpen,
     setMouthEnabled: onMouthEnabled,
-    mouthWidth,
-    mouthHeight,
-    mouthOffset,
-    setMouthWidth,
-    setMouthHeight,
-    setMouthOffset,
     audioUrl,
     fileName,
     requestAudioFile,
@@ -179,28 +198,6 @@ export function AudioMouthControls({ t }: { t: (value: string) => string }) {
       <button type="button" className="audio-mouth-upload" onClick={requestAudioFile}>
         <Upload size={15} /> {fileName || t('Choose audio')}
       </button>
-      <div className="audio-mouth-shape-heading">{t('Mouth Shape')}</div>
-      <label className="audio-mouth-width-control">
-        <span>{t('Lip width')}</span>
-        <input type="range" min="20" max="70" step="1" value={mouthWidth}
-          onChange={event => setMouthWidth(Number(event.currentTarget.value))}
-          aria-label={t('Lip width')} />
-        <output>{mouthWidth}</output>
-      </label>
-      <label className="audio-mouth-width-control">
-        <span>{t('Lip height')}</span>
-        <input type="range" min="6" max="30" step="1" value={mouthHeight}
-          onChange={event => setMouthHeight(Number(event.currentTarget.value))}
-          aria-label={t('Lip height')} />
-        <output>{mouthHeight}</output>
-      </label>
-      <label className="audio-mouth-width-control">
-        <span>{t('Vertical position')}</span>
-        <input type="range" min="8" max="52" step="1" value={mouthOffset}
-          onChange={event => setMouthOffset(Number(event.currentTarget.value))}
-          aria-label={t('Vertical position')} />
-        <output>{mouthOffset}</output>
-      </label>
       {audioUrl ? (
         <audio
           ref={audioRef}
