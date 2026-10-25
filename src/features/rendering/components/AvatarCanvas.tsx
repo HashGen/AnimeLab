@@ -570,7 +570,7 @@ export function AvatarCanvas({
   const mouthOpacity = useMotionValue(1)
   const mouthPathRef = useRef<SVGPathElement>(null)
   const [mouthSelected, setMouthSelected] = useState(false)
-  const [mouthBounds, setMouthBounds] = useState({ x: -6, y: 29, width: 12, height: 12 })
+  const [mouthBounds, setMouthBounds] = useState({ x: -11, y: 19, width: 22, height: 22 })
   const mouthDrag = useRef<null | { type: 'width' | 'height' | 'position'; x: number; y: number; width: number; height: number; offset: number }>(null)
   const mouthAngle = (expression.leftAngle + expression.rightAngle) / 2
   const mouthOpenRef = useRef(mouthOpen)
@@ -604,14 +604,15 @@ export function AvatarCanvas({
           const matchedMouthAngle = mouthAngle + eyeLineAngle
           const open = mouthEnabled ? mouthOpenRef.current : 0
           const rx = Math.max(1, mouthWidthRef.current / 2)
-          const ry = Math.max(1, mouthHeightRef.current / 2 + open * 10)
+          // Reuse the eye's rounded-capsule geometry; audio changes only vertical opening.
+          const ry = Math.max(1, mouthHeightRef.current / 2 + open * Math.max(8, mouthHeightRef.current * 0.65))
           // Rounded capsule-like lips: clamp the corner radius so stretching wide
           // never turns the left/right ends into sharp points.
           // A true rounded capsule keeps both ends circular at every aspect ratio.
           const corner = Math.min(rx, ry)
           const straightHalf = Math.max(0, rx - corner)
           mouthPath.set(
-            `M ${centerX - straightHalf} ${centerY - ry} L ${centerX + straightHalf} ${centerY - ry} Q ${centerX + rx} ${centerY - ry} ${centerX + rx} ${centerY} Q ${centerX + rx} ${centerY + ry} ${centerX + straightHalf} ${centerY + ry} L ${centerX - straightHalf} ${centerY + ry} Q ${centerX - rx} ${centerY + ry} ${centerX - rx} ${centerY} Q ${centerX - rx} ${centerY - ry} ${centerX - straightHalf} ${centerY - ry} Z`
+            `M ${centerX - straightHalf} ${centerY - ry} L ${centerX + straightHalf} ${centerY - ry} A ${corner} ${corner} 0 0 1 ${centerX + rx} ${centerY - ry + corner} L ${centerX + rx} ${centerY + ry - corner} A ${corner} ${corner} 0 0 1 ${centerX + straightHalf} ${centerY + ry} L ${centerX - straightHalf} ${centerY + ry} A ${corner} ${corner} 0 0 1 ${centerX - rx} ${centerY + ry - corner} L ${centerX - rx} ${centerY - ry + corner} A ${corner} ${corner} 0 0 1 ${centerX - straightHalf} ${centerY - ry} Z`
           )
           mouthTransform.set(`rotate(${matchedMouthAngle} ${centerX} ${centerY})`)
         } catch {
