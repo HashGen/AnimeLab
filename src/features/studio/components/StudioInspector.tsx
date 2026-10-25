@@ -88,7 +88,7 @@ import {
 import { RuntimePreviewDialog } from '@/features/studio/components/RuntimePreviewDialog'
 import { StudioIdentity } from '@/features/studio/components/StudioIdentity'
 import type { StudioController } from '@/features/studio/useStudioController'
-import { AudioMouthControls } from '@/features/studio/components/AudioMouthControls'
+import { AudioMouthControls, MouthPoseControls } from '@/features/studio/components/AudioMouthControls'
 
 const reactQuickStartInstall = 'npm install @bible-strong/avatar-react react react-dom'
 const webQuickStartInstall = 'npm install @bible-strong/avatar-web'
@@ -655,13 +655,13 @@ export function StudioInspector({ controller }: { controller: StudioController }
         className={`inspector${audioTabOpen ? ' audio-tab-active' : ''} ${editing ? 'expression-workspace-active' : sequenceEditing ? 'sequence-workspace-active' : bodyEditing ? 'body-workspace' : 'studio-workspace'}${activeSequence && !editorPageOpen && mode === 'states' ? ' state-player-active' : ''}${mode === 'photo' ? ' photo-inspector-active' : ''}`}
       >
         <section className={`audio-tab-content${audioTabOpen ? ' is-active' : ''}`} aria-label={t('Audio Mouth Animation')}>
-            <div className="audio-tab-heading">
-              <span className="audio-tab-kicker">{t('Studio Tools')}</span>
-              <h1>{t('Audio Mouth Animation')}</h1>
-              <p>{t('Upload audio and preview volume-driven mouth movement.')}</p>
-            </div>
-            <AudioMouthControls t={t} />
-          </section>
+          <div className="audio-tab-heading">
+            <span className="audio-tab-kicker">{t('Studio Tools')}</span>
+            <h1>{t('Audio Mouth Animation')}</h1>
+            <p>{t('Upload audio and preview volume-driven mouth movement.')}</p>
+          </div>
+          <AudioMouthControls t={t} />
+        </section>
         <StudioIdentity
           className="inspector-identity"
           language={language}
@@ -1058,6 +1058,7 @@ export function StudioInspector({ controller }: { controller: StudioController }
                   </>
                 )}
                 {!bodyEditing && <PoseControls controller={controller} />}
+                {!bodyEditing && <MouthPoseControls t={t} />}
               </div>
             )}
             {!editorPageOpen && mode === 'avatars' && <AvatarPage controller={controller} />}
