@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from 'react'
+import type React from 'react'
 import { AudioLines, Upload, Volume2 } from 'lucide-react'
 import { InspectorCard } from '@/app/components/common'
 import { NumericField } from '@/app/components/controls'
@@ -22,6 +23,11 @@ type AudioMouthState = {
   fileName: string
   audioPeaks: number[]
   audioDuration: number
+  audioCurrentTime: number
+  audioPlaying: boolean
+  audioElementRef: React.RefObject<HTMLAudioElement | null>
+  toggleAudioPlayback: () => void
+  stopAudioPlayback: () => void
   requestAudioFile: () => void
 }
 
@@ -40,6 +46,9 @@ export function AudioMouthProvider({ children }: { children: ReactNode }) {
   const [fileName, setFileName] = useState('')
   const [audioPeaks, setAudioPeaks] = useState<number[]>([])
   const [audioDuration, setAudioDuration] = useState(0)
+  const [audioCurrentTime, setAudioCurrentTime] = useState(0)
+  const [audioPlaying, setAudioPlaying] = useState(false)
+  const audioElementRef = useRef<HTMLAudioElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
@@ -87,7 +96,21 @@ export function AudioMouthProvider({ children }: { children: ReactNode }) {
   return (
     <AudioMouthContext.Provider value={{
       mouthOpen, mouthEnabled, mouthWidth, mouthHeight, mouthOffset, mouthHorizontal, mouthRotation, setMouthWidth, setMouthHeight, setMouthOffset, setMouthHorizontal, setMouthRotation, setMouthOpen, setMouthEnabled,
-      audioUrl, fileName, audioPeaks, audioDuration,
+      audioUrl, fileName, audioPeaks, audioDuration, audioCurrentTime, audioPlaying, audioElementRef,
+      toggleAudioPlayback: () => {
+        const audio = audioElementRef.current
+        if (!audio || !audioUrl) return
+        if (audio.paused) void audio.play().catch(() => {})
+        else audio.pause()
+      },
+      stopAudioPlayback: () => {
+        const audio = audioElementRef.current
+        if (!audio) return
+        audio.pause()
+        audio.currentTime = 0
+        setAudioCurrentTime(0)
+        setMouthOpen(0)
+      },
       requestAudioFile: () => inputRef.current?.click(),
     }}>
       <input
@@ -155,8 +178,10 @@ export function AudioMouthControls({ t }: { t: (value: string) => string }) {
     audioUrl,
     fileName,
     requestAudioFile,
+    audioElementRef,
+    setAudioCurrentTime,
+    setAudioPlaying,
   } = useAudioMouth()
-  const audioRef = useRef<HTMLAudioElement>(null)
   const contextRef = useRef<AudioContext | null>(null)
   const frameRef = useRef<number | null>(null)
 
@@ -166,7 +191,7 @@ export function AudioMouthControls({ t }: { t: (value: string) => string }) {
   }, [])
 
   const analyzeAudio = async () => {
-    const audio = audioRef.current
+    const audio = audioElementRef.current
     if (!audio || !audioUrl) return
     try {
       const AudioContextClass = window.AudioContext
@@ -220,16 +245,18 @@ export function AudioMouthControls({ t }: { t: (value: string) => string }) {
       </button>
       {audioUrl ? (
         <audio
-          ref={audioRef}
+          ref={audioElementRef}
           className="audio-mouth-player"
           controls
           src={audioUrl}
           onPlay={() => {
+            setAudioPlaying(true)
             onMouthEnabled(true)
             void analyzeAudio()
           }}
-          onPause={() => onMouthOpen(0)}
-          onEnded={() => onMouthOpen(0)}
+          onPause={() => { setAudioPlaying(false); onMouthOpen(0) }}
+          onTimeUpdate={event => setAudioCurrentTime(event.currentTarget.currentTime)}
+          onEnded={() => { setAudioPlaying(false); onMouthOpen(0) }}
         />
       ) : (
         <div className="audio-mouth-empty"><AudioLines size={20} /><span>{t('Select an audio file to create a real waveform and animate the mouth.')}</span></div>
