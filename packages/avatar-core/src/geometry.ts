@@ -43,7 +43,7 @@ export type Expression = {
 
 export type ExpressionNumericField = Exclude<
   keyof Expression,
-  'id' | 'semanticKey' | 'bodyColor' | 'eyeColor' | 'eyeMotion' | 'bodyMotion'
+  'id' | 'semanticKey' | 'bodyColor' | 'eyeColor' | 'eyeMotion' | 'bodyMotion' | 'mouthWidth' | 'mouthHeight' | 'mouthOffset' | 'mouthHorizontal' | 'mouthRotation'
 >
 
 export type AvatarPose = {
