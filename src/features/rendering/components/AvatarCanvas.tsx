@@ -567,14 +567,14 @@ export function AvatarCanvas({
     const updateMouthAnchor = () => {
       const leftEye = leftEyeRef.current
       const rightEye = rightEyeRef.current
-      if (leftEye && rightEye && mouthEnabled) {
+      if (leftEye && rightEye) {
         try {
           const left = leftEye.getBBox()
           const right = rightEye.getBBox()
           const centerX = (left.x + left.width / 2 + right.x + right.width / 2) / 2
           const eyeBottom = (left.y + left.height + right.y + right.height) / 2
           const centerY = eyeBottom + 28
-          const open = mouthOpenRef.current
+          const open = mouthEnabled ? mouthOpenRef.current : 0
           const halfWidth = mouthWidthRef.current / 2
           const halfHeight = 1.2 + open * 10
           // A rounded oval lip shape: width is user-adjustable, height follows audio.
