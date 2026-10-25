@@ -6301,3 +6301,30 @@ p {
     box-sizing: border-box !important;
   }
 }
+
+
+.studio-timeline-audio-transport {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  min-height: 44px;
+  padding: 4px 12px;
+  border-top: 1px solid #e4e7ef;
+  background: #fff;
+}
+.studio-timeline-audio-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  color: #687286;
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+@media (max-width: 980px) {
+  .studio-root .studio.studio-mobile-app-layout .studio-timeline-audio-transport {
+    min-height: 42px !important;
+    padding: 3px 10px !important;
+  }
+}
