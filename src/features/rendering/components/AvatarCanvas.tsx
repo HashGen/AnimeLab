@@ -902,7 +902,6 @@ export function AvatarCanvas({
                   tabIndex={0}
                 />
               </g>
-            </g>
             {mouthSelected && (
               <g className="mouth-editor" onPointerDown={event => event.stopPropagation()}>
                 <rect className="mouth-selection-outline" x={mouthBounds.x - 2} y={mouthBounds.y - 2} width={mouthBounds.width + 4} height={mouthBounds.height + 4} rx={Math.min(mouthBounds.width, mouthBounds.height) / 2 + 2} />
