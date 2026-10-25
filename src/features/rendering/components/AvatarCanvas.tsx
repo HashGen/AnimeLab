@@ -948,6 +948,16 @@ export function AvatarCanvas({
               opacity={rightOpacity}
               onPointerDown={event => selectEye(1, event)}
             />
+
+          </g>
+          {frontPaths.map((pathValue, index) => (
+            <motion.path
+              className={`avatar-head ${highlight === 'head' ? 'cyan-outline' : ''}`}
+              d={pathValue}
+              key={index}
+              onPointerDown={event => selectBodyPath(event, frontNodeIds.current[index])}
+            />
+          ))}
             <motion.path
               ref={mouthPathRef}
               className={`avatar-audio-mouth${mouthSelected ? ' is-selected' : ''}`}
@@ -986,15 +996,7 @@ export function AvatarCanvas({
                 <text className="editor-label" x={mouthBounds.x + mouthBounds.width / 2} y={mouthBounds.y - 7}>Mouth</text>
               </g>
             )}
-          </g>
-          {frontPaths.map((pathValue, index) => (
-            <motion.path
-              className={`avatar-head ${highlight === 'head' ? 'cyan-outline' : ''}`}
-              d={pathValue}
-              key={index}
-              onPointerDown={event => selectBodyPath(event, frontNodeIds.current[index])}
-            />
-          ))}
+
         </motion.g>
         {selectedBodyPath && (
           <motion.path className="selection-outline body-selection-outline" d={selectedBodyPath} />
