@@ -1,5 +1,5 @@
 import { Plus, Trash2, Upload, X } from 'lucide-react'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 
 import { ExpressionPreview } from '@/features/avatar/components/ExpressionWorkspace'
 import type { StudioController } from '@/features/studio/useStudioController'
@@ -28,7 +28,7 @@ export function StudioProductionWorkspace({
   controller: StudioController
   onClose: () => void
 }) {
-  const { activeAvatar, activeAvatarEyes, avatars, expression, expressions } = controller
+  const { activeAvatar, avatars, expression, expressions } = controller
   const [background, setBackground] = useState('#eaf0ff')
   const [timeMs, setTimeMs] = useState(0)
   const [actors, setActors] = useState<SceneActor[]>(() => [{
@@ -42,11 +42,6 @@ export function StudioProductionWorkspace({
   }])
   const [selectedActorId, setSelectedActorId] = useState(actors[0]?.id ?? '')
   const selectedActor = actors.find(actor => actor.id === selectedActorId) ?? actors[0]
-  const selectedAvatar = useMemo(
-    () => avatars.find(avatar => avatar.id === selectedActor?.avatarId) ?? activeAvatar,
-    [activeAvatar, avatars, selectedActor?.avatarId],
-  )
-
   const updateActor = (id: string, update: Partial<SceneActor>) => {
     setActors(current => current.map(actor => actor.id === id ? { ...actor, ...update } : actor))
   }
@@ -163,7 +158,7 @@ export function StudioProductionWorkspace({
             <button type="button" className="production-primary" onClick={addKeyframe} disabled={!selectedActor}><Plus size={17} /> Add Current Expression</button>
             <div className="production-keyframes">
               {selectedActor?.keyframes.map(frame => (
-                <div key={frame.id}><span>{(frame.timeMs / 1000).toFixed(1)}s</span><span>{expressions.find(item => item.id === frame.expressionId)?.name ?? 'Expression'}</span></div>
+                <div key={frame.id}><span>{(frame.timeMs / 1000).toFixed(1)}s</span><span>{expressions.find(item => item.id === frame.expressionId)?.semanticKey ?? 'Expression'}</span></div>
               ))}
             </div>
             <p className="production-note">This workspace saves composition and keyframe data separately. The final synchronized multi-character video renderer is a separate next step; the existing single-avatar renderer remains unchanged.</p>
