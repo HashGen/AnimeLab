@@ -6362,3 +6362,11 @@ p {
     min-width: 0 !important;
   }
 }
+
+
+@media (max-width: 980px) {
+  .studio-root .studio.studio-mobile-app-layout .studio-timeline-keyframe.is-first {
+    left: 8px !important;
+    transform: none !important;
+  }
+}
