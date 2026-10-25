@@ -169,6 +169,7 @@ export function AudioMouthControls({ t }: { t: (value: string) => string }) {
       <button type="button" className="audio-mouth-upload" onClick={requestAudioFile}>
         <Upload size={15} /> {fileName || t('Choose audio')}
       </button>
+      <div className="audio-mouth-shape-heading">{t('Mouth Shape')}</div>
       <label className="audio-mouth-width-control">
         <span>{t('Lip width')}</span>
         <input
