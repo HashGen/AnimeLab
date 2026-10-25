@@ -970,7 +970,7 @@ export function AvatarCanvas({
           ))}
             <g clipPath="url(#avatar-head-clip)">
               <motion.path
-                className={`avatar-audio-mouth${mouthSelected ? ' is-selected' : ''}`}
+                className="avatar-audio-mouth"
                 d={scene.leftPath}
                 transform={mouthTransform}
                 opacity={mouthOpacity}
