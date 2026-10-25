@@ -29,8 +29,9 @@ const AudioMouthContext = createContext<AudioMouthState | null>(null)
 export function AudioMouthProvider({ children }: { children: ReactNode }) {
   const [mouthOpen, setMouthOpen] = useState(0)
   const [mouthEnabled, setMouthEnabled] = useState(false)
-  const [mouthWidth, setMouthWidth] = useState(24)
-  const [mouthHeight, setMouthHeight] = useState(24)
+  // Start with a clearly horizontal, closed mouth instead of a circular one.
+  const [mouthWidth, setMouthWidth] = useState(40)
+  const [mouthHeight, setMouthHeight] = useState(12)
   const [mouthOffset, setMouthOffset] = useState(30)
   const [mouthHorizontal, setMouthHorizontal] = useState(0)
   const [mouthRotation, setMouthRotation] = useState(0)
