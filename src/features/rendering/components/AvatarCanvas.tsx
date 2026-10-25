@@ -565,7 +565,6 @@ export function AvatarCanvas({
   // are not the same as projected SVG coordinates when the face is rotated.
   const leftEyeRef = useRef<SVGPathElement>(null)
   const rightEyeRef = useRef<SVGPathElement>(null)
-  const mouthPath = useMotionValue('')
   const mouthTransform = useMotionValue('')
   const mouthOpacity = useMotionValue(1)
   const mouthPathRef = useRef<SVGPathElement>(null)
@@ -611,7 +610,6 @@ export function AvatarCanvas({
           const templateCenterY = left.y + left.height / 2
           const scaleX = targetWidth / Math.max(1, left.width)
           const scaleY = targetHeight / Math.max(1, left.height)
-          mouthPath.set(leftEye.getAttribute('d') ?? '')
           mouthTransform.set(
             `translate(${centerX} ${centerY}) rotate(${matchedMouthAngle}) scale(${scaleX} ${scaleY}) translate(${-templateCenterX} ${-templateCenterY})`
           )
@@ -634,7 +632,7 @@ export function AvatarCanvas({
     }
     frame = requestAnimationFrame(updateMouthAnchor)
     return () => cancelAnimationFrame(frame)
-  }, [mouthEnabled, mouthAngle, mouthPath, mouthTransform, mouthWidth, mouthHeight, mouthOffset, mouthSelected])
+  }, [mouthEnabled, mouthAngle, mouthTransform, mouthWidth, mouthHeight, mouthOffset, mouthSelected])
   const {
     wirePaths,
     backPaths,
@@ -939,7 +937,7 @@ export function AvatarCanvas({
             <motion.path
               ref={mouthPathRef}
               className={`avatar-audio-mouth${mouthSelected ? ' is-selected' : ''}`}
-              d={mouthPath}
+              d={leftPath}
               transform={mouthTransform}
               opacity={mouthOpacity}
               onPointerDown={event => {
