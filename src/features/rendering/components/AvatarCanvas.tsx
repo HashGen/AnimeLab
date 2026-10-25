@@ -522,6 +522,9 @@ export function AvatarCanvas({
   mouthWidth = 40,
   mouthHeight = 12,
   mouthOffset = 28,
+  onMouthWidthChange,
+  onMouthHeightChange,
+  onMouthOffsetChange,
 }: {
   expression: Expression
   avatarEyes: AvatarEyeDefaults
@@ -553,6 +556,9 @@ export function AvatarCanvas({
   mouthWidth?: number
   mouthHeight?: number
   mouthOffset?: number
+  onMouthWidthChange?: (value: number) => void
+  onMouthHeightChange?: (value: number) => void
+  onMouthOffsetChange?: (value: number) => void
 }) {
   const { t } = useStudioLanguage()
   // Measure the rendered eye paths themselves every frame. Expression coordinates
@@ -561,6 +567,10 @@ export function AvatarCanvas({
   const rightEyeRef = useRef<SVGPathElement>(null)
   const mouthPath = useMotionValue('M -6 35 Q 0 37 6 35 Q 0 35 -6 35 Z')
   const mouthTransform = useMotionValue('rotate(0 0 35)')
+  const mouthPathRef = useRef<SVGPathElement>(null)
+  const [mouthSelected, setMouthSelected] = useState(false)
+  const [mouthBounds, setMouthBounds] = useState({ x: -6, y: 29, width: 12, height: 12 })
+  const mouthDrag = useRef<null | { type: 'width' | 'height' | 'position'; x: number; y: number; width: number; height: number; offset: number }>(null)
   const mouthAngle = (expression.leftAngle + expression.rightAngle) / 2
   const mouthOpenRef = useRef(mouthOpen)
   mouthOpenRef.current = mouthOpen
@@ -595,7 +605,8 @@ export function AvatarCanvas({
           const ry = Math.max(1, mouthHeightRef.current / 2 + open * 10)
           // Rounded capsule-like lips: clamp the corner radius so stretching wide
           // never turns the left/right ends into sharp points.
-          const corner = Math.min(ry, rx * 0.42)
+          // A true rounded capsule keeps both ends circular at every aspect ratio.
+          const corner = Math.min(rx, ry)
           const straightHalf = Math.max(0, rx - corner)
           mouthPath.set(
             `M ${centerX - straightHalf} ${centerY - ry} L ${centerX + straightHalf} ${centerY - ry} Q ${centerX + rx} ${centerY - ry} ${centerX + rx} ${centerY} Q ${centerX + rx} ${centerY + ry} ${centerX + straightHalf} ${centerY + ry} L ${centerX - straightHalf} ${centerY + ry} Q ${centerX - rx} ${centerY + ry} ${centerX - rx} ${centerY} Q ${centerX - rx} ${centerY - ry} ${centerX - straightHalf} ${centerY - ry} Z`
@@ -741,6 +752,16 @@ export function AvatarCanvas({
     svgRef.current!.setPointerCapture(event.pointerId)
   }
   const move = (event: React.PointerEvent<SVGSVGElement>) => {
+    if (mouthDrag.current) {
+      const point = toSvg(event)
+      const interaction = mouthDrag.current
+      const dx = point[0] - interaction.x
+      const dy = point[1] - interaction.y
+      if (interaction.type === 'width') onMouthWidthChange?.(bounded(interaction.width + dx * 2, 8, 110))
+      else if (interaction.type === 'height') onMouthHeightChange?.(bounded(interaction.height + dy * 2, 6, 110))
+      else onMouthOffsetChange?.(bounded(interaction.offset + dy, 8, 70))
+      return
+    }
     if (!drag.current) return
     const point = toSvg(event)
     if (drag.current.type === 'arcball') {
@@ -809,6 +830,7 @@ export function AvatarCanvas({
     }
   }
   const commitDrag = () => {
+    mouthDrag.current = null
     const interaction = drag.current
     const session = canvasManipulation.current
     if (interaction && session) {
@@ -900,13 +922,43 @@ export function AvatarCanvas({
               opacity={rightOpacity}
               onPointerDown={event => selectEye(1, event)}
             />
-            {mouthEnabled && (
-              <motion.path
-                className="avatar-audio-mouth"
-                d={mouthPath}
-                transform={mouthTransform}
-                aria-hidden="true"
-              />
+            <motion.path
+              ref={mouthPathRef}
+              className={`avatar-audio-mouth${mouthSelected ? ' is-selected' : ''}`}
+              d={mouthPath}
+              transform={mouthTransform}
+              opacity={(leftOpacity + rightOpacity) / 2}
+              onPointerDown={event => {
+                event.stopPropagation()
+                setMouthSelected(true)
+                onBodyNodeSelect(null)
+                const bounds = mouthPathRef.current?.getBBox()
+                if (bounds) setMouthBounds({ x: bounds.x, y: bounds.y, width: bounds.width, height: bounds.height })
+              }}
+              aria-label="Select and adjust mouth"
+              role="button"
+              tabIndex={0}
+            />
+            {mouthSelected && (
+              <g className="mouth-editor" onPointerDown={event => event.stopPropagation()}>
+                <rect className="mouth-selection-outline" x={mouthBounds.x - 2} y={mouthBounds.y - 2} width={mouthBounds.width + 4} height={mouthBounds.height + 4} rx={Math.min(mouthBounds.width, mouthBounds.height) / 2 + 2} />
+                {([
+                  { type: 'width' as const, x: mouthBounds.x + mouthBounds.width, y: mouthBounds.y + mouthBounds.height / 2, label: 'W' },
+                  { type: 'height' as const, x: mouthBounds.x + mouthBounds.width / 2, y: mouthBounds.y, label: 'H' },
+                  { type: 'position' as const, x: mouthBounds.x + mouthBounds.width / 2, y: mouthBounds.y + mouthBounds.height + 8, label: '↕' },
+                ]).map(handle => (
+                  <g key={handle.type} className="editor-control" onPointerDown={event => {
+                    event.stopPropagation()
+                    const point = toSvg(event)
+                    mouthDrag.current = { type: handle.type, x: point[0], y: point[1], width: mouthWidth, height: mouthHeight, offset: mouthOffset }
+                    svgRef.current?.setPointerCapture(event.pointerId)
+                  }}>
+                    <circle className="editor-handle" cx={handle.x} cy={handle.y} r="6" />
+                    <text className="editor-label" x={handle.x} y={handle.y + 2.5}>{handle.label}</text>
+                  </g>
+                ))}
+                <text className="editor-label" x={mouthBounds.x + mouthBounds.width / 2} y={mouthBounds.y - 7}>Mouth</text>
+              </g>
             )}
           </g>
           {frontPaths.map((pathValue, index) => (
