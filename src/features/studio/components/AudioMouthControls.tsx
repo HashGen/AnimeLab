@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from 'react'
 import { AudioLines, Upload, Volume2 } from 'lucide-react'
+import { NumericField } from '@/app/components/controls'
 
 type AudioMouthState = {
   mouthOpen: number
@@ -7,9 +8,13 @@ type AudioMouthState = {
   mouthWidth: number
   mouthHeight: number
   mouthOffset: number
+  mouthHorizontal: number
+  mouthRotation: number
   setMouthWidth: (value: number) => void
   setMouthHeight: (value: number) => void
   setMouthOffset: (value: number) => void
+  setMouthHorizontal: (value: number) => void
+  setMouthRotation: (value: number) => void
   setMouthOpen: (value: number) => void
   setMouthEnabled: (value: boolean) => void
   audioUrl: string | null
@@ -27,6 +32,8 @@ export function AudioMouthProvider({ children }: { children: ReactNode }) {
   const [mouthWidth, setMouthWidth] = useState(24)
   const [mouthHeight, setMouthHeight] = useState(24)
   const [mouthOffset, setMouthOffset] = useState(30)
+  const [mouthHorizontal, setMouthHorizontal] = useState(0)
+  const [mouthRotation, setMouthRotation] = useState(0)
   const [audioUrl, setAudioUrl] = useState<string | null>(null)
   const [fileName, setFileName] = useState('')
   const [audioPeaks, setAudioPeaks] = useState<number[]>([])
@@ -77,7 +84,7 @@ export function AudioMouthProvider({ children }: { children: ReactNode }) {
 
   return (
     <AudioMouthContext.Provider value={{
-      mouthOpen, mouthEnabled, mouthWidth, mouthHeight, mouthOffset, setMouthWidth, setMouthHeight, setMouthOffset, setMouthOpen, setMouthEnabled,
+      mouthOpen, mouthEnabled, mouthWidth, mouthHeight, mouthOffset, mouthHorizontal, mouthRotation, setMouthWidth, setMouthHeight, setMouthOffset, setMouthHorizontal, setMouthRotation, setMouthOpen, setMouthEnabled,
       audioUrl, fileName, audioPeaks, audioDuration,
       requestAudioFile: () => inputRef.current?.click(),
     }}>
@@ -104,26 +111,19 @@ export function useAudioMouth() {
 }
 
 export function MouthPoseControls({ t }: { t: (value: string) => string }) {
-  const { mouthWidth, mouthHeight, mouthOffset, setMouthWidth, setMouthHeight, setMouthOffset } = useAudioMouth()
+  const {
+    mouthWidth, mouthHeight, mouthOffset, mouthHorizontal, mouthRotation,
+    setMouthWidth, setMouthHeight, setMouthOffset, setMouthHorizontal, setMouthRotation,
+  } = useAudioMouth()
   return (
-    <div className="audio-mouth-controls mouth-pose-controls">
-      <div className="audio-mouth-heading"><Volume2 size={16} /><span>{t('Mouth Shape')}</span></div>
-      <p>{t('Adjust the mouth like an eye: select it on the preview and drag its handles, or fine-tune here.')}</p>
-      <label className="audio-mouth-width-control">
-        <span>{t('Lip width')}</span>
-        <input type="range" min="8" max="110" step="1" value={mouthWidth} onChange={event => setMouthWidth(Number(event.currentTarget.value))} aria-label={t('Lip width')} />
-        <output>{mouthWidth}</output>
-      </label>
-      <label className="audio-mouth-width-control">
-        <span>{t('Lip height')}</span>
-        <input type="range" min="6" max="110" step="1" value={mouthHeight} onChange={event => setMouthHeight(Number(event.currentTarget.value))} aria-label={t('Lip height')} />
-        <output>{mouthHeight}</output>
-      </label>
-      <label className="audio-mouth-width-control">
-        <span>{t('Vertical position')}</span>
-        <input type="range" min="8" max="70" step="1" value={mouthOffset} onChange={event => setMouthOffset(Number(event.currentTarget.value))} aria-label={t('Vertical position')} />
-        <output>{mouthOffset}</output>
-      </label>
+    <div className="mouth-pose-controls">
+      <div className="eye-columns">
+        <NumericField label={t('Width')} value={mouthWidth} min={8} max={110} unit="u" onChange={setMouthWidth} />
+        <NumericField label={t('Height')} value={mouthHeight} min={8} max={110} unit="u" onChange={setMouthHeight} />
+        <NumericField label={t('Horizontal')} value={mouthHorizontal} min={-70} max={70} unit="u" onChange={setMouthHorizontal} />
+        <NumericField label={t('Vertical')} value={mouthOffset} min={8} max={70} unit="u" onChange={setMouthOffset} />
+        <NumericField label={t('Local rotation')} value={mouthRotation} min={-180} max={180} unit="°" onChange={setMouthRotation} />
+      </div>
     </div>
   )
 }
