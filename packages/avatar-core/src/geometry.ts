@@ -699,17 +699,26 @@ export const renderMouthGeometry = (
   // Keep a stable minimum gap between the eyes and mouth in face-local space.
   // Since both features are projected through the same 3D surface, the gap remains
   // attached to the face during yaw/pitch/roll instead of drifting in screen space.
-  const leftEyeHalfHeight =
-    (Math.abs(Math.sin(radians(expression.leftAngle))) * expression.widthLeft +
-      Math.abs(Math.cos(radians(expression.leftAngle))) * expression.heightLeft) /
-    2
-  const rightEyeHalfHeight =
-    (Math.abs(Math.sin(radians(expression.rightAngle))) * expression.widthRight +
-      Math.abs(Math.cos(radians(expression.rightAngle))) * expression.heightRight) /
-    2
+  const eyeHalfHeight = (angle: number, width: number, height: number) => {
+    const angleRadians = radians(angle)
+    return (
+      Math.abs(Math.sin(angleRadians)) * width +
+      Math.abs(Math.cos(angleRadians)) * height
+    ) / 2
+  }
+  const leftEyeHalfHeight = eyeHalfHeight(
+    expression.leftAngle,
+    expression.widthLeft,
+    expression.heightLeft
+  )
+  const rightEyeHalfHeight = eyeHalfHeight(
+    expression.rightAngle,
+    expression.widthRight,
+    expression.heightRight
+  )
   const eyeBottom = Math.max(
     expression.positionYLeft + leftEyeHalfHeight,
-    expression.positionYRight + rightEyeHalfHeight,
+    expression.positionYRight + rightEyeHalfHeight
   )
   const eyeToMouthGap = 12
   const centerY = Math.max(requestedCenterY, eyeBottom + eyeToMouthGap + height / 2)
