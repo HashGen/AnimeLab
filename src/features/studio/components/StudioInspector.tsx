@@ -380,6 +380,9 @@ function PoseControls({ controller }: { controller: StudioController }) {
           </div>
         </InspectorCard>
       </ControlSection>
+      <ControlSection title="Mouth" subtitle="Shape, position and rotation, using the same controls as the eyes.">
+        <MouthPoseControls t={t} />
+      </ControlSection>
       <ControlSection
         title="Projection"
         subtitle="Perspective et repères appliqués à la surface active."
@@ -1058,13 +1061,7 @@ export function StudioInspector({ controller }: { controller: StudioController }
                   </>
                 )}
                 {!bodyEditing && <PoseControls controller={controller} />}
-                {!bodyEditing && (
-                  <ControlSection title="Mouth" subtitle="Adjust the mouth using the same rounded eye shape.">
-                    <InspectorCard>
-                      <MouthPoseControls t={t} />
-                    </InspectorCard>
-                  </ControlSection>
-                )}
+
               </div>
             )}
             {!editorPageOpen && mode === 'avatars' && <AvatarPage controller={controller} />}
