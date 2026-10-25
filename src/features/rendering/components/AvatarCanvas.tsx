@@ -598,10 +598,15 @@ export function AvatarCanvas({
       mouthOpacity.set((scene.leftOpacity.get() + scene.rightOpacity.get()) / 2)
       const leftEye = leftEyeRef.current
       const rightEye = rightEyeRef.current
-      if (leftEye && rightEye) {
+      const mouthTemplate = mouthPathRef.current
+      if (leftEye && rightEye && mouthTemplate) {
         try {
           const left = leftEye.getBBox()
           const right = rightEye.getBBox()
+          // Measure the mouth's own copied path, not the live eye. The eye paths can
+          // animate independently; the mouth template must stay still and only its
+          // vertical scale may respond to the audio analyser.
+          const template = mouthTemplate.getBBox()
           const leftCenterX = left.x + left.width / 2
           const leftCenterY = left.y + left.height / 2
           const rightCenterX = right.x + right.width / 2
@@ -609,19 +614,17 @@ export function AvatarCanvas({
           const centerX = (leftCenterX + rightCenterX) / 2 + mouthHorizontalRef.current
           const eyeBottom = (left.y + left.height + right.y + right.height) / 2
           const centerY = eyeBottom + mouthOffsetRef.current
-          // Match the mouth's tilt to the line connecting the rendered eye centers.
-          // This tracks asymmetric eye movement better than using a fixed horizontal angle.
+          // Keep the mouth attached to the face and aligned with the eye line without
+          // borrowing the animated eye's changing path or dimensions.
           const eyeLineAngle = Math.atan2(rightCenterY - leftCenterY, rightCenterX - leftCenterX) * (180 / Math.PI)
           const matchedMouthAngle = mouthAngle + eyeLineAngle + mouthRotationRef.current
           const open = mouthEnabled ? mouthOpenRef.current : 0
           const targetWidth = Math.max(8, mouthWidthRef.current)
           const targetHeight = Math.max(8, mouthHeightRef.current + open * Math.max(8, mouthHeightRef.current * 0.65))
-          // The mouth literally reuses the left eye's path as its template, then
-          // scales/transforms that copy below the eyes. Only audio drives its opening.
-          const templateCenterX = left.x + left.width / 2
-          const templateCenterY = left.y + left.height / 2
-          const scaleX = targetWidth / Math.max(1, left.width)
-          const scaleY = targetHeight / Math.max(1, left.height)
+          const templateCenterX = template.x + template.width / 2
+          const templateCenterY = template.y + template.height / 2
+          const scaleX = targetWidth / Math.max(1, template.width)
+          const scaleY = targetHeight / Math.max(1, template.height)
           mouthTransform.set(
             `translate(${centerX} ${centerY}) rotate(${matchedMouthAngle}) scale(${scaleX} ${scaleY}) translate(${-templateCenterX} ${-templateCenterY})`
           )
@@ -961,7 +964,7 @@ export function AvatarCanvas({
             <motion.path
               ref={mouthPathRef}
               className={`avatar-audio-mouth${mouthSelected ? ' is-selected' : ''}`}
-              d={leftPath}
+              d={scene.leftPath.get()}
               transform={mouthTransform}
               opacity={mouthOpacity}
               onPointerDown={event => {
