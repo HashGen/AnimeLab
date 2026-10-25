@@ -422,8 +422,8 @@ export function useStudioController() {
       mouth: {
         width: renderedScene.mouthWidth.get(),
         height: renderedScene.mouthHeight.get(),
-        offset: renderedScene.mouthOffset.get(),
-        horizontal: renderedScene.mouthHorizontal.get(),
+        offset: renderedScene.mouthOffset.get() + eyeOffset.y,
+        horizontal: renderedScene.mouthHorizontal.get() + eyeOffset.x,
         rotation: renderedScene.mouthRotation.get(),
         open: renderedScene.mouthEnabled.get() ? renderedScene.mouthOpen.get() : 0,
       },
