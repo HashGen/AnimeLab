@@ -522,9 +522,13 @@ export function AvatarCanvas({
   mouthWidth = 40,
   mouthHeight = 12,
   mouthOffset = 28,
+  mouthHorizontal = 0,
+  mouthRotation = 0,
   onMouthWidthChange,
   onMouthHeightChange,
   onMouthOffsetChange,
+  onMouthHorizontalChange,
+  onMouthRotationChange,
 }: {
   expression: Expression
   avatarEyes: AvatarEyeDefaults
@@ -556,9 +560,13 @@ export function AvatarCanvas({
   mouthWidth?: number
   mouthHeight?: number
   mouthOffset?: number
+  mouthHorizontal?: number
+  mouthRotation?: number
   onMouthWidthChange?: (value: number) => void
   onMouthHeightChange?: (value: number) => void
   onMouthOffsetChange?: (value: number) => void
+  onMouthHorizontalChange?: (value: number) => void
+  onMouthRotationChange?: (value: number) => void
 }) {
   const { t } = useStudioLanguage()
   // Measure the rendered eye paths themselves every frame. Expression coordinates
@@ -580,6 +588,10 @@ export function AvatarCanvas({
   mouthHeightRef.current = mouthHeight
   const mouthOffsetRef = useRef(mouthOffset)
   mouthOffsetRef.current = mouthOffset
+  const mouthHorizontalRef = useRef(mouthHorizontal)
+  mouthHorizontalRef.current = mouthHorizontal
+  const mouthRotationRef = useRef(mouthRotation)
+  mouthRotationRef.current = mouthRotation
   useEffect(() => {
     let frame = 0
     const updateMouthAnchor = () => {
@@ -594,13 +606,13 @@ export function AvatarCanvas({
           const leftCenterY = left.y + left.height / 2
           const rightCenterX = right.x + right.width / 2
           const rightCenterY = right.y + right.height / 2
-          const centerX = (leftCenterX + rightCenterX) / 2
+          const centerX = (leftCenterX + rightCenterX) / 2 + mouthHorizontalRef.current
           const eyeBottom = (left.y + left.height + right.y + right.height) / 2
           const centerY = eyeBottom + mouthOffsetRef.current
           // Match the mouth's tilt to the line connecting the rendered eye centers.
           // This tracks asymmetric eye movement better than using a fixed horizontal angle.
           const eyeLineAngle = Math.atan2(rightCenterY - leftCenterY, rightCenterX - leftCenterX) * (180 / Math.PI)
-          const matchedMouthAngle = mouthAngle + eyeLineAngle
+          const matchedMouthAngle = mouthAngle + eyeLineAngle + mouthRotationRef.current
           const open = mouthEnabled ? mouthOpenRef.current : 0
           const targetWidth = Math.max(8, mouthWidthRef.current)
           const targetHeight = Math.max(8, mouthHeightRef.current + open * Math.max(8, mouthHeightRef.current * 0.65))
@@ -632,7 +644,7 @@ export function AvatarCanvas({
     }
     frame = requestAnimationFrame(updateMouthAnchor)
     return () => cancelAnimationFrame(frame)
-  }, [mouthEnabled, mouthAngle, mouthTransform, mouthWidth, mouthHeight, mouthOffset, mouthSelected])
+  }, [mouthEnabled, mouthAngle, mouthTransform, mouthWidth, mouthHeight, mouthOffset, mouthHorizontal, mouthRotation, mouthSelected])
   const {
     wirePaths,
     backPaths,
