@@ -964,7 +964,7 @@ export function AvatarCanvas({
             <motion.path
               ref={mouthPathRef}
               className={`avatar-audio-mouth${mouthSelected ? ' is-selected' : ''}`}
-              d="M -8 -14 C -3 -14 0 -10 0 -5 L 0 5 C 0 10 -3 14 -8 14 C -13 14 -16 10 -16 5 L -16 -5 C -16 -10 -13 -14 -8 -14 Z"
+              d="M -14 -8 C -8 -8 8 -8 14 -8 C 20 -8 22 -4 22 0 C 22 4 20 8 14 8 C 8 8 -8 8 -14 8 C -20 8 -22 4 -22 0 C -22 -4 -20 -8 -14 -8 Z"
               transform={mouthTransform}
               opacity={mouthOpacity}
               onPointerDown={event => {
