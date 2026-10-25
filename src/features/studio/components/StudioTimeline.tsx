@@ -1,10 +1,10 @@
-import { AudioLines, Pause, Play, Square, UserRound, ZoomIn, ZoomOut } from 'lucide-react'
+import { AudioLines, Music2, Pause, Play, Square, UserRound, ZoomIn, ZoomOut } from 'lucide-react'
 import { useMemo, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
 import { ExpressionPreview } from '@/features/avatar/components/ExpressionWorkspace'
 import { resolveSequenceExpression } from '@/features/animation/sequences'
-import { useAudioMouth } from '@/features/studio/components/AudioMouthControls'
+import { AudioMouthControls, useAudioMouth } from '@/features/studio/components/AudioMouthControls'
 import type { StudioController } from '@/features/studio/useStudioController'
 
 export function StudioTimeline({ controller }: { controller: StudioController }) {
@@ -12,7 +12,7 @@ export function StudioTimeline({ controller }: { controller: StudioController })
     activeAvatar, activeAvatarEyes, activeExpression, activeSequence, expressions,
     setMode, statePlaying, stopState, toggleStatePlayback, transitionToExpression, t,
   } = controller
-  const { audioPeaks, audioDuration, fileName, requestAudioFile } = useAudioMouth()
+  const { audioPeaks, audioDuration, fileName, requestAudioFile, audioCurrentTime, audioPlaying, audioUrl, toggleAudioPlayback, stopAudioPlayback } = useAudioMouth()
   const [zoom, setZoom] = useState(1)
 
   const keyframes = useMemo(() => {
@@ -40,6 +40,7 @@ export function StudioTimeline({ controller }: { controller: StudioController })
 
   const sequenceDuration = keyframes.reduce((sum, frame) => sum + frame.duration, 0)
   const totalDuration = Math.max(1000, sequenceDuration, audioDuration * 1000)
+  const playheadPercent = audioDuration > 0 ? Math.min(100, Math.max(0, (audioCurrentTime / audioDuration) * 100)) : 0
   const formatTime = (ms: number) => {
     const seconds = Math.floor(ms / 1000)
     return `${Math.floor(seconds / 60).toString().padStart(2, '0')}:${(seconds % 60).toString().padStart(2, '0')}`
@@ -56,8 +57,8 @@ export function StudioTimeline({ controller }: { controller: StudioController })
         <div className="studio-timeline-actions">
           <Button variant="ghost" size="icon-sm" type="button" aria-label={t('Zoom out timeline')} onClick={() => setZoom(value => Math.max(0.75, value - 0.25))}><ZoomOut size={15} /></Button>
           <Button variant="ghost" size="icon-sm" type="button" aria-label={t('Zoom in timeline')} onClick={() => setZoom(value => Math.min(2.5, value + 0.25))}><ZoomIn size={15} /></Button>
-          <Button variant="secondary" size="icon-sm" type="button" aria-label={statePlaying ? t('Pause') : t('Play')} onClick={toggleStatePlayback}>{statePlaying ? <Pause size={15} /> : <Play size={15} />}</Button>
-          <Button variant="ghost" size="icon-sm" type="button" aria-label={t('Stop')} onClick={() => stopState()}><Square size={14} /></Button>
+          <Button variant="secondary" size="icon-sm" type="button" aria-label={statePlaying ? t('Pause') : t('Play')} onClick={() => audioUrl ? toggleAudioPlayback() : toggleStatePlayback}>{(audioUrl ? audioPlaying : statePlaying) ? <Pause size={15} /> : <Play size={15} />}</Button>
+          <Button variant="ghost" size="icon-sm" type="button" aria-label={t('Stop')} onClick={() => { if (audioUrl) stopAudioPlayback(); else stopState() }}><Square size={14} /></Button>
         </div>
       </header>
       <div className="studio-timeline-body">
@@ -96,6 +97,7 @@ export function StudioTimeline({ controller }: { controller: StudioController })
                   />
                 </button>
               ))}
+              {audioUrl && <span className="studio-timeline-playhead" style={{ left: `${playheadPercent}%` }} aria-hidden="true" />}
             </div>
           </div>
           <div className="studio-timeline-track-row audio-track-row">
@@ -103,6 +105,8 @@ export function StudioTimeline({ controller }: { controller: StudioController })
               {audioPeaks.length ? (
                 <div className="timeline-waveform" aria-label={fileName}>
                   {audioPeaks.map((peak, index) => <span key={index} style={{ height: `${Math.max(10, peak * 100)}%` }} />)}
+                  <span className="timeline-waveform-progress" style={{ width: `${playheadPercent}%` }} aria-hidden="true" />
+                  <span className="studio-timeline-playhead audio-playhead" style={{ left: `${playheadPercent}%` }} aria-hidden="true" />
                 </div>
               ) : (
                 <button type="button" className="timeline-audio-empty" onClick={requestAudioFile}>
@@ -113,6 +117,7 @@ export function StudioTimeline({ controller }: { controller: StudioController })
           </div>
         </div>
       </div>
+      <div className="timeline-audio-engine" aria-hidden="true"><AudioMouthControls t={t} /></div>
     </section>
   )
 }
