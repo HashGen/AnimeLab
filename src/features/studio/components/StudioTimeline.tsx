@@ -68,8 +68,8 @@ export function StudioTimeline({ controller }: { controller: StudioController })
         <div className="studio-timeline-actions">
           <Button variant="ghost" size="icon-sm" type="button" aria-label={t('Zoom out timeline')} onClick={() => setZoom(value => Math.max(0.75, value - 0.25))}><ZoomOut size={15} /></Button>
           <Button variant="ghost" size="icon-sm" type="button" aria-label={t('Zoom in timeline')} onClick={() => setZoom(value => Math.min(2.5, value + 0.25))}><ZoomIn size={15} /></Button>
-          <Button variant="secondary" size="icon-sm" type="button" aria-label={(audioUrl ? audioPlaying : statePlaying) ? t('Pause') : t('Play')} onClick={() => audioUrl ? toggleAudioPlayback() : toggleStatePlayback}>{(audioUrl ? audioPlaying : statePlaying) ? <Pause size={15} /> : <Play size={15} />}</Button>
-          <Button variant="ghost" size="icon-sm" type="button" aria-label={t('Stop')} onClick={() => { if (audioUrl) stopAudioPlayback(); else stopState() }}><Square size={14} /></Button>
+          <Button variant="secondary" size="icon-sm" type="button" aria-label={statePlaying ? t('Pause animation') : t('Play animation')} onClick={toggleStatePlayback}>{statePlaying ? <Pause size={15} /> : <Play size={15} />}</Button>
+          <Button variant="ghost" size="icon-sm" type="button" aria-label={t('Stop animation')} onClick={stopState}><Square size={14} /></Button>
         </div>
       </header>
       <div className="studio-timeline-body">
@@ -127,6 +127,15 @@ export function StudioTimeline({ controller }: { controller: StudioController })
             </div>
           </div>
         </div>
+      </div>
+      <div className="studio-timeline-audio-transport" aria-label={t('Audio playback controls')}>
+        <span className="studio-timeline-audio-name">{fileName || t('Audio track')}</span>
+        <Button variant="secondary" size="icon-sm" type="button" disabled={!audioUrl} aria-label={audioPlaying ? t('Pause audio') : t('Play audio')} onClick={toggleAudioPlayback}>
+          {audioPlaying ? <Pause size={15} /> : <Play size={15} />}
+        </Button>
+        <Button variant="ghost" size="icon-sm" type="button" disabled={!audioUrl} aria-label={t('Stop audio')} onClick={stopAudioPlayback}>
+          <Square size={14} />
+        </Button>
       </div>
       <div className="timeline-audio-engine" aria-hidden="true"><AudioMouthControls t={t} /></div>
     </section>
