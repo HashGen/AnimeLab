@@ -1,5 +1,5 @@
 import { RotateCcw } from 'lucide-react'
-import { motion, useMotionValue } from 'motion/react'
+import { motion, useMotionValue, useTransform } from 'motion/react'
 import { useEffect, useRef, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
@@ -635,6 +635,7 @@ export function AvatarCanvas({
     offsetX,
     offsetY,
   } = scene
+  const mouthOpacity = useTransform([leftOpacity, rightOpacity], ([left, right]) => (left + right) / 2)
   const svgRef = useRef<SVGSVGElement>(null)
   const [activeDragType, setActiveDragType] = useState<
     'arcball' | 'width' | 'height' | 'size' | 'spacing' | 'rotate' | null
@@ -927,7 +928,7 @@ export function AvatarCanvas({
               className={`avatar-audio-mouth${mouthSelected ? ' is-selected' : ''}`}
               d={mouthPath}
               transform={mouthTransform}
-              opacity={(leftOpacity + rightOpacity) / 2}
+              opacity={mouthOpacity}
               onPointerDown={event => {
                 event.stopPropagation()
                 setMouthSelected(true)
