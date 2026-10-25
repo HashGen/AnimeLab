@@ -634,7 +634,7 @@ export function AvatarCanvas({
     }
     frame = requestAnimationFrame(updateMouthAnchor)
     return () => cancelAnimationFrame(frame)
-  }, [mouthEnabled, mouthAngle, mouthPath, mouthTransform, mouthWidth, mouthHeight, mouthOffset])
+  }, [mouthEnabled, mouthAngle, mouthPath, mouthTransform, mouthWidth, mouthHeight, mouthOffset, mouthSelected])
   const {
     wirePaths,
     backPaths,
