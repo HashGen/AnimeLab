@@ -255,6 +255,37 @@ export const rotateWithQuaternion = ([w, x, y, z]: Quaternion, [px, py, pz]: Poi
   ]
 }
 
+const resampleClosedContour = (
+  points: readonly (readonly [number, number])[],
+  count: number
+): (readonly [number, number])[] => {
+  if (points.length < 2) return Array.from({ length: count }, () => points[0] ?? [0, 0])
+  const lengths = points.map((point, index) => {
+    const next = points[(index + 1) % points.length]
+    return Math.hypot(next[0] - point[0], next[1] - point[1])
+  })
+  const perimeter = lengths.reduce((sum, length) => sum + length, 0)
+  if (perimeter <= 0) return Array.from({ length: count }, () => points[0])
+  const result: (readonly [number, number])[] = []
+  let edge = 0
+  let edgeStart = 0
+  for (let index = 0; index < count; index += 1) {
+    const target = (index / count) * perimeter
+    while (edge < lengths.length - 1 && edgeStart + lengths[edge] < target) {
+      edgeStart += lengths[edge]
+      edge += 1
+    }
+    const start = points[edge]
+    const end = points[(edge + 1) % points.length]
+    const progress = lengths[edge] > 0 ? (target - edgeStart) / lengths[edge] : 0
+    result.push([
+      start[0] + (end[0] - start[0]) * progress,
+      start[1] + (end[1] - start[1]) * progress,
+    ])
+  }
+  return result
+}
+
 const roundedRectangle = (width: number, height: number): (readonly [number, number])[] => {
   const halfWidth = width / 2
   const halfHeight = height / 2
@@ -665,7 +696,9 @@ export const renderMouthGeometry = (
   const centerX = options.horizontal ?? expression.mouthHorizontal ?? pose.mouthHorizontal ?? 0
   const centerY = options.offset ?? expression.mouthOffset ?? pose.mouthOffset ?? 34
   const angle = radians(options.rotation ?? expression.mouthRotation ?? pose.mouthRotation ?? 0)
-  const localPoints = roundedRectangle(width, height).map(([x, y]) => {
+  // Keep a fixed contour point count while audio changes mouth height. This avoids
+  // SVG path topology changes on every frame, which otherwise look like rotation jitter.
+  const localPoints = resampleClosedContour(roundedRectangle(width, height), 128).map(([x, y]) => {
     const rotatedX = x * Math.cos(angle) - y * Math.sin(angle)
     const rotatedY = x * Math.sin(angle) + y * Math.cos(angle)
     return projectFacePoint(pose, surface, centerX + rotatedX, centerY + rotatedY)
