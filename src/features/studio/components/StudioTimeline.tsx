@@ -1,4 +1,4 @@
-import { AudioLines, Music2, Pause, Play, Square, UserRound, ZoomIn, ZoomOut } from 'lucide-react'
+import { AudioLines, Music2, Pause, Play, UserRound, ZoomIn, ZoomOut } from 'lucide-react'
 import { useMemo, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
@@ -10,7 +10,7 @@ import type { StudioController } from '@/features/studio/useStudioController'
 export function StudioTimeline({ controller }: { controller: StudioController }) {
   const {
     activeAvatar, activeAvatarEyes, activeExpression, activeSequence, expressions,
-    setMode, statePlaying, stopState, toggleStatePlayback, transitionToExpression, t,
+    setMode, statePlaying, toggleStatePlayback, transitionToExpression, t,
   } = controller
   const {
     audioPeaks,
@@ -21,7 +21,6 @@ export function StudioTimeline({ controller }: { controller: StudioController })
     audioPlaying,
     audioUrl,
     toggleAudioPlayback,
-    stopAudioPlayback,
   } = useAudioMouth()
   const [zoom, setZoom] = useState(1)
 
@@ -81,7 +80,7 @@ export function StudioTimeline({ controller }: { controller: StudioController })
                   className={`studio-timeline-keyframe${activeExpression === frame.expressionIndex ? ' is-active' : ''}`}
                   key={frame.id}
                   type="button"
-                  style={{ left: frame.time <= 0 ? '16px' : `${(frame.time / totalDuration) * 100}%` }}
+                  style={{ left: frame.time <= 0 ? '32px' : `${(frame.time / totalDuration) * 100}%` }}
                   aria-label={`${t('Keyframe')} ${(frame.expressionIndex ?? 0) + 1} · ${formatTime(frame.time)}`}
                   onClick={() => transitionToExpression(frame.expression, frame.expressionIndex)}
                 >
@@ -132,10 +131,6 @@ export function StudioTimeline({ controller }: { controller: StudioController })
         }}>
           {statePlaying || audioPlaying ? <Pause size={15} /> : <Play size={15} />}
         </Button>
-        <Button variant="ghost" size="icon-sm" type="button" aria-label={t('Stop')} onClick={() => {
-          stopState()
-          stopAudioPlayback()
-        }}><Square size={14} /></Button>
       </div>
       <div className="timeline-audio-engine" aria-hidden="true"><AudioMouthControls t={t} /></div>
     </section>
