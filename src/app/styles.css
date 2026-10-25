@@ -6301,10 +6301,3 @@ p {
     box-sizing: border-box !important;
   }
 }
-
-
-@media (max-width: 980px) {
-  .studio-root .studio.studio-mobile-app-layout .mobile-editor-dock {
-    margin-top: calc(clamp(220px, 31dvh, 290px) + 190px) !important;
-  }
-}
