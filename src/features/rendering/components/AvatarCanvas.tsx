@@ -565,8 +565,8 @@ export function AvatarCanvas({
   // are not the same as projected SVG coordinates when the face is rotated.
   const leftEyeRef = useRef<SVGPathElement>(null)
   const rightEyeRef = useRef<SVGPathElement>(null)
-  const mouthPath = useMotionValue('M -6 35 Q 0 37 6 35 Q 0 35 -6 35 Z')
-  const mouthTransform = useMotionValue('rotate(0 0 35)')
+  const mouthPath = useMotionValue('')
+  const mouthTransform = useMotionValue('')
   const mouthOpacity = useMotionValue(1)
   const mouthPathRef = useRef<SVGPathElement>(null)
   const [mouthSelected, setMouthSelected] = useState(false)
@@ -603,18 +603,29 @@ export function AvatarCanvas({
           const eyeLineAngle = Math.atan2(rightCenterY - leftCenterY, rightCenterX - leftCenterX) * (180 / Math.PI)
           const matchedMouthAngle = mouthAngle + eyeLineAngle
           const open = mouthEnabled ? mouthOpenRef.current : 0
-          const rx = Math.max(1, mouthWidthRef.current / 2)
-          // Reuse the eye's rounded-capsule geometry; audio changes only vertical opening.
-          const ry = Math.max(1, mouthHeightRef.current / 2 + open * Math.max(8, mouthHeightRef.current * 0.65))
-          // Rounded capsule-like lips: clamp the corner radius so stretching wide
-          // never turns the left/right ends into sharp points.
-          // A true rounded capsule keeps both ends circular at every aspect ratio.
-          const corner = Math.min(rx, ry)
-          const straightHalf = Math.max(0, rx - corner)
-          mouthPath.set(
-            `M ${centerX - straightHalf} ${centerY - ry} L ${centerX + straightHalf} ${centerY - ry} A ${corner} ${corner} 0 0 1 ${centerX + rx} ${centerY - ry + corner} L ${centerX + rx} ${centerY + ry - corner} A ${corner} ${corner} 0 0 1 ${centerX + straightHalf} ${centerY + ry} L ${centerX - straightHalf} ${centerY + ry} A ${corner} ${corner} 0 0 1 ${centerX - rx} ${centerY + ry - corner} L ${centerX - rx} ${centerY - ry + corner} A ${corner} ${corner} 0 0 1 ${centerX - straightHalf} ${centerY - ry} Z`
+          const targetWidth = Math.max(8, mouthWidthRef.current)
+          const targetHeight = Math.max(8, mouthHeightRef.current + open * Math.max(8, mouthHeightRef.current * 0.65))
+          // The mouth literally reuses the left eye's path as its template, then
+          // scales/transforms that copy below the eyes. Only audio drives its opening.
+          const templateCenterX = left.x + left.width / 2
+          const templateCenterY = left.y + left.height / 2
+          const scaleX = targetWidth / Math.max(1, left.width)
+          const scaleY = targetHeight / Math.max(1, left.height)
+          mouthPath.set(leftEye.getAttribute('d') ?? '')
+          mouthTransform.set(
+            `translate(${centerX} ${centerY}) rotate(${matchedMouthAngle}) scale(${scaleX} ${scaleY}) translate(${-templateCenterX} ${-templateCenterY})`
           )
-          mouthTransform.set(`rotate(${matchedMouthAngle} ${centerX} ${centerY})`)
+          if (mouthSelected) {
+            const nextBounds = { x: centerX - targetWidth / 2, y: centerY - targetHeight / 2, width: targetWidth, height: targetHeight }
+            setMouthBounds(current =>
+              Math.abs(current.x - nextBounds.x) > 0.5 ||
+              Math.abs(current.y - nextBounds.y) > 0.5 ||
+              Math.abs(current.width - nextBounds.width) > 0.5 ||
+              Math.abs(current.height - nextBounds.height) > 0.5
+                ? nextBounds
+                : current
+            )
+          }
         } catch {
           // Keep the last valid mouth path if the browser cannot measure an SVG path.
         }
@@ -935,8 +946,6 @@ export function AvatarCanvas({
                 event.stopPropagation()
                 setMouthSelected(true)
                 onBodyNodeSelect(null)
-                const bounds = mouthPathRef.current?.getBBox()
-                if (bounds) setMouthBounds({ x: bounds.x, y: bounds.y, width: bounds.width, height: bounds.height })
               }}
               aria-label="Select and adjust mouth"
               role="button"
