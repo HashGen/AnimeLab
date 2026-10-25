@@ -380,6 +380,11 @@ function PoseControls({ controller }: { controller: StudioController }) {
           </div>
         </InspectorCard>
       </ControlSection>
+      <ControlSection title="Mouth" subtitle="Shape, size and placement of the audio-driven mouth.">
+        <InspectorCard>
+          <MouthPoseControls t={t} />
+        </InspectorCard>
+      </ControlSection>
       <ControlSection
         title="Projection"
         subtitle="Perspective et repères appliqués à la surface active."
