@@ -969,20 +969,21 @@ export function AvatarCanvas({
             />
           ))}
             <g clipPath="url(#avatar-head-clip)">
-              <motion.path
-                className="avatar-audio-mouth"
-                d={scene.leftPath}
-                transform={mouthTransform}
-                opacity={mouthOpacity}
-                onPointerDown={event => {
-                  event.stopPropagation()
-                  setMouthSelected(true)
-                  onBodyNodeSelect(null)
-                }}
-                aria-label="Select and adjust mouth"
-                role="button"
-                tabIndex={0}
-              />
+              <motion.g transform={mouthTransform} opacity={mouthOpacity}>
+                <motion.path
+                  className="avatar-audio-mouth"
+                  d={scene.leftPath}
+                  onPointerDown={event => {
+                    event.stopPropagation()
+                    setMouthSelected(true)
+                    onBodyNodeSelect(null)
+                    onHighlightChange('head')
+                  }}
+                  aria-label="Select and adjust mouth"
+                  role="button"
+                  tabIndex={0}
+                />
+              </motion.g>
             </g>
             {mouthSelected && (
               <g className="mouth-editor" onPointerDown={event => event.stopPropagation()}>
