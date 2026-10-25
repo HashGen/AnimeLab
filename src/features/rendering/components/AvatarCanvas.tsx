@@ -573,9 +573,8 @@ export function AvatarCanvas({
   // are not the same as projected SVG coordinates when the face is rotated.
   const leftEyeRef = useRef<SVGPathElement>(null)
   const rightEyeRef = useRef<SVGPathElement>(null)
-  const mouthTransform = useMotionValue('')
+  const mouthPath = useMotionValue('')
   const mouthOpacity = useMotionValue(1)
-  const mouthPathRef = useRef<SVGPathElement>(null)
   const [mouthSelected, setMouthSelected] = useState(false)
   const [mouthBounds, setMouthBounds] = useState({ x: -11, y: 19, width: 22, height: 22 })
   const mouthDrag = useRef<null | { type: 'width' | 'height' | 'position' | 'horizontal' | 'rotation'; x: number; y: number; width: number; height: number; offset: number; horizontal: number; rotation: number }>(null)
@@ -598,16 +597,14 @@ export function AvatarCanvas({
       mouthOpacity.set((scene.leftOpacity.get() + scene.rightOpacity.get()) / 2)
       const leftEye = leftEyeRef.current
       const rightEye = rightEyeRef.current
-      const mouthTemplate = mouthPathRef.current
-      if (leftEye && rightEye && mouthTemplate) {
+      if (leftEye && rightEye) {
         try {
           const left = leftEye.getBBox()
           const right = rightEye.getBBox()
-          const template = mouthTemplate.getBBox()
-          // Eye paths and mouth share the same avatar SVG coordinate space and
-          // parent transform. Keep the mouth anchored to the eyes' local geometry;
-          // screen-coordinate conversion misaligns the mouth when the SVG is scaled
-          // or letterboxed on mobile.
+          // Read the current rendered eye geometry, then draw the copied rounded
+          // eye shape directly in the same SVG coordinates. Do not use an SVG
+          // transform on the mouth: it caused the visible lips and editor handles
+          // to disagree about their position on mobile.
           const leftCenterX = left.x + left.width / 2
           const leftCenterY = left.y + left.height / 2
           const rightCenterX = right.x + right.width / 2
@@ -615,21 +612,50 @@ export function AvatarCanvas({
           const eyeCenterX = (leftCenterX + rightCenterX) / 2
           const eyeCenterY = (leftCenterY + rightCenterY) / 2
           const eyeLineAngle = Math.atan2(rightCenterY - leftCenterY, rightCenterX - leftCenterX) * (180 / Math.PI)
-          const centerX = eyeCenterX + Math.cos((eyeLineAngle * Math.PI) / 180) * mouthHorizontalRef.current
-          const centerY = eyeCenterY + Math.sin((eyeLineAngle * Math.PI) / 180) * mouthHorizontalRef.current + mouthOffsetRef.current
-          const matchedMouthAngle = eyeLineAngle + mouthRotationRef.current
+          const angle = (eyeLineAngle + mouthRotationRef.current) * Math.PI / 180
+          const normalX = -Math.sin(eyeLineAngle * Math.PI / 180)
+          const normalY = Math.cos(eyeLineAngle * Math.PI / 180)
+          const tangentX = Math.cos(eyeLineAngle * Math.PI / 180)
+          const tangentY = Math.sin(eyeLineAngle * Math.PI / 180)
+          const centerX = eyeCenterX + tangentX * mouthHorizontalRef.current + normalX * mouthOffsetRef.current
+          const centerY = eyeCenterY + tangentY * mouthHorizontalRef.current + normalY * mouthOffsetRef.current
           const open = mouthEnabled ? mouthOpenRef.current : 0
           const targetWidth = Math.max(8, mouthWidthRef.current)
           const targetHeight = Math.max(8, mouthHeightRef.current + open * Math.max(18, mouthHeightRef.current * 1.35))
-          const templateCenterX = template.x + template.width / 2
-          const templateCenterY = template.y + template.height / 2
-          const scaleX = targetWidth / Math.max(1, template.width)
-          const scaleY = targetHeight / Math.max(1, template.height)
-          mouthTransform.set(
-            `translate(${centerX} ${centerY}) rotate(${matchedMouthAngle}) scale(${scaleX} ${scaleY}) translate(${-templateCenterX} ${-templateCenterY})`
-          )
+          const halfWidth = targetWidth / 2
+          const halfHeight = targetHeight / 2
+          const radius = Math.min(halfWidth, halfHeight)
+          const cos = Math.cos(angle)
+          const sin = Math.sin(angle)
+          const point = (x: number, y: number) => [
+            centerX + x * cos - y * sin,
+            centerY + x * sin + y * cos,
+          ] as const
+          const commands: Array<[string, number, number]> = [
+            ['M', -halfWidth + radius, -halfHeight],
+            ['L', halfWidth - radius, -halfHeight],
+            ['Q', halfWidth, -halfHeight, halfWidth, -halfHeight + radius],
+            ['L', halfWidth, halfHeight - radius],
+            ['Q', halfWidth, halfHeight, halfWidth - radius, halfHeight],
+            ['L', -halfWidth + radius, halfHeight],
+            ['Q', -halfWidth, halfHeight, -halfWidth, halfHeight - radius],
+            ['L', -halfWidth, -halfHeight + radius],
+            ['Q', -halfWidth, -halfHeight, -halfWidth + radius, -halfHeight],
+            ['Z', 0, 0],
+          ]
+          const pathData = commands.map(([command, ...values]) => {
+            if (command === 'Z') return 'Z'
+            const coords = []
+            for (let index = 0; index < values.length; index += 2) {
+              coords.push(...point(values[index], values[index + 1]))
+            }
+            return `${command} ${coords.map(value => value.toFixed(2)).join(' ')}`
+          }).join(' ')
+          mouthPath.set(pathData)
           if (mouthSelected) {
-            const nextBounds = { x: centerX - targetWidth / 2, y: centerY - targetHeight / 2, width: targetWidth, height: targetHeight }
+            const boundsWidth = Math.abs(cos) * targetWidth + Math.abs(sin) * targetHeight
+            const boundsHeight = Math.abs(sin) * targetWidth + Math.abs(cos) * targetHeight
+            const nextBounds = { x: centerX - boundsWidth / 2, y: centerY - boundsHeight / 2, width: boundsWidth, height: boundsHeight }
             setMouthBounds(current =>
               Math.abs(current.x - nextBounds.x) > 0.5 ||
               Math.abs(current.y - nextBounds.y) > 0.5 ||
@@ -647,7 +673,7 @@ export function AvatarCanvas({
     }
     frame = requestAnimationFrame(updateMouthAnchor)
     return () => cancelAnimationFrame(frame)
-  }, [mouthEnabled, mouthAngle, mouthTransform, mouthWidth, mouthHeight, mouthOffset, mouthHorizontal, mouthRotation, mouthSelected])
+  }, [mouthEnabled, mouthAngle, mouthPath, mouthWidth, mouthHeight, mouthOffset, mouthHorizontal, mouthRotation, mouthSelected])
   const {
     wirePaths,
     backPaths,
@@ -962,10 +988,8 @@ export function AvatarCanvas({
             />
           ))}
             <motion.path
-              ref={mouthPathRef}
               className={`avatar-audio-mouth${mouthSelected ? ' is-selected' : ''}`}
-              d="M -14 -8 C -8 -8 8 -8 14 -8 C 20 -8 22 -4 22 0 C 22 4 20 8 14 8 C 8 8 -8 8 -14 8 C -20 8 -22 4 -22 0 C -22 -4 -20 -8 -14 -8 Z"
-              transform={mouthTransform}
+              d={mouthPath}
               opacity={mouthOpacity}
               onPointerDown={event => {
                 event.stopPropagation()
