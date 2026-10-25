@@ -6277,9 +6277,9 @@ p {
 }
 @media (max-width: 980px) {
   .studio-root .studio.studio-mobile-app-layout > .studio-timeline {
-    height: 190px !important;
-    min-height: 190px !important;
-    max-height: 190px !important;
+    height: 236px !important;
+    min-height: 236px !important;
+    max-height: 236px !important;
   }
   .studio-root .studio.studio-mobile-app-layout .studio-timeline-body {
     grid-template-columns: 34px minmax(0, 1fr) !important;
