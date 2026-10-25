@@ -593,7 +593,9 @@ export function AvatarCanvas({
   useEffect(() => {
     let frame = 0
     const updateMouthAnchor = () => {
-      mouthOpacity.set((scene.leftOpacity.get() + scene.rightOpacity.get()) / 2)
+      const currentOpacity = (scene.leftOpacity.get() + scene.rightOpacity.get()) / 2
+      mouthOpacity.set(currentOpacity)
+      mouthGroupRef.current?.setAttribute('opacity', String(currentOpacity))
       const leftEye = leftEyeRef.current
       const rightEye = rightEyeRef.current
       if (leftEye && rightEye) {
@@ -970,7 +972,7 @@ export function AvatarCanvas({
             />
           ))}
             <g clipPath="url(#avatar-head-clip)">
-              <g ref={mouthGroupRef} opacity={mouthOpacity.get()}>
+              <g ref={mouthGroupRef}>
                 <motion.path
                   className="avatar-audio-mouth"
                   d={scene.leftPath}
