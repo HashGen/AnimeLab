@@ -709,7 +709,7 @@ export const renderMouthGeometry = (
     2
   const eyeBottom = Math.max(
     expression.positionYLeft + leftEyeHalfHeight,
-    expression.positionYRight + rightEyeHalfHeight
+    expression.positionYRight + rightEyeHalfHeight,
   )
   const eyeToMouthGap = 12
   const centerY = Math.max(requestedCenterY, eyeBottom + eyeToMouthGap + height / 2)
