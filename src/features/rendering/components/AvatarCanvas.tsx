@@ -519,7 +519,9 @@ export function AvatarCanvas({
   onManipulationStart,
   mouthOpen = 0,
   mouthEnabled = false,
-  mouthWidth = 16,
+  mouthWidth = 40,
+  mouthHeight = 12,
+  mouthOffset = 28,
 }: {
   expression: Expression
   avatarEyes: AvatarEyeDefaults
@@ -549,6 +551,8 @@ export function AvatarCanvas({
   mouthOpen?: number
   mouthEnabled?: boolean
   mouthWidth?: number
+  mouthHeight?: number
+  mouthOffset?: number
 }) {
   const { t } = useStudioLanguage()
   // Measure the rendered eye paths themselves every frame. Expression coordinates
@@ -562,6 +566,10 @@ export function AvatarCanvas({
   mouthOpenRef.current = mouthOpen
   const mouthWidthRef = useRef(mouthWidth)
   mouthWidthRef.current = mouthWidth
+  const mouthHeightRef = useRef(mouthHeight)
+  mouthHeightRef.current = mouthHeight
+  const mouthOffsetRef = useRef(mouthOffset)
+  mouthOffsetRef.current = mouthOffset
   useEffect(() => {
     let frame = 0
     const updateMouthAnchor = () => {
@@ -573,13 +581,16 @@ export function AvatarCanvas({
           const right = rightEye.getBBox()
           const centerX = (left.x + left.width / 2 + right.x + right.width / 2) / 2
           const eyeBottom = (left.y + left.height + right.y + right.height) / 2
-          const centerY = eyeBottom + 28
+          const centerY = eyeBottom + mouthOffsetRef.current
           const open = mouthEnabled ? mouthOpenRef.current : 0
-          const halfWidth = mouthWidthRef.current / 2
-          const halfHeight = 1.2 + open * 10
-          // A rounded oval lip shape: width is user-adjustable, height follows audio.
+          const rx = mouthWidthRef.current / 2
+          const ry = mouthHeightRef.current / 2 + open * 10
+          // Use a true cubic-Bezier ellipse so the lips stay smoothly rounded
+          // at every width/height instead of developing pointed corners.
+          const kx = rx * 0.55228475
+          const ky = ry * 0.55228475
           mouthPath.set(
-            `M ${centerX - halfWidth} ${centerY} C ${centerX - halfWidth} ${centerY - halfHeight}, ${centerX + halfWidth} ${centerY - halfHeight}, ${centerX + halfWidth} ${centerY} C ${centerX + halfWidth} ${centerY + halfHeight}, ${centerX - halfWidth} ${centerY + halfHeight}, ${centerX - halfWidth} ${centerY} Z`
+            `M ${centerX} ${centerY - ry} C ${centerX + kx} ${centerY - ry}, ${centerX + rx} ${centerY - ky}, ${centerX + rx} ${centerY} C ${centerX + rx} ${centerY + ky}, ${centerX + kx} ${centerY + ry}, ${centerX} ${centerY + ry} C ${centerX - kx} ${centerY + ry}, ${centerX - rx} ${centerY + ky}, ${centerX - rx} ${centerY} C ${centerX - rx} ${centerY - ky}, ${centerX - kx} ${centerY - ry}, ${centerX} ${centerY - ry} Z`
           )
           mouthTransform.set(`rotate(${mouthAngle} ${centerX} ${centerY})`)
         } catch {
@@ -590,7 +601,7 @@ export function AvatarCanvas({
     }
     frame = requestAnimationFrame(updateMouthAnchor)
     return () => cancelAnimationFrame(frame)
-  }, [mouthEnabled, mouthAngle, mouthPath, mouthTransform, mouthWidth])
+  }, [mouthEnabled, mouthAngle, mouthPath, mouthTransform, mouthWidth, mouthHeight, mouthOffset])
   const {
     wirePaths,
     backPaths,
