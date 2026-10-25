@@ -579,20 +579,28 @@ export function AvatarCanvas({
         try {
           const left = leftEye.getBBox()
           const right = rightEye.getBBox()
-          const centerX = (left.x + left.width / 2 + right.x + right.width / 2) / 2
+          const leftCenterX = left.x + left.width / 2
+          const leftCenterY = left.y + left.height / 2
+          const rightCenterX = right.x + right.width / 2
+          const rightCenterY = right.y + right.height / 2
+          const centerX = (leftCenterX + rightCenterX) / 2
           const eyeBottom = (left.y + left.height + right.y + right.height) / 2
           const centerY = eyeBottom + mouthOffsetRef.current
+          // Match the mouth's tilt to the line connecting the rendered eye centers.
+          // This tracks asymmetric eye movement better than using a fixed horizontal angle.
+          const eyeLineAngle = Math.atan2(rightCenterY - leftCenterY, rightCenterX - leftCenterX) * (180 / Math.PI)
+          const matchedMouthAngle = mouthAngle + eyeLineAngle
           const open = mouthEnabled ? mouthOpenRef.current : 0
-          const rx = mouthWidthRef.current / 2
-          const ry = mouthHeightRef.current / 2 + open * 10
-          // Use a true cubic-Bezier ellipse so the lips stay smoothly rounded
-          // at every width/height instead of developing pointed corners.
-          const kx = rx * 0.55228475
-          const ky = ry * 0.55228475
+          const rx = Math.max(1, mouthWidthRef.current / 2)
+          const ry = Math.max(1, mouthHeightRef.current / 2 + open * 10)
+          // Rounded capsule-like lips: clamp the corner radius so stretching wide
+          // never turns the left/right ends into sharp points.
+          const corner = Math.min(ry, rx * 0.42)
+          const straightHalf = Math.max(0, rx - corner)
           mouthPath.set(
-            `M ${centerX} ${centerY - ry} C ${centerX + kx} ${centerY - ry}, ${centerX + rx} ${centerY - ky}, ${centerX + rx} ${centerY} C ${centerX + rx} ${centerY + ky}, ${centerX + kx} ${centerY + ry}, ${centerX} ${centerY + ry} C ${centerX - kx} ${centerY + ry}, ${centerX - rx} ${centerY + ky}, ${centerX - rx} ${centerY} C ${centerX - rx} ${centerY - ky}, ${centerX - kx} ${centerY - ry}, ${centerX} ${centerY - ry} Z`
+            `M ${centerX - straightHalf} ${centerY - ry} L ${centerX + straightHalf} ${centerY - ry} Q ${centerX + rx} ${centerY - ry} ${centerX + rx} ${centerY} Q ${centerX + rx} ${centerY + ry} ${centerX + straightHalf} ${centerY + ry} L ${centerX - straightHalf} ${centerY + ry} Q ${centerX - rx} ${centerY + ry} ${centerX - rx} ${centerY} Q ${centerX - rx} ${centerY - ry} ${centerX - straightHalf} ${centerY - ry} Z`
           )
-          mouthTransform.set(`rotate(${mouthAngle} ${centerX} ${centerY})`)
+          mouthTransform.set(`rotate(${matchedMouthAngle} ${centerX} ${centerY})`)
         } catch {
           // Keep the last valid mouth path if the browser cannot measure an SVG path.
         }
