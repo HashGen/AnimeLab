@@ -620,7 +620,7 @@ export function AvatarCanvas({
           const matchedMouthAngle = mouthAngle + eyeLineAngle + mouthRotationRef.current
           const open = mouthEnabled ? mouthOpenRef.current : 0
           const targetWidth = Math.max(8, mouthWidthRef.current)
-          const targetHeight = Math.max(8, mouthHeightRef.current + open * Math.max(8, mouthHeightRef.current * 0.65))
+          const targetHeight = Math.max(8, mouthHeightRef.current + open * Math.max(18, mouthHeightRef.current * 1.35))
           const templateCenterX = template.x + template.width / 2
           const templateCenterY = template.y + template.height / 2
           const scaleX = targetWidth / Math.max(1, template.width)
