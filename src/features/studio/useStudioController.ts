@@ -414,10 +414,19 @@ export function useStudioController() {
     const renderPose = avatar
       ? poseWithAvatarEyes(renderedExpression, avatar.eyes ?? defaultAvatarEyes)
       : poseFromExpression(renderedExpression)
+    renderedScene.pose.current = renderPose
     const geometry = renderAvatar(renderPose, surfaceRef.current, blink ?? blinkValue.get(), {
       includeWire: showWireRef.current || highlightRef.current === 'head',
       bodyNodes: bodyNodesRef.current,
       eyeOffset,
+      mouth: {
+        width: renderedScene.mouthWidth.get(),
+        height: renderedScene.mouthHeight.get(),
+        offset: renderedScene.mouthOffset.get(),
+        horizontal: renderedScene.mouthHorizontal.get(),
+        rotation: renderedScene.mouthRotation.get(),
+        open: renderedScene.mouthEnabled.get() ? renderedScene.mouthOpen.get() : 0,
+      },
     })
     paintRenderedScene(renderedScene, geometry)
     paintRenderedOffset(
