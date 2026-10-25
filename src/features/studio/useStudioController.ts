@@ -1322,19 +1322,24 @@ export function useStudioController() {
     }
     if (bodyEditing) {
       paintRenderedRotationGizmo(renderedRotationGizmo, next)
+      const renderPose = poseFromExpression(
+        resolveCanvasPreviewExpression(next, activeAvatarEyes, bodyEditing, target)
+      )
+      renderedScene.pose.current = renderPose
       paintRenderedScene(
         renderedScene,
-        renderAvatar(
-          poseFromExpression(
-            resolveCanvasPreviewExpression(next, activeAvatarEyes, bodyEditing, target)
-          ),
-          surfaceRef.current,
-          blinkValue.get(),
-          {
-            includeWire: showWireRef.current || highlightRef.current === 'head',
-            bodyNodes: bodyNodesRef.current,
-          }
-        )
+        renderAvatar(renderPose, surfaceRef.current, blinkValue.get(), {
+          includeWire: showWireRef.current || highlightRef.current === 'head',
+          bodyNodes: bodyNodesRef.current,
+          mouth: {
+            width: renderedScene.mouthWidth.get(),
+            height: renderedScene.mouthHeight.get(),
+            offset: renderedScene.mouthOffset.get(),
+            horizontal: renderedScene.mouthHorizontal.get(),
+            rotation: renderedScene.mouthRotation.get(),
+            open: renderedScene.mouthEnabled.get() ? renderedScene.mouthOpen.get() : 0,
+          },
+        })
       )
       return
     }
