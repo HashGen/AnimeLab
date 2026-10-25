@@ -68,7 +68,7 @@ export function StudioTimeline({ controller }: { controller: StudioController })
             <UserRound size={18} />
           </button>
           <button type="button" className="studio-timeline-track-label audio-track-label" aria-label={t('Select audio file')} onClick={requestAudioFile}>
-            <AudioLines size={18} />
+            <Music2 size={18} />
           </button>
         </div>
         <div className="studio-timeline-scroll">
