@@ -2,7 +2,7 @@ import { motionValue, type MotionValue } from 'motion'
 
 import type { AvatarColors } from '../avatar/avatars'
 import { MAX_BODY_NODES } from '../avatar/body'
-import type { AvatarGeometry } from '../avatar/geometry'
+import type { AvatarGeometry, AvatarPose } from '../avatar/geometry'
 
 export type RenderedScene = {
   headPath: MotionValue<string>
@@ -13,6 +13,14 @@ export type RenderedScene = {
   leftPath: MotionValue<string>
   rightPath: MotionValue<string>
   mouthPath: MotionValue<string>
+  pose: { current: AvatarPose | null }
+  mouthWidth: MotionValue<number>
+  mouthHeight: MotionValue<number>
+  mouthOffset: MotionValue<number>
+  mouthHorizontal: MotionValue<number>
+  mouthRotation: MotionValue<number>
+  mouthOpen: MotionValue<number>
+  mouthEnabled: MotionValue<number>
   leftOpacity: MotionValue<number>
   rightOpacity: MotionValue<number>
   offsetX: MotionValue<number>
@@ -40,6 +48,14 @@ export const createRenderedScene = (geometry: AvatarGeometry): RenderedScene => 
   leftPath: motionValue(geometry.leftPath),
   rightPath: motionValue(geometry.rightPath),
   mouthPath: motionValue(geometry.mouthPath),
+  pose: { current: null },
+  mouthWidth: motionValue(40),
+  mouthHeight: motionValue(12),
+  mouthOffset: motionValue(30),
+  mouthHorizontal: motionValue(0),
+  mouthRotation: motionValue(0),
+  mouthOpen: motionValue(0),
+  mouthEnabled: motionValue(0),
   leftOpacity: motionValue(geometry.leftVisible ? 1 : 0),
   rightOpacity: motionValue(geometry.rightVisible ? 1 : 0),
   offsetX: motionValue(0),
