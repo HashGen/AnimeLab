@@ -6328,3 +6328,37 @@ p {
     padding: 3px 10px !important;
   }
 }
+
+
+/* Keep all timeline tools directly beneath the tracks on mobile. */
+@media (max-width: 980px) {
+  .studio-root .studio.studio-mobile-app-layout > .studio-timeline {
+    height: 226px !important;
+    min-height: 226px !important;
+    max-height: 226px !important;
+    padding: 8px 10px 6px !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .studio-timeline-body {
+    margin-top: 0 !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .studio-timeline-audio-transport {
+    display: flex !important;
+    justify-content: flex-end !important;
+    gap: 5px !important;
+    min-height: 42px !important;
+    margin-top: 2px !important;
+    padding: 3px 2px !important;
+    border-top: 1px solid #e4e7ef !important;
+    box-sizing: border-box !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .studio-timeline-audio-transport button {
+    flex: 0 0 30px !important;
+    width: 30px !important;
+    min-width: 30px !important;
+    height: 30px !important;
+  }
+  .studio-root .studio.studio-mobile-app-layout .studio-timeline-audio-name {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+  }
+}
