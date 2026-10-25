@@ -578,7 +578,7 @@ export function AvatarCanvas({
   const mouthPathRef = useRef<SVGPathElement>(null)
   const [mouthSelected, setMouthSelected] = useState(false)
   const [mouthBounds, setMouthBounds] = useState({ x: -11, y: 19, width: 22, height: 22 })
-  const mouthDrag = useRef<null | { type: 'width' | 'height' | 'position'; x: number; y: number; width: number; height: number; offset: number }>(null)
+  const mouthDrag = useRef<null | { type: 'width' | 'height' | 'position' | 'horizontal' | 'rotation'; x: number; y: number; width: number; height: number; offset: number; horizontal: number; rotation: number }>(null)
   const mouthAngle = (expression.leftAngle + expression.rightAngle) / 2
   const mouthOpenRef = useRef(mouthOpen)
   mouthOpenRef.current = mouthOpen
@@ -783,7 +783,9 @@ export function AvatarCanvas({
       const dy = point[1] - interaction.y
       if (interaction.type === 'width') onMouthWidthChange?.(bounded(interaction.width + dx * 2, 8, 110))
       else if (interaction.type === 'height') onMouthHeightChange?.(bounded(interaction.height + dy * 2, 6, 110))
-      else onMouthOffsetChange?.(bounded(interaction.offset + dy, 8, 70))
+      else if (interaction.type === 'position') onMouthOffsetChange?.(bounded(interaction.offset + dy, 8, 70))
+      else if (interaction.type === 'horizontal') onMouthHorizontalChange?.(bounded(interaction.horizontal + dx, -70, 70))
+      else onMouthRotationChange?.(bounded(interaction.rotation + dx * 2, -180, 180))
       return
     }
     if (!drag.current) return
@@ -968,11 +970,13 @@ export function AvatarCanvas({
                   { type: 'width' as const, x: mouthBounds.x + mouthBounds.width, y: mouthBounds.y + mouthBounds.height / 2, label: 'W' },
                   { type: 'height' as const, x: mouthBounds.x + mouthBounds.width / 2, y: mouthBounds.y, label: 'H' },
                   { type: 'position' as const, x: mouthBounds.x + mouthBounds.width / 2, y: mouthBounds.y + mouthBounds.height + 8, label: '↕' },
+                  { type: 'horizontal' as const, x: mouthBounds.x - 8, y: mouthBounds.y + mouthBounds.height / 2, label: '↔' },
+                  { type: 'rotation' as const, x: mouthBounds.x + mouthBounds.width / 2, y: mouthBounds.y - 9, label: '↻' },
                 ]).map(handle => (
                   <g key={handle.type} className="editor-control" onPointerDown={event => {
                     event.stopPropagation()
                     const point = toSvg(event)
-                    mouthDrag.current = { type: handle.type, x: point[0], y: point[1], width: mouthWidth, height: mouthHeight, offset: mouthOffset }
+                    mouthDrag.current = { type: handle.type, x: point[0], y: point[1], width: mouthWidth, height: mouthHeight, offset: mouthOffset, horizontal: mouthHorizontal, rotation: mouthRotation }
                     svgRef.current?.setPointerCapture(event.pointerId)
                   }}>
                     <circle className="editor-handle" cx={handle.x} cy={handle.y} r="6" />
