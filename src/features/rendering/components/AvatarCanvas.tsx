@@ -603,21 +603,21 @@ export function AvatarCanvas({
         try {
           const left = leftEye.getBBox()
           const right = rightEye.getBBox()
-          // Measure the mouth's own copied path, not the live eye. The eye paths can
-          // animate independently; the mouth template must stay still and only its
-          // vertical scale may respond to the audio analyser.
           const template = mouthTemplate.getBBox()
+          // Use the eyes' live rendered centres on every frame. This keeps the
+          // mouth attached when eye paths move/rotate, while the mouth template
+          // itself remains a static horizontal capsule.
           const leftCenterX = left.x + left.width / 2
           const leftCenterY = left.y + left.height / 2
           const rightCenterX = right.x + right.width / 2
           const rightCenterY = right.y + right.height / 2
-          const centerX = (leftCenterX + rightCenterX) / 2 + mouthHorizontalRef.current
-          const eyeBottom = (left.y + left.height + right.y + right.height) / 2
-          const centerY = eyeBottom + mouthOffsetRef.current
-          // Keep the mouth attached to the face and aligned with the eye line without
-          // borrowing the animated eye's changing path or dimensions.
+          const eyeCenterX = (leftCenterX + rightCenterX) / 2
+          const eyeCenterY = (leftCenterY + rightCenterY) / 2
+          const eyeDistance = Math.hypot(rightCenterX - leftCenterX, rightCenterY - leftCenterY)
           const eyeLineAngle = Math.atan2(rightCenterY - leftCenterY, rightCenterX - leftCenterX) * (180 / Math.PI)
-          const matchedMouthAngle = mouthAngle + eyeLineAngle + mouthRotationRef.current
+          const centerX = eyeCenterX + Math.cos((eyeLineAngle * Math.PI) / 180) * mouthHorizontalRef.current
+          const centerY = eyeCenterY + Math.sin((eyeLineAngle * Math.PI) / 180) * mouthHorizontalRef.current + mouthOffsetRef.current
+          const matchedMouthAngle = eyeLineAngle + mouthRotationRef.current
           const open = mouthEnabled ? mouthOpenRef.current : 0
           const targetWidth = Math.max(8, mouthWidthRef.current)
           const targetHeight = Math.max(8, mouthHeightRef.current + open * Math.max(18, mouthHeightRef.current * 1.35))
