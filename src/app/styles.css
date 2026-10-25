@@ -6371,3 +6371,11 @@ p {
     margin-left: 0 !important;
   }
 }
+
+
+/* The first keyframe starts at the viewport origin; do not center it across the clipped edge. */
+.studio-timeline-track.avatar-track > .studio-timeline-keyframe.is-first {
+  left: 0 !important;
+  transform: none !important;
+  margin-left: 0 !important;
+}
