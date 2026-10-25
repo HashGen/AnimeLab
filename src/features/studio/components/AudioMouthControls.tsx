@@ -5,7 +5,11 @@ type AudioMouthState = {
   mouthOpen: number
   mouthEnabled: boolean
   mouthWidth: number
+  mouthHeight: number
+  mouthOffset: number
   setMouthWidth: (value: number) => void
+  setMouthHeight: (value: number) => void
+  setMouthOffset: (value: number) => void
   setMouthOpen: (value: number) => void
   setMouthEnabled: (value: boolean) => void
   audioUrl: string | null
@@ -20,7 +24,9 @@ const AudioMouthContext = createContext<AudioMouthState | null>(null)
 export function AudioMouthProvider({ children }: { children: ReactNode }) {
   const [mouthOpen, setMouthOpen] = useState(0)
   const [mouthEnabled, setMouthEnabled] = useState(false)
-  const [mouthWidth, setMouthWidth] = useState(16)
+  const [mouthWidth, setMouthWidth] = useState(40)
+  const [mouthHeight, setMouthHeight] = useState(12)
+  const [mouthOffset, setMouthOffset] = useState(28)
   const [audioUrl, setAudioUrl] = useState<string | null>(null)
   const [fileName, setFileName] = useState('')
   const [audioPeaks, setAudioPeaks] = useState<number[]>([])
@@ -71,7 +77,7 @@ export function AudioMouthProvider({ children }: { children: ReactNode }) {
 
   return (
     <AudioMouthContext.Provider value={{
-      mouthOpen, mouthEnabled, mouthWidth, setMouthWidth, setMouthOpen, setMouthEnabled,
+      mouthOpen, mouthEnabled, mouthWidth, mouthHeight, mouthOffset, setMouthWidth, setMouthHeight, setMouthOffset, setMouthOpen, setMouthEnabled,
       audioUrl, fileName, audioPeaks, audioDuration,
       requestAudioFile: () => inputRef.current?.click(),
     }}>
@@ -102,7 +108,11 @@ export function AudioMouthControls({ t }: { t: (value: string) => string }) {
     setMouthOpen: onMouthOpen,
     setMouthEnabled: onMouthEnabled,
     mouthWidth,
+    mouthHeight,
+    mouthOffset,
     setMouthWidth,
+    setMouthHeight,
+    setMouthOffset,
     audioUrl,
     fileName,
     requestAudioFile,
@@ -172,16 +182,24 @@ export function AudioMouthControls({ t }: { t: (value: string) => string }) {
       <div className="audio-mouth-shape-heading">{t('Mouth Shape')}</div>
       <label className="audio-mouth-width-control">
         <span>{t('Lip width')}</span>
-        <input
-          type="range"
-          min="6"
-          max="28"
-          step="1"
-          value={mouthWidth}
+        <input type="range" min="20" max="70" step="1" value={mouthWidth}
           onChange={event => setMouthWidth(Number(event.currentTarget.value))}
-          aria-label={t('Lip width')}
-        />
+          aria-label={t('Lip width')} />
         <output>{mouthWidth}</output>
+      </label>
+      <label className="audio-mouth-width-control">
+        <span>{t('Lip height')}</span>
+        <input type="range" min="6" max="30" step="1" value={mouthHeight}
+          onChange={event => setMouthHeight(Number(event.currentTarget.value))}
+          aria-label={t('Lip height')} />
+        <output>{mouthHeight}</output>
+      </label>
+      <label className="audio-mouth-width-control">
+        <span>{t('Vertical position')}</span>
+        <input type="range" min="8" max="52" step="1" value={mouthOffset}
+          onChange={event => setMouthOffset(Number(event.currentTarget.value))}
+          aria-label={t('Vertical position')} />
+        <output>{mouthOffset}</output>
       </label>
       {audioUrl ? (
         <audio
