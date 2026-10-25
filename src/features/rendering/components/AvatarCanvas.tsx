@@ -1,5 +1,5 @@
 import { RotateCcw } from 'lucide-react'
-import { motion, useMotionValue } from 'motion/react'
+import { motion } from 'motion/react'
 import { useEffect, useRef, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
@@ -524,6 +524,7 @@ export function AvatarCanvas({
   mouthOffset = 28,
   mouthHorizontal = 0,
   mouthRotation = 0,
+  mouthBounds,
   onMouthWidthChange,
   onMouthHeightChange,
   onMouthOffsetChange,
@@ -562,6 +563,7 @@ export function AvatarCanvas({
   mouthOffset?: number
   mouthHorizontal?: number
   mouthRotation?: number
+  mouthBounds: { x: number; y: number; width: number; height: number }
   onMouthWidthChange?: (value: number) => void
   onMouthHeightChange?: (value: number) => void
   onMouthOffsetChange?: (value: number) => void
@@ -569,92 +571,8 @@ export function AvatarCanvas({
   onMouthRotationChange?: (value: number) => void
 }) {
   const { t } = useStudioLanguage()
-  // Measure the rendered eye paths themselves every frame. Expression coordinates
-  // are not the same as projected SVG coordinates when the face is rotated.
-  const leftEyeRef = useRef<SVGPathElement>(null)
-  const rightEyeRef = useRef<SVGPathElement>(null)
-  const mouthGroupRef = useRef<SVGGElement>(null)
-  const mouthOpacity = useMotionValue(1)
   const [mouthSelected, setMouthSelected] = useState(false)
-  const [mouthBounds, setMouthBounds] = useState({ x: -11, y: 19, width: 22, height: 22 })
   const mouthDrag = useRef<null | { type: 'width' | 'height' | 'position' | 'horizontal' | 'rotation'; x: number; y: number; width: number; height: number; offset: number; horizontal: number; rotation: number }>(null)
-  const mouthOpenRef = useRef(mouthOpen)
-  mouthOpenRef.current = mouthOpen
-  const mouthWidthRef = useRef(mouthWidth)
-  mouthWidthRef.current = mouthWidth
-  const mouthHeightRef = useRef(mouthHeight)
-  mouthHeightRef.current = mouthHeight
-  const mouthOffsetRef = useRef(mouthOffset)
-  mouthOffsetRef.current = mouthOffset
-  const mouthHorizontalRef = useRef(mouthHorizontal)
-  mouthHorizontalRef.current = mouthHorizontal
-  const mouthRotationRef = useRef(mouthRotation)
-  mouthRotationRef.current = mouthRotation
-  useEffect(() => {
-    let frame = 0
-    const updateMouthAnchor = () => {
-      const currentOpacity = (scene.leftOpacity.get() + scene.rightOpacity.get()) / 2
-      mouthOpacity.set(currentOpacity)
-      mouthGroupRef.current?.setAttribute('opacity', String(currentOpacity))
-      const leftEye = leftEyeRef.current
-      const rightEye = rightEyeRef.current
-      if (leftEye && rightEye) {
-        try {
-          const left = leftEye.getBBox()
-          const right = rightEye.getBBox()
-          // Read the current rendered eye geometry, then draw the copied rounded
-          // eye shape directly in the same SVG coordinates. Do not use an SVG
-          // transform on the mouth: it caused the visible lips and editor handles
-          // to disagree about their position on mobile.
-          const leftCenterX = left.x + left.width / 2
-          const leftCenterY = left.y + left.height / 2
-          const rightCenterX = right.x + right.width / 2
-          const rightCenterY = right.y + right.height / 2
-          const eyeCenterX = (leftCenterX + rightCenterX) / 2
-          const eyeCenterY = (leftCenterY + rightCenterY) / 2
-          const eyeLineAngle = Math.atan2(rightCenterY - leftCenterY, rightCenterX - leftCenterX) * (180 / Math.PI)
-          const angle = eyeLineAngle + mouthRotationRef.current
-          const radians = eyeLineAngle * Math.PI / 180
-          const centerX = eyeCenterX + Math.cos(radians) * mouthHorizontalRef.current - Math.sin(radians) * mouthOffsetRef.current
-          const centerY = eyeCenterY + Math.sin(radians) * mouthHorizontalRef.current + Math.cos(radians) * mouthOffsetRef.current
-          const open = mouthEnabled ? mouthOpenRef.current : 0
-          const targetWidth = Math.max(8, mouthWidthRef.current)
-          const targetHeight = Math.max(6, mouthHeightRef.current + open * Math.max(18, mouthHeightRef.current * 1.35))
-          // Reuse the actual rendered left-eye path as the mouth template. Because
-          // its source geometry is the same projected eye geometry used by the face,
-          // the mouth inherits the avatar's surface/perspective changes instead of
-          // drawing an unrelated hand-built capsule.
-          const sourceCenterX = leftCenterX
-          const sourceCenterY = leftCenterY
-          const scaleX = targetWidth / Math.max(1, left.width)
-          const scaleY = targetHeight / Math.max(1, left.height)
-          mouthGroupRef.current?.setAttribute(
-            'transform',
-            `translate(${centerX} ${centerY}) rotate(${angle}) scale(${scaleX} ${scaleY}) translate(${-sourceCenterX} ${-sourceCenterY})`
-          )
-          if (mouthSelected) {
-            const radians = angle * Math.PI / 180
-            const boundsWidth = Math.abs(Math.cos(radians)) * targetWidth + Math.abs(Math.sin(radians)) * targetHeight
-            const boundsHeight = Math.abs(Math.sin(radians)) * targetWidth + Math.abs(Math.cos(radians)) * targetHeight
-            const nextBounds = { x: centerX - boundsWidth / 2, y: centerY - boundsHeight / 2, width: boundsWidth, height: boundsHeight }
-            setMouthBounds(current =>
-              Math.abs(current.x - nextBounds.x) > 0.5 ||
-              Math.abs(current.y - nextBounds.y) > 0.5 ||
-              Math.abs(current.width - nextBounds.width) > 0.5 ||
-              Math.abs(current.height - nextBounds.height) > 0.5
-                ? nextBounds
-                : current
-            )
-          }
-        } catch {
-          // Keep the last valid mouth path if the browser cannot measure an SVG path.
-        }
-      }
-      frame = requestAnimationFrame(updateMouthAnchor)
-    }
-    frame = requestAnimationFrame(updateMouthAnchor)
-    return () => cancelAnimationFrame(frame)
-  }, [mouthEnabled, mouthWidth, mouthHeight, mouthOffset, mouthHorizontal, mouthRotation, mouthSelected])
   const {
     wirePaths,
     backPaths,
@@ -949,14 +867,12 @@ export function AvatarCanvas({
               ))}
             <motion.path
               className={`avatar-eye ${selectedSide === -1 || highlight === 'left' || highlight === 'both' ? 'cyan-outline' : ''}`}
-              ref={leftEyeRef}
               d={leftPath}
               opacity={leftOpacity}
               onPointerDown={event => selectEye(-1, event)}
             />
             <motion.path
               className={`avatar-eye ${selectedSide === 1 || highlight === 'right' || highlight === 'both' ? 'cyan-outline' : ''}`}
-              ref={rightEyeRef}
               d={rightPath}
               opacity={rightOpacity}
               onPointerDown={event => selectEye(1, event)}
@@ -972,10 +888,9 @@ export function AvatarCanvas({
             />
           ))}
             <g clipPath="url(#avatar-head-clip)">
-              <g ref={mouthGroupRef}>
-                <motion.path
+              <motion.path
                   className="avatar-audio-mouth"
-                  d={scene.leftPath}
+                  d={scene.mouthPath}
                   onPointerDown={event => {
                     event.stopPropagation()
                     setMouthSelected(true)
