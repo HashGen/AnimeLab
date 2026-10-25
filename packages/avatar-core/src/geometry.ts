@@ -694,7 +694,23 @@ export const renderMouthGeometry = (
   const open = clamp(options.open ?? 0, 0, 1)
   const height = restingHeight + open * Math.max(10, restingHeight * 1.6)
   const centerX = options.horizontal ?? expression.mouthHorizontal ?? pose.mouthHorizontal ?? 0
-  const centerY = options.offset ?? expression.mouthOffset ?? pose.mouthOffset ?? 34
+  const requestedCenterY = options.offset ?? expression.mouthOffset ?? pose.mouthOffset ?? 34
+
+  // Keep a stable minimum gap between the eyes and mouth in face-local space.
+  // Since both features are projected through the same 3D surface, the gap remains
+  // attached to the face during yaw/pitch/roll instead of drifting in screen space.
+  const eyeBottom = Math.max(
+    expression.positionYLeft +
+      (Math.abs(Math.sin(radians(expression.leftAngle))) * expression.widthLeft +
+        Math.abs(Math.cos(radians(expression.leftAngle))) * expression.heightLeft) /
+        2,
+    expression.positionYRight +
+      (Math.abs(Math.sin(radians(expression.rightAngle))) * expression.widthRight +
+        Math.abs(Math.cos(radians(expression.rightAngle))) * expression.heightRight) /
+        2
+  )
+  const eyeToMouthGap = 12
+  const centerY = Math.max(requestedCenterY, eyeBottom + eyeToMouthGap + height / 2)
   const angle = radians(options.rotation ?? expression.mouthRotation ?? pose.mouthRotation ?? 0)
   // Keep a fixed contour point count while audio changes mouth height. This avoids
   // SVG path topology changes on every frame, which otherwise look like rotation jitter.
