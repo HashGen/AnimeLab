@@ -75,12 +75,12 @@ export function StudioTimeline({ controller }: { controller: StudioController })
           </div>
           <div className="studio-timeline-track-row">
             <div className="studio-timeline-track avatar-track" style={{ width: trackWidth, minWidth: trackWidth }}>
-              {keyframes.map(frame => (
+              {keyframes.map((frame, frameIndex) => (
                 <button
-                  className={`studio-timeline-keyframe${activeExpression === frame.expressionIndex ? ' is-active' : ''}`}
+                  className={`studio-timeline-keyframe${activeExpression === frame.expressionIndex ? ' is-active' : ''}${frameIndex === 0 ? ' is-first' : ''}`}
                   key={frame.id}
                   type="button"
-                  style={{ left: frame.time <= 0 ? '32px' : `${(frame.time / totalDuration) * 100}%` }}
+                  style={{ left: frame.time <= 0 ? '8px' : `${(frame.time / totalDuration) * 100}%` }}
                   aria-label={`${t('Keyframe')} ${(frame.expressionIndex ?? 0) + 1} · ${formatTime(frame.time)}`}
                   onClick={() => transitionToExpression(frame.expression, frame.expressionIndex)}
                 >
