@@ -52,4 +52,4 @@ The production build is written to `dist/`. The source code remains in `src/`; `
 
 ## Notes
 
-The mouth animation is volume-driven, not phoneme recognition or natural lip-sync. The goal is to make the selected character open and close its mouth in time with the audio while preserving the existing face and character design.
+The mouth animation is volume-driven, not phoneme recognition or natural lip-sync. The goal is to make the selected character open and close its mouth in time with the audio while preserving the existing face and character design. Mouth controls include width, height, vertical position, rounded ends, and tilt that follows the eye/head orientation.
