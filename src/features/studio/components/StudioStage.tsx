@@ -59,14 +59,25 @@ export function StudioStage({ controller }: { controller: StudioController }) {
   const { mouthOpen, mouthEnabled, mouthWidth, mouthHeight, mouthOffset, mouthHorizontal, mouthRotation, setMouthWidth, setMouthHeight, setMouthOffset, setMouthHorizontal, setMouthRotation } = useAudioMouth()
   const [mouthBounds, setMouthBounds] = useState({ x: -20, y: 20, width: 40, height: 12 })
   useEffect(() => {
-    const geometry = renderMouthGeometry(poseFromExpression(canvasExpression), surface, {
-      width: mouthWidth,
-      height: mouthHeight,
-      offset: mouthOffset,
-      horizontal: mouthHorizontal,
-      rotation: mouthRotation,
-      open: mouthEnabled ? mouthOpen : 0,
-    })
+    renderedScene.mouthWidth.set(mouthWidth)
+    renderedScene.mouthHeight.set(mouthHeight)
+    renderedScene.mouthOffset.set(mouthOffset)
+    renderedScene.mouthHorizontal.set(mouthHorizontal)
+    renderedScene.mouthRotation.set(mouthRotation)
+    renderedScene.mouthOpen.set(mouthOpen)
+    renderedScene.mouthEnabled.set(mouthEnabled ? 1 : 0)
+    const geometry = renderMouthGeometry(
+      renderedScene.pose.current ?? poseFromExpression(canvasExpression),
+      surface,
+      {
+        width: mouthWidth,
+        height: mouthHeight,
+        offset: mouthOffset,
+        horizontal: mouthHorizontal,
+        rotation: mouthRotation,
+        open: mouthEnabled ? mouthOpen : 0,
+      }
+    )
     renderedScene.mouthPath.set(geometry.path)
     setMouthBounds(current =>
       Math.abs(current.x - geometry.bounds.x) > 0.25 ||
