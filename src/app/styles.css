@@ -6228,3 +6228,10 @@ p {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
+
+.audio-mouth-shape-heading {
+  margin-top: 3px;
+  color: var(--foreground, #20242c);
+  font-size: 12px;
+  font-weight: 750;
+}
