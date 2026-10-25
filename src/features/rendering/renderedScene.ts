@@ -12,6 +12,7 @@ export type RenderedScene = {
   frontNodeIds: { current: (string | null)[] }
   leftPath: MotionValue<string>
   rightPath: MotionValue<string>
+  mouthPath: MotionValue<string>
   leftOpacity: MotionValue<number>
   rightOpacity: MotionValue<number>
   offsetX: MotionValue<number>
@@ -38,6 +39,7 @@ export const createRenderedScene = (geometry: AvatarGeometry): RenderedScene => 
   frontNodeIds: { current: geometry.frontNodeIds },
   leftPath: motionValue(geometry.leftPath),
   rightPath: motionValue(geometry.rightPath),
+  mouthPath: motionValue(geometry.mouthPath),
   leftOpacity: motionValue(geometry.leftVisible ? 1 : 0),
   rightOpacity: motionValue(geometry.rightVisible ? 1 : 0),
   offsetX: motionValue(0),
@@ -68,6 +70,7 @@ export const paintRenderedScene = (scene: RenderedScene, geometry: AvatarGeometr
   scene.frontPaths.forEach((path, index) => path.set(geometry.frontPaths[index] ?? ''))
   scene.leftPath.set(geometry.leftPath)
   scene.rightPath.set(geometry.rightPath)
+  scene.mouthPath.set(geometry.mouthPath)
   scene.leftOpacity.set(geometry.leftVisible ? 1 : 0)
   scene.rightOpacity.set(geometry.rightVisible ? 1 : 0)
   scene.wirePaths.forEach((path, index) => path.set(geometry.wirePaths[index] ?? ''))
