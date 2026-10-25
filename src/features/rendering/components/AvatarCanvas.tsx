@@ -613,7 +613,6 @@ export function AvatarCanvas({
           const rightCenterY = right.y + right.height / 2
           const eyeCenterX = (leftCenterX + rightCenterX) / 2
           const eyeCenterY = (leftCenterY + rightCenterY) / 2
-          const eyeDistance = Math.hypot(rightCenterX - leftCenterX, rightCenterY - leftCenterY)
           const eyeLineAngle = Math.atan2(rightCenterY - leftCenterY, rightCenterX - leftCenterX) * (180 / Math.PI)
           const centerX = eyeCenterX + Math.cos((eyeLineAngle * Math.PI) / 180) * mouthHorizontalRef.current
           const centerY = eyeCenterY + Math.sin((eyeLineAngle * Math.PI) / 180) * mouthHorizontalRef.current + mouthOffsetRef.current
