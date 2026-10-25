@@ -573,7 +573,7 @@ export function AvatarCanvas({
   // are not the same as projected SVG coordinates when the face is rotated.
   const leftEyeRef = useRef<SVGPathElement>(null)
   const rightEyeRef = useRef<SVGPathElement>(null)
-  const mouthTransform = useMotionValue('')
+  const mouthGroupRef = useRef<SVGGElement>(null)
   const mouthOpacity = useMotionValue(1)
   const [mouthSelected, setMouthSelected] = useState(false)
   const [mouthBounds, setMouthBounds] = useState({ x: -11, y: 19, width: 22, height: 22 })
@@ -626,7 +626,8 @@ export function AvatarCanvas({
           const sourceCenterY = leftCenterY
           const scaleX = targetWidth / Math.max(1, left.width)
           const scaleY = targetHeight / Math.max(1, left.height)
-          mouthTransform.set(
+          mouthGroupRef.current?.setAttribute(
+            'transform',
             `translate(${centerX} ${centerY}) rotate(${angle}) scale(${scaleX} ${scaleY}) translate(${-sourceCenterX} ${-sourceCenterY})`
           )
           if (mouthSelected) {
@@ -651,7 +652,7 @@ export function AvatarCanvas({
     }
     frame = requestAnimationFrame(updateMouthAnchor)
     return () => cancelAnimationFrame(frame)
-  }, [mouthEnabled, mouthTransform, mouthWidth, mouthHeight, mouthOffset, mouthHorizontal, mouthRotation, mouthSelected])
+  }, [mouthEnabled, mouthWidth, mouthHeight, mouthOffset, mouthHorizontal, mouthRotation, mouthSelected])
   const {
     wirePaths,
     backPaths,
@@ -969,7 +970,7 @@ export function AvatarCanvas({
             />
           ))}
             <g clipPath="url(#avatar-head-clip)">
-              <motion.g transform={mouthTransform} opacity={mouthOpacity}>
+              <g ref={mouthGroupRef} opacity={mouthOpacity.get()}>
                 <motion.path
                   className="avatar-audio-mouth"
                   d={scene.leftPath}
@@ -983,7 +984,7 @@ export function AvatarCanvas({
                   role="button"
                   tabIndex={0}
                 />
-              </motion.g>
+              </g>
             </g>
             {mouthSelected && (
               <g className="mouth-editor" onPointerDown={event => event.stopPropagation()}>
