@@ -55,7 +55,7 @@ export function StudioStage({ controller }: { controller: StudioController }) {
     updateHighlight,
     updateImmediate,
   } = controller
-  const { mouthOpen, mouthEnabled, mouthWidth, mouthHeight, mouthOffset } = useAudioMouth()
+  const { mouthOpen, mouthEnabled, mouthWidth, mouthHeight, mouthOffset, setMouthWidth, setMouthHeight, setMouthOffset } = useAudioMouth()
   const photoMode = mode === 'photo'
   const activatePhotoTool = (tool: typeof photoTool) => {
     setPhotoTool(tool)
@@ -108,6 +108,9 @@ export function StudioStage({ controller }: { controller: StudioController }) {
       mouthWidth={mouthWidth}
       mouthHeight={mouthHeight}
       mouthOffset={mouthOffset}
+      onMouthWidthChange={setMouthWidth}
+      onMouthHeightChange={setMouthHeight}
+      onMouthOffsetChange={setMouthOffset}
     />
   )
   return (
