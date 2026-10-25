@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from 'react'
-import type React from 'react'
+import type { RefObject } from 'react'
 import { AudioLines, Upload, Volume2 } from 'lucide-react'
 import { InspectorCard } from '@/app/components/common'
 import { NumericField } from '@/app/components/controls'
@@ -25,7 +25,9 @@ type AudioMouthState = {
   audioDuration: number
   audioCurrentTime: number
   audioPlaying: boolean
-  audioElementRef: React.RefObject<HTMLAudioElement | null>
+  audioElementRef: RefObject<HTMLAudioElement | null>
+  setAudioCurrentTime: (value: number) => void
+  setAudioPlaying: (value: boolean) => void
   toggleAudioPlayback: () => void
   stopAudioPlayback: () => void
   requestAudioFile: () => void
@@ -62,6 +64,8 @@ export function AudioMouthProvider({ children }: { children: ReactNode }) {
     setFileName(file.name)
     setAudioPeaks([])
     setAudioDuration(0)
+    setAudioCurrentTime(0)
+    setAudioPlaying(false)
     setMouthOpen(0)
     setMouthEnabled(true)
     try {
