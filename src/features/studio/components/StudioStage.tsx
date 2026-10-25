@@ -1,10 +1,11 @@
 import { Move3D, RotateCcw, Scan } from 'lucide-react'
 import { motion } from 'motion/react'
-import { type CSSProperties } from 'react'
+import { type CSSProperties, useEffect, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
 
 import { defaultExpression } from '@/features/avatar/presets'
+import { poseFromExpression, renderMouthGeometry } from '@/features/avatar/geometry'
 import { AvatarCanvas } from '@/features/rendering/components/AvatarCanvas'
 import { PhotoStageFrame } from '@/features/studio/components/PhotoStageFrame'
 import { StudioIdentity } from '@/features/studio/components/StudioIdentity'
@@ -56,6 +57,26 @@ export function StudioStage({ controller }: { controller: StudioController }) {
     updateImmediate,
   } = controller
   const { mouthOpen, mouthEnabled, mouthWidth, mouthHeight, mouthOffset, mouthHorizontal, mouthRotation, setMouthWidth, setMouthHeight, setMouthOffset, setMouthHorizontal, setMouthRotation } = useAudioMouth()
+  const [mouthBounds, setMouthBounds] = useState({ x: -20, y: 20, width: 40, height: 12 })
+  useEffect(() => {
+    const geometry = renderMouthGeometry(poseFromExpression(canvasExpression), surface, {
+      width: mouthWidth,
+      height: mouthHeight,
+      offset: mouthOffset,
+      horizontal: mouthHorizontal,
+      rotation: mouthRotation,
+      open: mouthEnabled ? mouthOpen : 0,
+    })
+    renderedScene.mouthPath.set(geometry.path)
+    setMouthBounds(current =>
+      Math.abs(current.x - geometry.bounds.x) > 0.25 ||
+      Math.abs(current.y - geometry.bounds.y) > 0.25 ||
+      Math.abs(current.width - geometry.bounds.width) > 0.25 ||
+      Math.abs(current.height - geometry.bounds.height) > 0.25
+        ? geometry.bounds
+        : current
+    )
+  }, [canvasExpression, surface, mouthWidth, mouthHeight, mouthOffset, mouthHorizontal, mouthRotation, mouthOpen, mouthEnabled, renderedScene])
   const photoMode = mode === 'photo'
   const activatePhotoTool = (tool: typeof photoTool) => {
     setPhotoTool(tool)
@@ -110,6 +131,7 @@ export function StudioStage({ controller }: { controller: StudioController }) {
       mouthOffset={mouthOffset}
       mouthHorizontal={mouthHorizontal}
       mouthRotation={mouthRotation}
+      mouthBounds={mouthBounds}
       onMouthWidthChange={setMouthWidth}
       onMouthHeightChange={setMouthHeight}
       onMouthOffsetChange={setMouthOffset}
