@@ -6365,9 +6365,9 @@ p {
 
 
 @media (max-width: 980px) {
-  .studio-root .studio.studio-mobile-app-layout .studio-timeline-keyframe.is-first {
-    left: 0 !important;
-    transform: none !important;
+  .studio-root .studio.studio-mobile-app-layout .studio-timeline-track.avatar-track > .studio-timeline-keyframe.is-first {
+    left: 16px !important;
+    transform: translateX(-50%) !important;
     margin-left: 0 !important;
   }
 }
