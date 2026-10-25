@@ -735,6 +735,7 @@ export function AvatarCanvas({
     return [x / length, y / length]
   }
   const startDrag = (event: React.PointerEvent<SVGElement>) => {
+    setMouthSelected(false)
     const session = beginManipulationFromRenderedValue(onManipulationStart)
     const renderedExpression = session.initial
     onBodyNodeSelect('primary')
@@ -752,6 +753,7 @@ export function AvatarCanvas({
     event: React.PointerEvent<SVGPathElement>,
     nodeId: string | null | undefined
   ) => {
+    setMouthSelected(false)
     if (!nodeId || !bodyEditing) {
       startDrag(event)
       return
@@ -761,6 +763,7 @@ export function AvatarCanvas({
   }
   const selectEye = (side: -1 | 1, event: React.PointerEvent<SVGPathElement>) => {
     event.stopPropagation()
+    setMouthSelected(false)
     onBodyNodeSelect(null)
     onEyeSelect(side)
   }
@@ -986,19 +989,21 @@ export function AvatarCanvas({
               onPointerDown={event => selectBodyPath(event, frontNodeIds.current[index])}
             />
           ))}
-            <motion.path
-              className={`avatar-audio-mouth${mouthSelected ? ' is-selected' : ''}`}
-              d={mouthPath}
-              opacity={mouthOpacity}
-              onPointerDown={event => {
-                event.stopPropagation()
-                setMouthSelected(true)
-                onBodyNodeSelect(null)
-              }}
-              aria-label="Select and adjust mouth"
-              role="button"
-              tabIndex={0}
-            />
+            <g clipPath="url(#avatar-head-clip)">
+              <motion.path
+                className={`avatar-audio-mouth${mouthSelected ? ' is-selected' : ''}`}
+                d={mouthPath}
+                opacity={mouthOpacity}
+                onPointerDown={event => {
+                  event.stopPropagation()
+                  setMouthSelected(true)
+                  onBodyNodeSelect(null)
+                }}
+                aria-label="Select and adjust mouth"
+                role="button"
+                tabIndex={0}
+              />
+            </g>
             {mouthSelected && (
               <g className="mouth-editor" onPointerDown={event => event.stopPropagation()}>
                 <rect className="mouth-selection-outline" x={mouthBounds.x - 2} y={mouthBounds.y - 2} width={mouthBounds.width + 4} height={mouthBounds.height + 4} rx={Math.min(mouthBounds.width, mouthBounds.height) / 2 + 2} />
