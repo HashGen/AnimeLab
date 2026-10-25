@@ -30,6 +30,11 @@ export type Expression = {
   leftAngle: number
   rightAngle: number
   perspective: number
+  mouthWidth?: number
+  mouthHeight?: number
+  mouthOffset?: number
+  mouthHorizontal?: number
+  mouthRotation?: number
   eyeMotion: EyeMotion
   bodyMotion: BodyMotion
   bodyColor?: string
@@ -44,6 +49,11 @@ export type ExpressionNumericField = Exclude<
 export type AvatarPose = {
   expression: Expression
   orientation: Quaternion
+  mouthWidth?: number
+  mouthHeight?: number
+  mouthOffset?: number
+  mouthHorizontal?: number
+  mouthRotation?: number
 }
 
 export type AvatarGeometry = {
@@ -54,6 +64,7 @@ export type AvatarGeometry = {
   headPath: string
   leftPath: string
   rightPath: string
+  mouthPath: string
   leftVisible: boolean
   rightVisible: boolean
   wirePaths: string[]
@@ -63,6 +74,22 @@ export type RenderAvatarOptions = {
   includeWire?: boolean
   bodyNodes?: BodyNode[]
   eyeOffset?: Readonly<{ x: number; y: number }>
+  mouth?: Partial<MouthGeometryOptions>
+}
+
+export type MouthGeometryOptions = {
+  width: number
+  height: number
+  offset: number
+  horizontal: number
+  rotation: number
+  open: number
+}
+
+export type MouthGeometry = {
+  path: string
+  bounds: { x: number; y: number; width: number; height: number }
+  visible: boolean
 }
 
 export type EyeEditorGeometry = {
@@ -618,6 +645,42 @@ const wirePaths = (pose: AvatarPose, surface: SurfaceConfig): string[] => {
   return samples.map(curve =>
     visiblePath(curve.map(sample => projectLocalSurfacePoint(pose, sample)))
   )
+}
+
+/**
+ * Builds the mouth in face-local coordinates and samples every contour point on
+ * the same 3D surface used by the eyes. The head quaternion and perspective are
+ * therefore applied before projection, so the mouth foreshortens with the face.
+ */
+export const renderMouthGeometry = (
+  pose: AvatarPose,
+  surface: SurfaceConfig,
+  options: Partial<MouthGeometryOptions> = {}
+): MouthGeometry => {
+  const expression = pose.expression
+  const width = Math.max(4, options.width ?? expression.mouthWidth ?? pose.mouthWidth ?? 40)
+  const restingHeight = Math.max(4, options.height ?? expression.mouthHeight ?? pose.mouthHeight ?? 12)
+  const open = clamp(options.open ?? 0, 0, 1)
+  const height = restingHeight + open * Math.max(10, restingHeight * 1.6)
+  const centerX = options.horizontal ?? expression.mouthHorizontal ?? pose.mouthHorizontal ?? 0
+  const centerY = options.offset ?? expression.mouthOffset ?? pose.mouthOffset ?? 34
+  const angle = radians(options.rotation ?? expression.mouthRotation ?? pose.mouthRotation ?? 0)
+  const localPoints = roundedRectangle(width, height).map(([x, y]) => {
+    const rotatedX = x * Math.cos(angle) - y * Math.sin(angle)
+    const rotatedY = x * Math.sin(angle) + y * Math.cos(angle)
+    return projectFacePoint(pose, surface, centerX + rotatedX, centerY + rotatedY)
+  })
+  const projected = localPoints.map(sample => sample.point)
+  const minX = Math.min(...projected.map(point => point[0]))
+  const minY = Math.min(...projected.map(point => point[1]))
+  const maxX = Math.max(...projected.map(point => point[0]))
+  const maxY = Math.max(...projected.map(point => point[1]))
+  const visibleRatio = localPoints.reduce((sum, sample) => sum + (sample.normal[2] > 0 ? 1 : 0), 0) / Math.max(1, localPoints.length)
+  return {
+    path: path(projected),
+    bounds: { x: minX, y: minY, width: maxX - minX, height: maxY - minY },
+    visible: visibleRatio > 0.35,
+  }
 }
 
 const projectEyePoint = (
@@ -1254,6 +1317,7 @@ export const renderAvatar = (
     headPath: headPath(pose, surface),
     leftPath: path(left),
     rightPath: path(right),
+    mouthPath: renderMouthGeometry(pose, surface, options.mouth).path,
     leftVisible: leftSamples.reduce((total, sample) => total + sample.normal[2], 0) > 0,
     rightVisible: rightSamples.reduce((total, sample) => total + sample.normal[2], 0) > 0,
     wirePaths: options.includeWire === false ? [] : wirePaths(pose, surface),
