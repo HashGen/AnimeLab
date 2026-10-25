@@ -1187,9 +1187,22 @@ export function useStudioController() {
   }
 
   const toggleStatePlayback = () => {
-    if (!activeState || !activeSequenceRef.current) return
-    if (statePlaying) pauseState()
-    else launchSequence(activeSequenceRef.current, playbackStatus === 'paused')
+    if (statePlaying) {
+      pauseState()
+      return
+    }
+
+    const sequence =
+      activeSequenceRef.current ??
+      sequences.find(item => item.id === activeState) ??
+      sequences.find(item => item.id === selectedState) ??
+      sequences[0] ??
+      null
+
+    if (!sequence) return
+
+    activeSequenceRef.current = sequence
+    launchSequence(sequence, playbackStatus === 'paused')
   }
 
   const suspendStateForEditor = () => {
