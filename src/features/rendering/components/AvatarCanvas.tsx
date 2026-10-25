@@ -601,23 +601,19 @@ export function AvatarCanvas({
       const mouthTemplate = mouthPathRef.current
       if (leftEye && rightEye && mouthTemplate) {
         try {
-          const left = leftEye.getBoundingClientRect()
-          const right = rightEye.getBoundingClientRect()
+          const left = leftEye.getBBox()
+          const right = rightEye.getBBox()
           const template = mouthTemplate.getBBox()
-          const svg = svgRef.current
-          if (!svg) throw new Error('Avatar SVG is not ready')
-          const svgRect = svg.getBoundingClientRect()
-          // Bounding client rects include the eyes' real transforms/projection.
-          // Convert them back into the avatar viewBox so the mouth follows eye
-          // drags and head/eye rotation instead of using stale local path bounds.
-          const toViewBox = (x: number, y: number): readonly [number, number] => [
-            ((x - svgRect.left) / Math.max(1, svgRect.width)) * 300 - 150,
-            ((y - svgRect.top) / Math.max(1, svgRect.height)) * 300 - 150,
-          ]
-          const leftCenter = toViewBox(left.left + left.width / 2, left.top + left.height / 2)
-          const rightCenter = toViewBox(right.left + right.width / 2, right.top + right.height / 2)
-          const eyeCenterX = (leftCenter[0] + rightCenter[0]) / 2
-          const eyeCenterY = (leftCenter[1] + rightCenter[1]) / 2
+          // Eye paths and mouth share the same avatar SVG coordinate space and
+          // parent transform. Keep the mouth anchored to the eyes' local geometry;
+          // screen-coordinate conversion misaligns the mouth when the SVG is scaled
+          // or letterboxed on mobile.
+          const leftCenterX = left.x + left.width / 2
+          const leftCenterY = left.y + left.height / 2
+          const rightCenterX = right.x + right.width / 2
+          const rightCenterY = right.y + right.height / 2
+          const eyeCenterX = (leftCenterX + rightCenterX) / 2
+          const eyeCenterY = (leftCenterY + rightCenterY) / 2
           const eyeLineAngle = Math.atan2(rightCenter[1] - leftCenter[1], rightCenter[0] - leftCenter[0]) * (180 / Math.PI)
           const centerX = eyeCenterX + Math.cos((eyeLineAngle * Math.PI) / 180) * mouthHorizontalRef.current
           const centerY = eyeCenterY + Math.sin((eyeLineAngle * Math.PI) / 180) * mouthHorizontalRef.current + mouthOffsetRef.current
