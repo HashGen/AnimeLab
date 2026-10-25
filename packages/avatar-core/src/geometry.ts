@@ -675,11 +675,15 @@ export const renderMouthGeometry = (
   const minY = Math.min(...projected.map(point => point[1]))
   const maxX = Math.max(...projected.map(point => point[0]))
   const maxY = Math.max(...projected.map(point => point[1]))
-  const visibleRatio = localPoints.reduce((sum, sample) => sum + (sample.normal[2] > 0 ? 1 : 0), 0) / Math.max(1, localPoints.length)
+  const visibleRatio =
+    localPoints.reduce((sum, sample) => sum + (sample.normal[2] > 0.08 ? 1 : 0), 0) /
+    Math.max(1, localPoints.length)
+  const visible = visibleRatio > 0.6
   return {
-    path: path(projected),
+    // Never draw the far-side contour across the silhouette when the face turns away.
+    path: visible ? path(projected) : '',
     bounds: { x: minX, y: minY, width: maxX - minX, height: maxY - minY },
-    visible: visibleRatio > 0.35,
+    visible,
   }
 }
 
