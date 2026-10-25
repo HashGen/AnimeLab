@@ -88,7 +88,7 @@ import {
 import { RuntimePreviewDialog } from '@/features/studio/components/RuntimePreviewDialog'
 import { StudioIdentity } from '@/features/studio/components/StudioIdentity'
 import type { StudioController } from '@/features/studio/useStudioController'
-import { AudioMouthControls, MouthPoseControls } from '@/features/studio/components/AudioMouthControls'
+import { MouthPoseControls } from '@/features/studio/components/AudioMouthControls'
 
 const reactQuickStartInstall = 'npm install @bible-strong/avatar-react react react-dom'
 const webQuickStartInstall = 'npm install @bible-strong/avatar-web'
@@ -411,7 +411,6 @@ function PoseControls({ controller }: { controller: StudioController }) {
 }
 
 export function StudioInspector({ controller }: { controller: StudioController }) {
-  const [audioTabOpen, setAudioTabOpen] = useState(false)
   const [avatarTabOpen, setAvatarTabOpen] = useState(false)
   const [runtimePreviewOpen, setRuntimePreviewOpen] = useState(false)
   const [guideOpen, setGuideOpen] = useState(false)
@@ -655,16 +654,8 @@ export function StudioInspector({ controller }: { controller: StudioController }
   return (
     <Drawer>
       <main
-        className={`inspector${audioTabOpen ? ' audio-tab-active' : ''} ${editing ? 'expression-workspace-active' : sequenceEditing ? 'sequence-workspace-active' : bodyEditing ? 'body-workspace' : 'studio-workspace'}${activeSequence && !editorPageOpen && mode === 'states' ? ' state-player-active' : ''}${mode === 'photo' ? ' photo-inspector-active' : ''}`}
+        className={`inspector${editing ? 'expression-workspace-active' : sequenceEditing ? 'sequence-workspace-active' : bodyEditing ? 'body-workspace' : 'studio-workspace'}${activeSequence && !editorPageOpen && mode === 'states' ? ' state-player-active' : ''}${mode === 'photo' ? ' photo-inspector-active' : ''}`}
       >
-        <section className={`audio-tab-content${audioTabOpen ? ' is-active' : ''}`} aria-label={t('Audio Source')}>
-          <div className="audio-tab-heading">
-            <span className="audio-tab-kicker">{t('Studio Tools')}</span>
-            <h1>{t('Audio Source')}</h1>
-            <p>{t('Choose audio to drive the avatar mouth movement.')}</p>
-          </div>
-          <AudioMouthControls t={t} />
-        </section>
         <StudioIdentity
           className="inspector-identity"
           language={language}
@@ -2138,7 +2129,7 @@ export function StudioInspector({ controller }: { controller: StudioController }
               type="button"
               aria-pressed={mode === 'avatars' && avatarTabOpen}
               aria-label={t('Choisir un avatar')}
-              onClick={() => { setAudioTabOpen(false); setAvatarTabOpen(true); setMode('avatars') }}
+              onClick={() => { setAvatarTabOpen(true); setMode('avatars') }}
             >
               <ExpressionPreview
                 expression={expressions[0] ?? defaultExpression}
@@ -2150,16 +2141,6 @@ export function StudioInspector({ controller }: { controller: StudioController }
                 id={`active-avatar-tab-${activeAvatar.id}`}
               />
               <span>{activeAvatar.name}</span>
-            </Button>
-            <Button
-              className="mobile-mode-tab mobile-audio-tab"
-              variant="ghost"
-              type="button"
-              aria-pressed={audioTabOpen}
-              onClick={() => { setAvatarTabOpen(false); setAudioTabOpen(true) }}
-            >
-              <Volume2 />
-              <span>{t('Audio')}</span>
             </Button>
             {(
               [
