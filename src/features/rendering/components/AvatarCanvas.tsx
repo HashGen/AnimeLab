@@ -1,5 +1,5 @@
 import { RotateCcw } from 'lucide-react'
-import { motion, useMotionValue, useTransform } from 'motion/react'
+import { motion, useMotionValue } from 'motion/react'
 import { useEffect, useRef, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
@@ -567,6 +567,7 @@ export function AvatarCanvas({
   const rightEyeRef = useRef<SVGPathElement>(null)
   const mouthPath = useMotionValue('M -6 35 Q 0 37 6 35 Q 0 35 -6 35 Z')
   const mouthTransform = useMotionValue('rotate(0 0 35)')
+  const mouthOpacity = useMotionValue(1)
   const mouthPathRef = useRef<SVGPathElement>(null)
   const [mouthSelected, setMouthSelected] = useState(false)
   const [mouthBounds, setMouthBounds] = useState({ x: -6, y: 29, width: 12, height: 12 })
@@ -583,6 +584,7 @@ export function AvatarCanvas({
   useEffect(() => {
     let frame = 0
     const updateMouthAnchor = () => {
+      mouthOpacity.set((scene.leftOpacity.get() + scene.rightOpacity.get()) / 2)
       const leftEye = leftEyeRef.current
       const rightEye = rightEyeRef.current
       if (leftEye && rightEye) {
@@ -635,7 +637,6 @@ export function AvatarCanvas({
     offsetX,
     offsetY,
   } = scene
-  const mouthOpacity = useTransform([leftOpacity, rightOpacity], ([left, right]) => (left + right) / 2)
   const svgRef = useRef<SVGSVGElement>(null)
   const [activeDragType, setActiveDragType] = useState<
     'arcball' | 'width' | 'height' | 'size' | 'spacing' | 'rotate' | null
