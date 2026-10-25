@@ -6207,3 +6207,24 @@ p {
     padding-bottom: calc(76px + env(safe-area-inset-bottom)) !important;
   }
 }
+
+
+.audio-mouth-width-control {
+  display: grid;
+  grid-template-columns: auto minmax(80px, 1fr) 30px;
+  align-items: center;
+  gap: 10px;
+  color: var(--foreground, #20242c);
+  font-weight: 600;
+}
+.audio-mouth-width-control input[type="range"] {
+  width: 100%;
+  min-width: 0;
+  accent-color: #5b7fe5;
+  cursor: pointer;
+}
+.audio-mouth-width-control output {
+  color: var(--muted-foreground, #6b7280);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
