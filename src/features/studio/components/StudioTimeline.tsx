@@ -60,18 +60,6 @@ export function StudioTimeline({ controller }: { controller: StudioController })
 
   return (
     <section className="studio-timeline" aria-label={t('Animation timeline')}>
-      <header className="studio-timeline-header">
-        <div className="studio-timeline-title">
-          <span className="studio-timeline-mark" aria-hidden="true">▶</span>
-          <div><strong>{t('Timeline')}</strong></div>
-        </div>
-        <div className="studio-timeline-actions">
-          <Button variant="ghost" size="icon-sm" type="button" aria-label={t('Zoom out timeline')} onClick={() => setZoom(value => Math.max(0.75, value - 0.25))}><ZoomOut size={15} /></Button>
-          <Button variant="ghost" size="icon-sm" type="button" aria-label={t('Zoom in timeline')} onClick={() => setZoom(value => Math.min(2.5, value + 0.25))}><ZoomIn size={15} /></Button>
-          <Button variant="secondary" size="icon-sm" type="button" aria-label={statePlaying ? t('Pause animation') : t('Play animation')} onClick={() => toggleStatePlayback()}>{statePlaying ? <Pause size={15} /> : <Play size={15} />}</Button>
-          <Button variant="ghost" size="icon-sm" type="button" aria-label={t('Stop animation')} onClick={stopState}><Square size={14} /></Button>
-        </div>
-      </header>
       <div className="studio-timeline-body">
         <div className="studio-timeline-fixed-labels" aria-label={t('Timeline tracks')}>
           <div className="timeline-label-spacer" aria-hidden="true" />
@@ -128,14 +116,26 @@ export function StudioTimeline({ controller }: { controller: StudioController })
           </div>
         </div>
       </div>
-      <div className="studio-timeline-audio-transport" aria-label={t('Audio playback controls')}>
+      <div className="studio-timeline-audio-transport" aria-label={t('Timeline playback controls')}>
         <span className="studio-timeline-audio-name">{fileName || t('Audio track')}</span>
-        <Button variant="secondary" size="icon-sm" type="button" disabled={!audioUrl} aria-label={audioPlaying ? t('Pause audio') : t('Play audio')} onClick={toggleAudioPlayback}>
-          {audioPlaying ? <Pause size={15} /> : <Play size={15} />}
+        <Button variant="ghost" size="icon-sm" type="button" aria-label={t('Zoom out timeline')} onClick={() => setZoom(value => Math.max(0.75, value - 0.25))}><ZoomOut size={15} /></Button>
+        <Button variant="ghost" size="icon-sm" type="button" aria-label={t('Zoom in timeline')} onClick={() => setZoom(value => Math.min(2.5, value + 0.25))}><ZoomIn size={15} /></Button>
+        <Button variant="secondary" size="icon-sm" type="button" aria-label={statePlaying || audioPlaying ? t('Pause') : t('Play')} onClick={() => {
+          const shouldPause = statePlaying || audioPlaying
+          if (shouldPause) {
+            if (statePlaying) toggleStatePlayback()
+            if (audioPlaying) toggleAudioPlayback()
+          } else {
+            if (!statePlaying) toggleStatePlayback()
+            if (audioUrl && !audioPlaying) toggleAudioPlayback()
+          }
+        }}>
+          {statePlaying || audioPlaying ? <Pause size={15} /> : <Play size={15} />}
         </Button>
-        <Button variant="ghost" size="icon-sm" type="button" disabled={!audioUrl} aria-label={t('Stop audio')} onClick={stopAudioPlayback}>
-          <Square size={14} />
-        </Button>
+        <Button variant="ghost" size="icon-sm" type="button" aria-label={t('Stop')} onClick={() => {
+          stopState()
+          stopAudioPlayback()
+        }}><Square size={14} /></Button>
       </div>
       <div className="timeline-audio-engine" aria-hidden="true"><AudioMouthControls t={t} /></div>
     </section>
