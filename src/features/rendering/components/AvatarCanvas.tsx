@@ -578,7 +578,6 @@ export function AvatarCanvas({
   const [mouthSelected, setMouthSelected] = useState(false)
   const [mouthBounds, setMouthBounds] = useState({ x: -11, y: 19, width: 22, height: 22 })
   const mouthDrag = useRef<null | { type: 'width' | 'height' | 'position' | 'horizontal' | 'rotation'; x: number; y: number; width: number; height: number; offset: number; horizontal: number; rotation: number }>(null)
-  const mouthAngle = (expression.leftAngle + expression.rightAngle) / 2
   const mouthOpenRef = useRef(mouthOpen)
   mouthOpenRef.current = mouthOpen
   const mouthWidthRef = useRef(mouthWidth)
@@ -631,7 +630,7 @@ export function AvatarCanvas({
             centerX + x * cos - y * sin,
             centerY + x * sin + y * cos,
           ] as const
-          const commands: Array<[string, number, number]> = [
+          const commands: Array<[string, ...number[]]> = [
             ['M', -halfWidth + radius, -halfHeight],
             ['L', halfWidth - radius, -halfHeight],
             ['Q', halfWidth, -halfHeight, halfWidth, -halfHeight + radius],
@@ -645,7 +644,7 @@ export function AvatarCanvas({
           ]
           const pathData = commands.map(([command, ...values]) => {
             if (command === 'Z') return 'Z'
-            const coords = []
+            const coords: number[] = []
             for (let index = 0; index < values.length; index += 2) {
               coords.push(...point(values[index], values[index + 1]))
             }
@@ -673,7 +672,7 @@ export function AvatarCanvas({
     }
     frame = requestAnimationFrame(updateMouthAnchor)
     return () => cancelAnimationFrame(frame)
-  }, [mouthEnabled, mouthAngle, mouthPath, mouthWidth, mouthHeight, mouthOffset, mouthHorizontal, mouthRotation, mouthSelected])
+  }, [mouthEnabled, mouthPath, mouthWidth, mouthHeight, mouthOffset, mouthHorizontal, mouthRotation, mouthSelected])
   const {
     wirePaths,
     backPaths,
