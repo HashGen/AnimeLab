@@ -68,7 +68,7 @@ export function StudioTimeline({ controller }: { controller: StudioController })
         <div className="studio-timeline-actions">
           <Button variant="ghost" size="icon-sm" type="button" aria-label={t('Zoom out timeline')} onClick={() => setZoom(value => Math.max(0.75, value - 0.25))}><ZoomOut size={15} /></Button>
           <Button variant="ghost" size="icon-sm" type="button" aria-label={t('Zoom in timeline')} onClick={() => setZoom(value => Math.min(2.5, value + 0.25))}><ZoomIn size={15} /></Button>
-          <Button variant="secondary" size="icon-sm" type="button" aria-label={statePlaying ? t('Pause animation') : t('Play animation')} onClick={toggleStatePlayback}>{statePlaying ? <Pause size={15} /> : <Play size={15} />}</Button>
+          <Button variant="secondary" size="icon-sm" type="button" aria-label={statePlaying ? t('Pause animation') : t('Play animation')} onClick={() => toggleStatePlayback()}>{statePlaying ? <Pause size={15} /> : <Play size={15} />}</Button>
           <Button variant="ghost" size="icon-sm" type="button" aria-label={t('Stop animation')} onClick={stopState}><Square size={14} /></Button>
         </div>
       </header>
