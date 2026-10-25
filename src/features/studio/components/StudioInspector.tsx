@@ -380,11 +380,6 @@ function PoseControls({ controller }: { controller: StudioController }) {
           </div>
         </InspectorCard>
       </ControlSection>
-      <ControlSection title="Mouth" subtitle="Shape, size and placement of the audio-driven mouth.">
-        <InspectorCard>
-          <MouthPoseControls t={t} />
-        </InspectorCard>
-      </ControlSection>
       <ControlSection
         title="Projection"
         subtitle="Perspective et repères appliqués à la surface active."
@@ -659,11 +654,11 @@ export function StudioInspector({ controller }: { controller: StudioController }
       <main
         className={`inspector${audioTabOpen ? ' audio-tab-active' : ''} ${editing ? 'expression-workspace-active' : sequenceEditing ? 'sequence-workspace-active' : bodyEditing ? 'body-workspace' : 'studio-workspace'}${activeSequence && !editorPageOpen && mode === 'states' ? ' state-player-active' : ''}${mode === 'photo' ? ' photo-inspector-active' : ''}`}
       >
-        <section className={`audio-tab-content${audioTabOpen ? ' is-active' : ''}`} aria-label={t('Audio Mouth Animation')}>
+        <section className={`audio-tab-content${audioTabOpen ? ' is-active' : ''}`} aria-label={t('Audio Source')}>
           <div className="audio-tab-heading">
             <span className="audio-tab-kicker">{t('Studio Tools')}</span>
-            <h1>{t('Audio Mouth Animation')}</h1>
-            <p>{t('Upload audio and preview volume-driven mouth movement.')}</p>
+            <h1>{t('Audio Source')}</h1>
+            <p>{t('Choose audio to drive the avatar mouth movement.')}</p>
           </div>
           <AudioMouthControls t={t} />
         </section>
@@ -1063,7 +1058,13 @@ export function StudioInspector({ controller }: { controller: StudioController }
                   </>
                 )}
                 {!bodyEditing && <PoseControls controller={controller} />}
-                {!bodyEditing && <MouthPoseControls t={t} />}
+                {!bodyEditing && (
+                  <ControlSection title="Mouth" subtitle="Adjust the mouth using the same rounded eye shape.">
+                    <InspectorCard>
+                      <MouthPoseControls t={t} />
+                    </InspectorCard>
+                  </ControlSection>
+                )}
               </div>
             )}
             {!editorPageOpen && mode === 'avatars' && <AvatarPage controller={controller} />}
