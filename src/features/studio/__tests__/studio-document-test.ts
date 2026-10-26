@@ -49,10 +49,17 @@ describe('Studio document', () => {
     expect(removeItem).toHaveBeenCalledExactlyOnceWith('bible-strong-avatar-studio-v2')
   })
 
-  it('keeps a locally saved project authoritative over the bundled snapshot', () => {
+  it('restores missing bundled avatars while preserving the locally saved project', () => {
     const localDocument = documentFixture()
+    const document = loadStudioDocument(storage(JSON.stringify(localDocument)))
 
-    expect(loadStudioDocument(storage(JSON.stringify(localDocument)))).toEqual(localDocument)
+    expect(document.library.activeAvatarId).toBe(localDocument.library.activeAvatarId)
+    expect(document.library.avatars.find(avatar => avatar.id === localDocument.library.avatars[0].id)).toEqual(
+      localDocument.library.avatars[0]
+    )
+    expect(document.library.avatars.map(avatar => avatar.id)).toEqual(
+      expect.arrayContaining(loadStudioDocument(storage()).library.avatars.map(avatar => avatar.id))
+    )
   })
 
   it('restores bundled semantic keys in a legacy local project', () => {
