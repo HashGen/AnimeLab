@@ -37,7 +37,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Format changed source files
-        run: pnpm exec prettier --write AGENTS.md CONTEXT.md README.md index.html package.json src/main.tsx src/app/styles.css src/features/studio/components/AudioMouthControls.tsx packages/avatar-core/src/geometry.ts src/features/rendering/components/AvatarCanvas.tsx src/features/studio/components/StudioIdentity.tsx src/features/studio/components/StudioInspector.tsx src/features/studio/components/StudioStage.tsx src/features/studio/components/StudioTimeline.tsx src/features/studio/components/StudioView.tsx src/i18n/index.ts src/i18n/zh.ts
+        run: pnpm exec prettier --write AGENTS.md CONTEXT.md README.md index.html package.json src/main.tsx src/app/styles.css src/features/studio/components/AudioMouthControls.tsx packages/avatar-core/src/geometry.ts src/features/rendering/components/AvatarCanvas.tsx src/features/studio/components/StudioIdentity.tsx src/features/studio/components/StudioInspector.tsx src/features/studio/components/StudioStage.tsx src/features/studio/components/StudioTimeline.tsx src/features/studio/components/StudioView.tsx src/features/studio/components/StudioProductionWorkspace.tsx src/i18n/index.ts src/i18n/zh.ts
 
       - name: Validate project
         run: pnpm check
