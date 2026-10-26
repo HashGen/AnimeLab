@@ -54,7 +54,17 @@ export const parseStudioDocument = (value: unknown, fallback: StudioDocument): S
     { expressions, sequences },
     { expressions: fallback.expressions, sequences: fallback.sequences }
   )
-  const library = parseAvatarLibrary(candidate.library, fallback.library, baseBehavior)
+  const storedLibrary = parseAvatarLibrary(candidate.library, fallback.library, baseBehavior)
+  // Restore bundled starter avatars removed accidentally from the saved browser library.
+  // Keep user-created avatars and the currently selected avatar unchanged.
+  const storedAvatarIds = new Set(storedLibrary.avatars.map(avatar => avatar.id))
+  const library: AvatarLibrary = {
+    ...storedLibrary,
+    avatars: [
+      ...storedLibrary.avatars,
+      ...fallback.library.avatars.filter(avatar => !storedAvatarIds.has(avatar.id)),
+    ],
+  }
   return {
     version: 2,
     library,
